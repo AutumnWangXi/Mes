@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseWarehouseMapper">
+    
+    <resultMap type="BaseWarehouse" id="BaseWarehouseResult">
+        <result property="id"    column="id"    />
+        <result property="whCode"    column="wh_code"    />
+        <result property="whName"    column="wh_name"    />
+        <result property="whAddress"    column="wh_address"    />
+        <result property="storekeeper"    column="storekeeper"    />
+        <result property="contactPerson"    column="contact_person"    />
+        <result property="contactTelephone"    column="contact_telephone"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseWarehouseVo">
+        select id, wh_code, wh_name, wh_address, storekeeper, contact_person, contact_telephone, status, note, create_by, create_time, update_by, update_time from base_warehouse
+    </sql>
+
+    <select id="selectBaseWarehouseList" parameterType="BaseWarehouse" resultMap="BaseWarehouseResult">
+        <include refid="selectBaseWarehouseVo"/>
+        <where>  
+            <if test="whCode != null  and whCode != ''"> and wh_code = #{whCode}</if>
+            <if test="whName != null  and whName != ''"> and wh_name like concat('%', #{whName}, '%')</if>
+            <if test="whAddress != null  and whAddress != ''"> and wh_address = #{whAddress}</if>
+            <if test="storekeeper != null  and storekeeper != ''"> and storekeeper = #{storekeeper}</if>
+            <if test="contactPerson != null  and contactPerson != ''"> and contact_person = #{contactPerson}</if>
+            <if test="contactTelephone != null "> and contact_telephone = #{contactTelephone}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseWarehouseById" parameterType="Long" resultMap="BaseWarehouseResult">
+        <include refid="selectBaseWarehouseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseWarehouse" parameterType="BaseWarehouse" useGeneratedKeys="true" keyProperty="id">
+        insert into base_warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="whCode != null">wh_code,</if>
+            <if test="whName != null">wh_name,</if>
+            <if test="whAddress != null">wh_address,</if>
+            <if test="storekeeper != null and storekeeper != ''">storekeeper,</if>
+            <if test="contactPerson != null">contact_person,</if>
+            <if test="contactTelephone != null">contact_telephone,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="whCode != null">#{whCode},</if>
+            <if test="whName != null">#{whName},</if>
+            <if test="whAddress != null">#{whAddress},</if>
+            <if test="storekeeper != null and storekeeper != ''">#{storekeeper},</if>
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactTelephone != null">#{contactTelephone},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseWarehouse" parameterType="BaseWarehouse">
+        update base_warehouse
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="whCode != null">wh_code = #{whCode},</if>
+            <if test="whName != null">wh_name = #{whName},</if>
+            <if test="whAddress != null">wh_address = #{whAddress},</if>
+            <if test="storekeeper != null and storekeeper != ''">storekeeper = #{storekeeper},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactTelephone != null">contact_telephone = #{contactTelephone},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseWarehouseById" parameterType="Long">
+        delete from base_warehouse where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseWarehouseByIds" parameterType="String">
+        delete from base_warehouse where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseWarehouseByWhName" parameterType="string" resultMap="BaseWarehouseResult">
+        <include refid="selectBaseWarehouseVo"/>
+        where wh_name = #{whName}
+    </select>
+
+    <select id="selectBaseWarehouseBywhCode" parameterType="string" resultType="long">
+      select bw.id from base_warehouse bw
+        where bw.wh_code = #{whCode}
+    </select>
+</mapper>

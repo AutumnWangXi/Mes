@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseMicrobedtlMapper">
+    
+    <resultMap type="BaseMicrobedtl" id="BaseMicrobedtlResult">
+        <result property="id"    column="id"    />
+        <result property="microbeId"    column="microbe_id"    />
+        <result property="judgmentMode"    column="judgment_mode"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="upFloatingValue"    column="up_floating_value"    />
+        <result property="downFloatingValue"    column="down_floating_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="inspectItems"    column="inspect_items"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseMicrobedtlVo">
+        select id, microbe_id, judgment_mode, standard_value, up_floating_value, down_floating_value, sort, inspect_items, create_by, create_time, update_by, update_time from base_microbedtl
+    </sql>
+
+    <select id="selectBaseMicrobedtlList" parameterType="BaseMicrobedtl" resultMap="BaseMicrobedtlResult">
+        <include refid="selectBaseMicrobedtlVo"/>
+        <where>  
+            <if test="microbeId != null "> and microbe_id = #{microbeId}</if>
+            <if test="judgmentMode != null "> and judgment_mode = #{judgmentMode}</if>
+            <if test="standardValue != null  and standardValue != ''"> and standard_value = #{standardValue}</if>
+            <if test="upFloatingValue != null  and upFloatingValue != ''"> and up_floating_value = #{upFloatingValue}</if>
+            <if test="downFloatingValue != null  and downFloatingValue != ''"> and down_floating_value = #{downFloatingValue}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="inspectItems != null  and inspectItems != ''"> and inspect_items = #{inspectItems}</if>
+        </where>
+        order by microbe_id,sort
+
+    </select>
+    
+    <select id="selectBaseMicrobedtlById" parameterType="Long" resultMap="BaseMicrobedtlResult">
+        <include refid="selectBaseMicrobedtlVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseMicrobedtl" parameterType="BaseMicrobedtl" useGeneratedKeys="true" keyProperty="id">
+        insert into base_microbedtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="microbeId != null">microbe_id,</if>
+            <if test="judgmentMode != null">judgment_mode,</if>
+            <if test="standardValue != null">standard_value,</if>
+            <if test="upFloatingValue != null">up_floating_value,</if>
+            <if test="downFloatingValue != null">down_floating_value,</if>
+            <if test="sort != null">sort,</if>
+            <if test="inspectItems != null">inspect_items,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="microbeId != null">#{microbeId},</if>
+            <if test="judgmentMode != null">#{judgmentMode},</if>
+            <if test="standardValue != null">#{standardValue},</if>
+            <if test="upFloatingValue != null">#{upFloatingValue},</if>
+            <if test="downFloatingValue != null">#{downFloatingValue},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="inspectItems != null">#{inspectItems},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseMicrobedtl" parameterType="BaseMicrobedtl">
+        update base_microbedtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="microbeId != null">microbe_id = #{microbeId},</if>
+            <if test="judgmentMode != null">judgment_mode = #{judgmentMode},</if>
+            <if test="standardValue != null">standard_value = #{standardValue},</if>
+            <if test="upFloatingValue != null">up_floating_value = #{upFloatingValue},</if>
+            <if test="downFloatingValue != null">down_floating_value = #{downFloatingValue},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="inspectItems != null">inspect_items = #{inspectItems},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseMicrobedtlById" parameterType="Long">
+        delete from base_microbedtl where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseMicrobedtlByIds" parameterType="String">
+        delete from base_microbedtl where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

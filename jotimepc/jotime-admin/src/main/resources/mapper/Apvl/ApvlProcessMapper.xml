@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlProcessMapper">
+
+    <resultMap type="ApvlProcess" id="ApvlProcessResult">
+        <result property="id" column="id"/>
+        <result property="apvlNo" column="apvl_no"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approver" column="approver"/>
+        <result property="apvlTime" column="apvl_time"/>
+        <result property="apvlComment" column="apvl_comment"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="attachmentUrl1" column="attachment_url1"/>
+        <result property="attachmentUrl2" column="attachment_url2"/>
+        <result property="attachmentUrl3" column="attachment_url3"/>
+        <result property="attachmentUrl4" column="attachment_url4"/>
+        <result property="apvlResult" column="apvl_result"/>
+        <result property="curNodeId" column="cur_node_id"/>
+        <result property="note" column="note"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creatorTime" column="creator_time"/>
+        <result property="modifiedId" column="modified_id"/>
+        <result property="modifiedTime" column="modified_time"/>
+    </resultMap>
+
+    <resultMap type="ApvlProcessVo" id="ApvlProcessVoResult">
+        <result property="id" column="id"/>
+        <result property="apvlNo" column="apvl_no"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approver" column="approver"/>
+        <result property="avatar" column="avatar"/>
+        <result property="apvlTime" column="apvl_time"/>
+        <result property="apvlComment" column="apvl_comment"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="attachmentUrl1" column="attachment_url1"/>
+        <result property="attachmentUrl2" column="attachment_url2"/>
+        <result property="attachmentUrl3" column="attachment_url3"/>
+        <result property="attachmentUrl4" column="attachment_url4"/>
+        <result property="apvlResult" column="apvl_result"/>
+        <result property="curNodeId" column="cur_node_id"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creatorName" column="creator_name"/>
+        <result property="creatorTime" column="creator_time"/>
+        <result property="modifiedId" column="modified_id"/>
+        <result property="modifiedTime" column="modified_time"/>
+    </resultMap>
+
+    <sql id="selectApvlProcessVo">
+        select id,
+               apvl_no,
+               module_id,
+               approver_id,
+               approver,
+               apvl_time,
+               apvl_comment,
+               apvl_method,
+               attachment_url1,
+               attachment_url2,
+               attachment_url3,
+               attachment_url4,
+               apvl_result,
+               cur_node_id,
+               note,
+               creator_id,
+               creator_time,
+               modified_id,
+               modified_time
+        from apvl_process
+    </sql>
+
+    <select id="selectApvlProcessList" parameterType="ApvlProcess" resultMap="ApvlProcessResult">
+        <include refid="selectApvlProcessVo"/>
+        <where>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="approverId != null ">and approver_id = #{approverId}</if>
+            <if test="approver != null  and approver != ''">and approver = #{approver}</if>
+            <if test="apvlTime != null ">and apvl_time = #{apvlTime}</if>
+            <if test="apvlComment != null  and apvlComment != ''">and apvl_comment = #{apvlComment}</if>
+            <if test="apvlMethod != null  and apvlMethod != ''">and apvl_method = #{apvlMethod}</if>
+            <if test="attachmentUrl1 != null  and attachmentUrl1 != ''">and attachment_url1 = #{attachmentUrl1}</if>
+            <if test="attachmentUrl2 != null  and attachmentUrl2 != ''">and attachment_url2 = #{attachmentUrl2}</if>
+            <if test="attachmentUrl3 != null  and attachmentUrl3 != ''">and attachment_url3 = #{attachmentUrl3}</if>
+            <if test="attachmentUrl4 != null  and attachmentUrl4 != ''">and attachment_url4 = #{attachmentUrl4}</if>
+            <if test="apvlResult != null ">and apvl_result = #{apvlResult}</if>
+            <if test="curNodeId != null ">and cur_node_id = #{curNodeId}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="creatorId != null ">and creator_id = #{creatorId}</if>
+            <if test="creatorTime != null ">and creator_time = #{creatorTime}</if>
+            <if test="modifiedId != null ">and modified_id = #{modifiedId}</if>
+            <if test="modifiedTime != null ">and modified_time = #{modifiedTime}</if>
+            <if test="apvlResultList != null ">
+                <foreach item="item" index="index" collection="apvlResultList" open="and apvl_result not in(" close=")"
+                         separator=",">#{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectApvlProcessVoList" parameterType="ApvlProcess" resultMap="ApvlProcessVoResult">
+        SELECT
+        p.id,p.apvl_no,p.module_id,p.approver_id,p.approver,p.apvl_time,p.apvl_comment,p.apvl_method,p.attachment_url1,
+        p.attachment_url2,p.attachment_url3,p.attachment_url4,p.apvl_result,p.cur_node_id,p.note,p.creator_id,p.creator_time,
+        p.modified_id,p.modified_time,am.module_name,su.nick_name creator_name FROM apvl_process p
+        LEFT JOIN apvl_module am ON (am.id=p.module_id)
+        LEFT JOIN sys_user su on (su.user_id = p.creator_id)
+        <where>
+            and 1=1
+            <if test="apvlNo != null  and apvlNo != ''">and p.apvl_no = #{apvlNo}</if>
+            <if test="moduleId != null ">and p.module_id = #{moduleId}</if>
+            <if test="approverId != null ">and p.approver_id = #{approverId}</if>
+            <if test="approver != null  and approver != ''">and p.approver = #{approver}</if>
+            <if test="apvlTime != null ">and DATE_FORMAT(p.apvl_time,'%Y%m%d') = DATE_FORMAT(#{apvlTime},'%Y%m%d')</if>
+            <if test="apvlComment != null  and apvlComment != ''">and p.apvl_comment = #{apvlComment}</if>
+            <if test="apvlMethod != null  and apvlMethod != ''">and p.apvl_method = #{apvlMethod}</if>
+            <if test="attachmentUrl1 != null  and attachmentUrl1 != ''">and p.attachment_url1 = #{attachmentUrl1}</if>
+            <if test="attachmentUrl2 != null  and attachmentUrl2 != ''">and p.attachment_url2 = #{attachmentUrl2}</if>
+            <if test="attachmentUrl3 != null  and attachmentUrl3 != ''">and p.attachment_url3 = #{attachmentUrl3}</if>
+            <if test="attachmentUrl4 != null  and attachmentUrl4 != ''">and p.attachment_url4 = #{attachmentUrl4}</if>
+            <if test="apvlResult != null ">and p.apvl_result = #{apvlResult}</if>
+            <if test="curNodeId != null ">and p.cur_node_id = #{curNodeId}</if>
+            <if test="note != null  and note != ''">and p.note = #{note}</if>
+            <if test="creatorId != null ">and p.creator_id = #{creatorId}</if>
+            <if test="creatorTime != null ">and p.creator_time = #{creatorTime}</if>
+            <if test="modifiedId != null ">and p.modified_id = #{modifiedId}</if>
+            <if test="modifiedTime != null ">and p.modified_time = #{modifiedTime}</if>
+        </where>
+        ORDER BY p.id ASC
+    </select>
+
+
+    <select id="selectApvlProcessById" parameterType="Long" resultMap="ApvlProcessResult">
+        <include refid="selectApvlProcessVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectApvlProcessByApvlNo" parameterType="String" resultMap="ApvlProcessResult">
+        <include refid="selectApvlProcessVo"/>
+        where apvl_no = #{value}
+    </select>
+
+    <select id="selectMaxApvlProcess" parameterType="String" resultMap="ApvlProcessResult">
+        <include refid="selectApvlProcessVo"/>
+        where apvl_no = #{value}
+        ORDER BY id DESC LIMIT 0,1 ;
+    </select>
+
+    <select id="getApvlProcessList" parameterType="String" resultMap="ApvlProcessVoResult">
+        <include refid="selectApvlProcessVo"/>
+        where apvl_no = #{value} and apvl_result != 2
+    </select>
+
+    <select id="selectApvlProcessByApvlNoAndNode" resultMap="ApvlProcessResult">
+        <include refid="selectApvlProcessVo"/>
+        where apvl_no = #{apvlNo} and apvl_method = #{apvlMethod} and cur_node_id = #{node}
+    </select>
+
+    <insert id="insertApvlProcess" parameterType="ApvlProcess" useGeneratedKeys="true" keyProperty="id">
+        insert into apvl_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="apvlNo != null and apvlNo != ''">apvl_no,</if>
+            <if test="moduleId != null">module_id,</if>
+            <if test="approverId != null">approver_id,</if>
+            <if test="approver != null and approver != ''">approver,</if>
+            <if test="apvlTime != null">apvl_time,</if>
+            <if test="apvlComment != null">apvl_comment,</if>
+            <if test="apvlMethod != null">apvl_method,</if>
+            <if test="attachmentUrl1 != null">attachment_url1,</if>
+            <if test="attachmentUrl2 != null">attachment_url2,</if>
+            <if test="attachmentUrl3 != null">attachment_url3,</if>
+            <if test="attachmentUrl4 != null and attachmentUrl4 != ''">attachment_url4,</if>
+            <if test="apvlResult != null">apvl_result,</if>
+            <if test="curNodeId != null">cur_node_id,</if>
+            <if test="note != null">note,</if>
+            <if test="creatorId != null">creator_id,</if>
+            creator_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="apvlNo != null and apvlNo != ''">#{apvlNo},</if>
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="approverId != null">#{approverId},</if>
+            <if test="approver != null and approver != ''">#{approver},</if>
+            <if test="apvlTime != null">#{apvlTime},</if>
+            <if test="apvlComment != null">#{apvlComment},</if>
+            <if test="apvlMethod != null">#{apvlMethod},</if>
+            <if test="attachmentUrl1 != null">#{attachmentUrl1},</if>
+            <if test="attachmentUrl2 != null">#{attachmentUrl2},</if>
+            <if test="attachmentUrl3 != null">#{attachmentUrl3},</if>
+            <if test="attachmentUrl4 != null and attachmentUrl4 != ''">#{attachmentUrl4},</if>
+            <if test="apvlResult != null">#{apvlResult},</if>
+            <if test="curNodeId != null">#{curNodeId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateApvlProcess" parameterType="ApvlProcess">
+        update apvl_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apvlNo != null and apvlNo != ''">apvl_no = #{apvlNo},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approver != null and approver != ''">approver = #{approver},</if>
+            <if test="apvlComment != null">apvl_comment = #{apvlComment},</if>
+            <if test="apvlMethod != null">apvl_method = #{apvlMethod},</if>
+            <if test="attachmentUrl1 != null">attachment_url1 = #{attachmentUrl1},</if>
+            <if test="attachmentUrl2 != null">attachment_url2 = #{attachmentUrl2},</if>
+            <if test="attachmentUrl3 != null">attachment_url3 = #{attachmentUrl3},</if>
+            <if test="attachmentUrl4 != null and attachmentUrl4 != ''">attachment_url4 = #{attachmentUrl4},</if>
+            <if test="apvlResult != null">apvl_result = #{apvlResult},</if>
+            <if test="curNodeId != null">cur_node_id = #{curNodeId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="modifiedId != null">modified_id = #{modifiedId},</if>
+            modified_time = CURRENT_TIMESTAMP,
+            apvl_time = CURRENT_TIMESTAMP,
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateHandleApvlProcess" parameterType="ApvlProcess">
+        update apvl_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apvlNo != null and apvlNo != ''">apvl_no = #{apvlNo},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approver != null and approver != ''">approver = #{approver},</if>
+            <if test="apvlComment != null">apvl_comment = #{apvlComment},</if>
+            <if test="apvlTime != null">apvl_time=#{apvlTime},</if>
+            <if test="apvlMethod != null">apvl_method = #{apvlMethod},</if>
+            <if test="attachmentUrl1 != null">attachment_url1 = #{attachmentUrl1},</if>
+            <if test="attachmentUrl2 != null">attachment_url2 = #{attachmentUrl2},</if>
+            <if test="attachmentUrl3 != null">attachment_url3 = #{attachmentUrl3},</if>
+            <if test="attachmentUrl4 != null and attachmentUrl4 != ''">attachment_url4 = #{attachmentUrl4},</if>
+            <if test="apvlResult != null">apvl_result = #{apvlResult},</if>
+            <if test="curNodeId != null">cur_node_id = #{curNodeId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="modifiedId != null">modified_id = #{modifiedId},</if>
+            modified_time = CURRENT_TIMESTAMP,
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlProcessById" parameterType="Long">
+        delete
+        from apvl_process
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlProcessByIds" parameterType="String">
+        delete from apvl_process where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectApvlProcessListByApvlNo" parameterType="String" resultMap="ApvlProcessVoResult">
+        select am.id        as module_id,
+               ap.apvl_no,
+               ap.approver_id,
+               ap.apvl_method,
+               ap.apvl_time,
+               ap.apvl_result,
+               ap.cur_node_id,
+               ac.status,
+               su.avatar,
+               su.nick_name as approver
+        from apvl_common ac
+                 JOIN apvl_process ap on ac.apvl_no = ap.apvl_no
+                 LEFT JOIN apvl_module am on am.module_no = ac.apvl_type
+                 LEFT JOIN sys_user su on su.user_id = ap.approver_id
+        where ap.apvl_no = #{apvlNo}
+        order by ap.creator_time asc, IFNULL(ap.apvl_time, '2999-12-30 23:59:59') asc
+    </select>
+</mapper>

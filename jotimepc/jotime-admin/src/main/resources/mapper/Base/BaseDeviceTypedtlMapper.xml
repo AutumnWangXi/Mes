@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDeviceTypedtlMapper">
+
+    <resultMap type="BaseDeviceTypedtl" id="BaseDeviceTypedtlResult">
+        <result property="id"    column="id"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="typeSort"    column="type_sort"    />
+        <result property="typeLabel"    column="type_label"    />
+        <result property="typeValue"    column="type_value"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseDeviceTypedtlVo">
+        select id, device_type, type_sort, type_label, type_value, status, note, create_by, create_time, update_by, update_time from base_device_typedtl
+    </sql>
+
+    <select id="selectBaseDeviceTypedtlList" parameterType="BaseDeviceTypedtl" resultMap="BaseDeviceTypedtlResult">
+        <include refid="selectBaseDeviceTypedtlVo"/>
+        <where>
+            <if test="deviceType != null  and deviceType != ''"> and device_type = #{deviceType}</if>
+            <if test="typeSort != null "> and type_sort = #{typeSort}</if>
+            <if test="typeLabel != null  and typeLabel != ''"> and type_label = #{typeLabel}</if>
+            <if test="typeValue != null  and typeValue != ''"> and type_value = #{typeValue}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseDeviceTypedtlById" parameterType="Integer" resultMap="BaseDeviceTypedtlResult">
+        <include refid="selectBaseDeviceTypedtlVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDeviceTypedtl" parameterType="BaseDeviceTypedtl" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device_typedtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">device_type,</if>
+            <if test="typeSort != null">type_sort,</if>
+            <if test="typeLabel != null and typeLabel != ''">type_label,</if>
+            <if test="typeValue != null and typeValue != ''">type_value,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
+            <if test="typeSort != null">#{typeSort},</if>
+            <if test="typeLabel != null and typeLabel != ''">#{typeLabel},</if>
+            <if test="typeValue != null and typeValue != ''">#{typeValue},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseDeviceTypedtl" parameterType="BaseDeviceTypedtl">
+        update base_device_typedtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">device_type = #{deviceType},</if>
+            <if test="typeSort != null">type_sort = #{typeSort},</if>
+            <if test="typeLabel != null and typeLabel != ''">type_label = #{typeLabel},</if>
+            <if test="typeValue != null and typeValue != ''">type_value = #{typeValue},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDeviceTypedtlById" parameterType="Integer">
+        delete from base_device_typedtl where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDeviceTypedtlByIds" parameterType="String">
+        delete from base_device_typedtl where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="deleteBaseDeviceTypedtlByTypeAndValue" resultMap="BaseDeviceTypedtlResult">
+        select *
+        from base_device_typedtl
+        where device_type = #{deviceType}
+            and type_value = #{typeValue}
+    </select>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.file.FileListManageMapper">
+    
+    <resultMap type="FileListManage" id="FileListManageResult">
+        <result property="id"    column="id"    />
+        <result property="folderId"    column="folder_id"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileNo"    column="file_no"    />
+        <result property="version"    column="version"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="templateFileUrl"    column="template_file_url"    />
+        <result property="effectiveDate"    column="effective_date"    />
+        <result property="expiryDate"    column="expiry_date"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="originalFileName"    column="original_file_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="operator"    column="operator"    />
+        <result property="operatorCode"    column="operator_code"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="operateTime"    column="operate_time"    />
+    </resultMap>
+
+    <sql id="selectFileListManageVo">
+        select id, folder_id, file_type, file_no, version, file_name, file_url, effective_date, expiry_date, status, note, dept_id, create_by, original_file_name, create_time, file_size, update_by, operator, operator_code, template_file_url, update_time, operate_time from file_list_manage
+    </sql>
+
+    <select id="selectFileName" parameterType="FileListManage" resultMap="FileListManageResult">
+        <include refid="selectFileListManageVo"/>
+        <where>
+            <if test="folderId != null "> and folder_id = #{folderId}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="fileNo != null  and fileNo != ''"> and file_no = #{fileNo}</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name = #{fileName}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="effectiveDate != null "> and effective_date = #{effectiveDate}</if>
+            <if test="expiryDate != null "> and expiry_date = #{expiryDate}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="originalFileName != null  and originalFileName != ''"> and original_file_name like concat('%', #{originalFileName}, '%')</if>
+            <if test="fileSize != null "> and file_size = #{fileSize}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="operatorCode != null  and operatorCode != ''"> and operator_code = #{operatorCode}</if>
+            <if test="operateTime != null "> and operate_time = #{operateTime}</if>
+        </where>
+    </select>
+    <select id="selectFileListManageList" parameterType="FileListManage" resultMap="FileListManageResult">
+        <include refid="selectFileListManageVo"/>
+        <where>  
+            <if test="folderId != null "> and folder_id = #{folderId}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="fileNo != null  and fileNo != ''"> and file_no = #{fileNo}</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="effectiveDate != null "> and effective_date = #{effectiveDate}</if>
+            <if test="expiryDate != null "> and expiry_date = #{expiryDate}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="originalFileName != null  and originalFileName != ''"> and original_file_name like concat('%', #{originalFileName}, '%')</if>
+            <if test="fileSize != null "> and file_size = #{fileSize}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="operatorCode != null  and operatorCode != ''"> and operator_code = #{operatorCode}</if>
+            <if test="operateTime != null "> and operate_time = #{operateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFileListManageById" parameterType="Long" resultMap="FileListManageResult">
+        <include refid="selectFileListManageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFileListManage" parameterType="FileListManage" useGeneratedKeys="true" keyProperty="id">
+        insert into file_list_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="folderId != null">folder_id,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="fileNo != null and fileNo != ''">file_no,</if>
+            <if test="version != null and version != ''">version,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="templateFileUrl != null">template_file_url,</if>
+            <if test="effectiveDate != null">effective_date,</if>
+            <if test="expiryDate != null">expiry_date,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="deptId != null">dept_id,</if>
+            create_by,
+            <if test="originalFileName != null">original_file_name,</if>
+            create_time,
+            <if test="fileSize != null">file_size,</if>
+            <if test="operator != null">operator,</if>
+            <if test="operatorCode != null">operator_code,</if>
+            <if test="operateTime != null">operate_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="folderId != null">#{folderId},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="fileNo != null and fileNo != ''">#{fileNo},</if>
+            <if test="version != null and version != ''">#{version},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="templateFileUrl != null">#{templateFileUrl},</if>
+            <if test="effectiveDate != null">#{effectiveDate},</if>
+            <if test="expiryDate != null">#{expiryDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="deptId != null">#{deptId},</if>
+            #{createBy},
+            <if test="originalFileName != null">#{originalFileName},</if>
+            sysdate(),
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="operatorCode != null">#{operatorCode},</if>
+            <if test="operateTime != null">#{operateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExpiry" parameterType="string">
+        update file_list_manage
+        set expiry_date = now(),status = 1
+        where file_no = #{fileNo}
+
+    </update>
+    <update id="updateFileListManage" parameterType="FileListManage">
+        update file_list_manage
+        <trim prefix="SET" suffixOverrides=",">
+            expiry_date = #{expiryDate},
+            <if test="folderId != null">folder_id = #{folderId},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="fileNo != null and fileNo != ''">file_no = #{fileNo},</if>
+            <if test="version != null and version != ''">version = #{version},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="templateFileUrl != null">template_file_url = #{templateFileUrl},</if>
+            <if test="effectiveDate != null">effective_date = #{effectiveDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="originalFileName != null">original_file_name = #{originalFileName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            update_by = #{updateBy},
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="operatorCode != null">operator_code = #{operatorCode},</if>
+            update_time = sysdate(),
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFileListManageById" parameterType="Long">
+        delete from file_list_manage where id = #{id}
+    </delete>
+
+    <delete id="deleteFileListManageByIds" parameterType="String">
+        delete from file_list_manage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

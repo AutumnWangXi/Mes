@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseItemContentMapper">
+
+    <resultMap type="BaseItemContent" id="BaseItemContentResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="inciNameCn"    column="inci_name_cn"    />
+        <result property="vulgo"    column="vulgo"    />
+        <result property="casNo"    column="cas_no"    />
+        <result property="content"    column="content"    />
+        <result property="einecsNo"    column="einecs_no"    />
+        <result property="femaNo"    column="fema_no"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="note"    column="note"    />
+    </resultMap>
+
+    <resultMap type="BaseItemContentVo" id="BaseItemContentVoResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="inciNameCn"    column="inci_name_cn"    />
+        <result property="vulgo"    column="vulgo"    />
+        <result property="casNo"    column="cas_no"    />
+        <result property="content"    column="content"    />
+        <result property="einecsNo"    column="einecs_no"    />
+        <result property="femaNo"    column="fema_no"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="note"    column="note"    />
+        <result property="safetyScore"    column="safety_score"    />
+        <result property="acneRisk"    column="acne_risk"    />
+    </resultMap>
+
+    <sql id="selectBaseItemContentVo">
+        select id, item_id, inci_name_en, inci_name_cn,vulgo, cas_no, content, einecs_no, fema_no,serial_number,note, create_by, create_time, update_by, update_time from base_item_content
+    </sql>
+
+    <select id="selectBaseItemContentList" parameterType="BaseItemContent" resultMap="BaseItemContentVoResult">
+        select content.id,
+               content.item_id,
+               content.inci_name_en,
+               content.inci_name_cn,vulgo,
+               content.cas_no,
+               content.content,
+               content.einecs_no,
+               content.fema_no,
+               content.serial_number,
+               content.note,
+               content.create_by,
+               content.create_time,
+               content.update_by,
+               content.update_time ,
+               material.safety_score,
+               material.acne_risk
+                from base_item_content content
+                LEFT JOIN base_cosmetic_material material on content.inci_name_en = material.inci_name_en
+        <where>
+            <if test="itemId != null  and itemId != ''"> and content.item_id = #{itemId}</if>
+            <if test="inciNameEn != null  and inciNameEn != ''"> and content.inci_name_en = #{inciNameEn}</if>
+            <if test="inciNameCn != null  and inciNameCn != ''"> and content.inci_name_cn = #{inciNameCn}</if>
+            <if test="vulgo != null  and vulgo != ''"> and content.vulgo = #{vulgo}</if>
+            <if test="casNo != null  and casNo != ''"> and content.cas_no = #{casNo}</if>
+            <if test="content != null  and content != ''"> and content.content = #{content}</if>
+            <if test="einecsNo != null  and einecsNo != ''"> and content.einecs_no = #{einecsNo}</if>
+            <if test="femaNo != null  and femaNo != ''"> and content.fema_no = #{femaNo}</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and content.serial_number = #{serialNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseItemContentById" parameterType="Long" resultMap="BaseItemContentResult">
+        <include refid="selectBaseItemContentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseItemContent" parameterType="BaseItemContent" useGeneratedKeys="true" keyProperty="id">
+        insert into base_item_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">item_id,</if>
+            <if test="inciNameEn != null">inci_name_en,</if>
+            <if test="inciNameCn != null">inci_name_cn,</if>
+            <if test="vulgo != null">vulgo,</if>
+            <if test="casNo != null">cas_no,</if>
+            <if test="content != null">content,</if>
+            <if test="einecsNo != null">einecs_no,</if>
+            <if test="femaNo != null">fema_no,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">#{itemId},</if>
+            <if test="inciNameEn != null">#{inciNameEn},</if>
+            <if test="inciNameCn != null">#{inciNameCn},</if>
+            <if test="vulgo != null">#{vulgo},</if>
+            <if test="casNo != null">#{casNo},</if>
+            <if test="content != null">#{content},</if>
+            <if test="einecsNo != null">#{einecsNo},</if>
+            <if test="femaNo != null">#{femaNo},</if>
+            <if test="serialNumber != null">LPAD(#{serialNumber},5,0),</if>
+            <if test="note != null">#{note},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseItemContent" parameterType="BaseItemContent">
+        update base_item_content
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
+            <if test="inciNameEn != null">inci_name_en = #{inciNameEn},</if>
+            <if test="inciNameCn != null">inci_name_cn = #{inciNameCn},</if>
+            <if test="vulgo != null">vulgo = #{vulgo},</if>
+            <if test="casNo != null">cas_no = #{casNo},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="einecsNo != null">einecs_no = #{einecsNo},</if>
+            <if test="femaNo != null">fema_no = #{femaNo},</if>
+            <if test="serialNumber != null">serial_number = LPAD(#{serialNumber},5,0),</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseItemContentById" parameterType="Long">
+        delete from base_item_content where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseItemContentByIds" parameterType="String">
+        delete from base_item_content where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBaseItemContentByItemId" parameterType="Long">
+        delete from base_item_content where item_id = #{itemId}
+    </delete>
+</mapper>

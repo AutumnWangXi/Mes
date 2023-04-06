@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlProcessConfigurationMapper">
+
+    <resultMap type="ApvlProcessConfiguration" id="ApvlProcessConfigurationResult">
+        <result property="id" column="id"/>
+        <result property="processStepName" column="process_step_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="rejectNextNode" column="reject_next_node"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <resultMap type="ApvlProcessConfiguration" id="NodeInfoResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="rejectNextNode" column="reject_next_node"/>
+    </resultMap>
+    <resultMap type="ApvlProcessConfigurationVo" id="ProcessConfigurationInfoResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approver" column="approver"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="avatar" column="avatar"/>
+        <result property="rejectNextNode" column="reject_next_node"/>
+        <result property="isProposer" column="is_proposer"/>
+    </resultMap>
+    <!--页面展示Vo-->
+    <resultMap type="ApvlProcessConfigurationVo" id="ApvlProcessConfigurationVoResult">
+        <result property="id" column="id"/>
+        <result property="processStepName" column="process_step_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="apvlMethod" column="apvl_method"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="preNodeName" column="pre_node_name"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="nextNodeName" column="next_node_name"/>
+        <result property="rejectNextNode" column="reject_next_node"/>
+        <result property="rejectNextNodeName" column="reject_next_node_name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectApvlProcessConfigurationVoList" parameterType="ApvlProcessConfiguration"
+            resultMap="ApvlProcessConfigurationVoResult">
+        SELECT c.id, c.process_step_name, c.module_id, c.apvl_method, c.pre_node, c.next_node, c.reject_next_node,
+        c.status, c.note, c.create_by, c.create_time, c.update_by, c.update_time,
+        m.module_name,n1.node_name AS pre_node_name,n2.node_name AS next_node_name,n3.node_name AS reject_next_node_name
+        FROM apvl_process_configuration c
+        LEFT JOIN apvl_module m ON(c.module_id = m.id)
+        LEFT JOIN apvl_process_node n1 ON(c.pre_node = n1.id)
+        LEFT JOIN apvl_process_node n2 ON(c.next_node = n2.id)
+        LEFT JOIN apvl_process_node n3 ON(c.reject_next_node = n3.id)
+        <where>
+            <if test="processStepName != null  and processStepName != ''">and c.process_step_name like concat('%',
+                #{processStepName}, '%')
+            </if>
+            <if test="moduleId != null ">and c.module_id = #{moduleId}</if>
+            <if test="apvlMethod != null ">and c.apvl_method = #{apvlMethod}</if>
+            <if test="preNode != null ">and c.pre_node = #{preNode}</if>
+            <if test="nextNode != null ">and c.next_node = #{nextNode}</if>
+            <if test="rejectNextNode != null ">and c.reject_next_node = #{rejectNextNode}</if>
+            <if test="status != null ">and c.status = #{status}</if>
+            <if test="note != null  and note != ''">and c.note = #{note}</if>
+        </where>
+        ORDER BY c.module_id ASC,c.id ASC
+    </select>
+
+    <sql id="selectApvlProcessConfigurationVo">
+        select id,
+               process_step_name,
+               module_id,
+               apvl_method,
+               pre_node,
+               next_node,
+               reject_next_node,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from apvl_process_configuration
+    </sql>
+
+    <select id="selectApvlProcessConfigurationList" parameterType="ApvlProcessConfiguration"
+            resultMap="ApvlProcessConfigurationResult">
+        <include refid="selectApvlProcessConfigurationVo"/>
+        <where>
+            <if test="processStepName != null  and processStepName != ''">and process_step_name like concat('%',
+                #{processStepName}, '%')
+            </if>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="apvlMethod != null ">and apvl_method = #{apvlMethod}</if>
+            <if test="preNode != null ">and pre_node = #{preNode}</if>
+            <if test="nextNode != null ">and next_node = #{nextNode}</if>
+            <if test="rejectNextNode != null ">and reject_next_node = #{rejectNextNode}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectApvlProcessConfigurationById" parameterType="Long" resultMap="ApvlProcessConfigurationResult">
+        <include refid="selectApvlProcessConfigurationVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getConfigurationListByModuleId" parameterType="Long" resultMap="ApvlProcessConfigurationResult">
+        <include refid="selectApvlProcessConfigurationVo"/>
+        where module_id = #{value}
+    </select>
+
+    <select id="getConfigurationByModuleIdAndPreNode" resultMap="ApvlProcessConfigurationResult">
+        <include refid="selectApvlProcessConfigurationVo"/>
+        where module_id = #{moduleId} AND pre_node = #{preNode}
+    </select>
+
+    <select id="selectNodeByApproverId" parameterType="Long" resultMap="ApvlProcessConfigurationResult">
+        select apc.pre_node, apc.next_node
+        from apvl_approver t,
+             apvl_process_configuration apc
+        where t.node_id = apc.pre_node
+          and t.approver_id = #{approverId}
+          and t.module_id = #{moduleId}
+          and t.module_id = apc.module_id
+        order by apc.ancestors DESC limit 1
+    </select>
+
+    <insert id="insertApvlProcessConfiguration" parameterType="ApvlProcessConfiguration" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into apvl_process_configuration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processStepName != null and processStepName != ''">process_step_name,</if>
+            <if test="moduleId != null">module_id,</if>
+            <if test="apvlMethod != null">apvl_method,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="preNode != null">pre_node,</if>
+            <if test="nextNode != null">next_node,</if>
+            <if test="rejectNextNode != null">reject_next_node,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processStepName != null and processStepName != ''">#{processStepName},</if>
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="apvlMethod != null">#{apvlMethod},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="preNode != null">#{preNode},</if>
+            <if test="nextNode != null">#{nextNode},</if>
+            <if test="rejectNextNode != null">#{rejectNextNode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateApvlProcessConfiguration" parameterType="ApvlProcessConfiguration">
+        update apvl_process_configuration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="processStepName != null and processStepName != ''">process_step_name = #{processStepName},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="apvlMethod != null">apvl_method = #{apvlMethod},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="preNode != null">pre_node = #{preNode},</if>
+            <if test="nextNode != null">next_node = #{nextNode},</if>
+            <if test="rejectNextNode != null">reject_next_node = #{rejectNextNode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlProcessConfigurationById" parameterType="Long">
+        delete
+        from apvl_process_configuration
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlProcessConfigurationByIds" parameterType="String">
+        delete from apvl_process_configuration where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectApvlProcessConfigurationByNode" parameterType="ApvlProcessConfiguration"
+            resultMap="NodeInfoResult">
+        select id, module_id, apvl_method, pre_node, next_node, reject_next_node, ancestors
+        from apvl_process_configuration
+        where module_id = #{moduleId}
+          AND next_node = #{nextNode}
+          and status = #{status}
+    </select>
+    <select id="selectProcessConfigurationInfo" parameterType="ApvlProcessConfiguration"
+            resultMap="ProcessConfigurationInfoResult">
+        select apc.pre_node,
+               apc.next_node,
+               aa.approver_id,
+               su.nick_name as approver,
+               su.avatar,
+               apn.is_proposer,
+               apc.apvl_method
+        from apvl_process_configuration apc
+                 JOIN apvl_approver aa on aa.module_id = apc.module_id and aa.node_id = apc.next_node
+                 JOIN apvl_process_node apn on apn.module_id = apc.module_id and apn.id = apc.pre_node
+                 LEFT JOIN sys_user su on su.user_id = aa.approver_id
+        where apc.module_id = #{moduleId}
+          and apc.`status` = #{status}
+        order by apc.next_node asc;
+    </select>
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseOpenlineMapper">
+
+    <resultMap type="BaseOpenline" id="BaseOpenlineResult">
+        <result property="id"    column="id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="requirement"    column="requirement"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="BaseOpenlineVo" id="BaseOpenlineVoResult">
+        <result property="id" column="id"/>
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="requirement"    column="requirement"    />
+        <result property="status"    column="status"    />
+        <result property="judgmentMode"    column="judgment_mode"    />
+        <result property="inspectType"    column="inspect_type"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="upFloatingValue"    column="up_floating_value"    />
+        <result property="downFloatingValue"    column="down_floating_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="inspectContent"    column="inspect_content"    />
+    </resultMap>
+
+    <sql id="selectBaseOpenlineVo">
+        select id, device_code, device_name, requirement, status, create_by, create_time, update_by, update_time from base_openline
+    </sql>
+
+    <select id="selectBaseOpenlineList" parameterType="BaseOpenline" resultMap="BaseOpenlineResult">
+        <include refid="selectBaseOpenlineVo"/>
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    <select id="selectBaseOpenlineVoList" parameterType="BaseOpenline" resultMap="BaseOpenlineVoResult">
+        <include refid="selectBaseOpenlineVo"/>
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseOpenlineById" parameterType="Long" resultMap="BaseOpenlineResult">
+        <include refid="selectBaseOpenlineVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseOpenline" parameterType="BaseOpenline" useGeneratedKeys="true" keyProperty="id">
+        insert into base_openline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code,</if>
+            <if test="deviceName != null and deviceName != ''">device_name,</if>
+            <if test="requirement != null">requirement,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">#{deviceCode},</if>
+            <if test="deviceName != null and deviceName != ''">#{deviceName},</if>
+            <if test="requirement != null">#{requirement},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseOpenline" parameterType="BaseOpenline">
+        update base_openline
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code = #{deviceCode},</if>
+            <if test="deviceName != null and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="requirement != null">requirement = #{requirement},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseOpenlineById" parameterType="Long">
+        delete from base_openline where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseOpenlineByIds" parameterType="String">
+        delete from base_openline where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectBaseOpenlineLists" parameterType="com.jotime.web.domainVo.base.BaseOpenlineVo" resultMap="BaseOpenlineVoResult">
+        select bo.id,bo.device_code,bo.device_name,bo.requirement,bo.status,bod.inspect_type,bod.standard_value,
+               bod.up_floating_value,bod.down_floating_value,bod.sort,bod.inspect_content
+        from base_openline bo
+        left join base_openlinedtl bod
+        on bo.id=bod.openline_id
+        <where>
+            <if test="deviceCode != null and deviceCode != ''">and bo.device_code like concat('%', #{deviceCode}, '%')</if>
+            <if test="deviceName != null and deviceName != ''">and bo.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="judgmentMode != null and judgmentMode != ''">and judgment_mode = #{judgmentMode}</if>
+            <if test="inspectType != null and inspectType != ''">and inspect_type = #{inspectType}</if>
+        </where>
+    </select>
+
+</mapper>

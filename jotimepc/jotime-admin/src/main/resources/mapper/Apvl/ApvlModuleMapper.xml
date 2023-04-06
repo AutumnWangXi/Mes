@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlModuleMapper">
+
+    <resultMap type="ApvlModule" id="ApvlModuleResult">
+        <result property="id" column="id"/>
+        <result property="moduleNo" column="module_no"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="moduleDescribe" column="module_describe"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="groupCode" column="group_code"/>
+    </resultMap>
+
+    <sql id="selectApvlModuleVo">
+        select id,
+               module_no,
+               module_name,
+               module_describe,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               group_code
+        from apvl_module
+    </sql>
+
+    <select id="selectApvlModuleList" parameterType="ApvlModule" resultMap="ApvlModuleResult">
+        <include refid="selectApvlModuleVo"/>
+        <where>
+            <if test="moduleNo != null  and moduleNo != ''">and module_no = #{moduleNo}</if>
+            <if test="moduleName != null  and moduleName != ''">and module_name like concat('%', #{moduleName}, '%')</if>
+            <if test="moduleDescribe != null  and moduleDescribe != ''">and module_describe = #{moduleDescribe}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="groupCode != null  and groupCode != ''">and group_code = #{groupCode}</if>
+        </where>
+        order by module_no ASC
+    </select>
+
+    <select id="selectApvlModuleById" parameterType="Long" resultMap="ApvlModuleResult">
+        <include refid="selectApvlModuleVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getNodeByModuleNo" parameterType="String" resultMap="ApvlModuleResult">
+        <include refid="selectApvlModuleVo"/>
+        where module_no= #{value}
+    </select>
+
+    <insert id="insertApvlModule" parameterType="ApvlModule" useGeneratedKeys="true" keyProperty="id">
+        insert into apvl_module
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">module_no,</if>
+            <if test="moduleName != null and moduleName != ''">module_name,</if>
+            <if test="moduleDescribe != null">module_describe,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="groupCode != null">group_code,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">#{moduleNo},</if>
+            <if test="moduleName != null and moduleName != ''">#{moduleName},</if>
+            <if test="moduleDescribe != null">#{moduleDescribe},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="groupCode != null">#{groupCode},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            CURRENT_TIMESTAMP,
+        </trim>
+    </insert>
+
+    <update id="updateApvlModule" parameterType="ApvlModule">
+        update apvl_module
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">module_no = #{moduleNo},</if>
+            <if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
+            <if test="moduleDescribe != null">module_describe = #{moduleDescribe},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="groupCode != null">group_code = #{groupCode},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = CURRENT_TIMESTAMP,
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlModuleById" parameterType="Long">
+        delete
+        from apvl_module
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlModuleByIds" parameterType="String">
+        delete from apvl_module where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

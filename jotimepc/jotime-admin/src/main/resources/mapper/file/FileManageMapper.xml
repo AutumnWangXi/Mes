@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.file.FileManageMapper">
+
+    <resultMap type="FileManage" id="FileManageResult">
+        <result property="id" column="id"/>
+        <result property="tableName" column="table_name"/>
+        <result property="tableId" column="table_id"/>
+        <result property="title" column="title"/>
+        <result property="fileName" column="file_name"/>
+        <result property="fileType" column="file_type"/>
+        <result property="fileUrl" column="file_url"/>
+        <result property="originalFileName" column="original_file_name"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="operator" column="operator"/>
+        <result property="operatorCode" column="operator_code"/>
+        <result property="operateTime" column="operate_time"/>
+        <result property="note" column="note"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="tableType" column="table_type"/>
+    </resultMap>
+
+    <sql id="selectFileManageVo">
+        select id,
+               table_name,
+               table_id,
+               title,
+               file_name,
+               file_type,
+               file_url,
+               original_file_name,
+               file_size,
+               operator,
+               operator_code,
+               operate_time,
+               note,
+               is_delete,
+               status,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               table_type
+        from file_manage
+    </sql>
+
+    <select id="selectFileManageList" parameterType="FileManage" resultMap="FileManageResult">
+        <include refid="selectFileManageVo"/>
+        <where>
+            <if test="tableName != null  and tableName != ''">and table_name like concat('%', #{tableName}, '%')</if>
+            <if test="tableId != null ">and table_id = #{tableId}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="fileName != null  and fileName != ''">and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''">and file_type = #{fileType}</if>
+            <if test="fileUrl != null  and fileUrl != ''">and file_url = #{fileUrl}</if>
+            <if test="originalFileName != null  and originalFileName != ''">and original_file_name like concat('%',
+                #{originalFileName}, '%')
+            </if>
+            <if test="fileSize != null ">and file_size = #{fileSize}</if>
+            <if test="operator != null  and operator != ''">and operator = #{operator}</if>
+            <if test="operatorCode != null  and operatorCode != ''">and operator_code = #{operatorCode}</if>
+            <if test="operateTime != null ">and operate_time = #{operateTime}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="isDelete != null ">and is_delete = #{isDelete}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="tableType != null ">and table_type = #{tableType}</if>
+        </where>
+    </select>
+
+    <select id="selectFileManageById" parameterType="Long" resultMap="FileManageResult">
+        <include refid="selectFileManageVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectFileManageByTableIdAndType" resultMap="FileManageResult">
+        <include refid="selectFileManageVo"/>
+        <where>
+            table_name = #{type}
+            AND table_id = #{tableId}
+        </where>
+    </select>
+
+    <select id="selectFileManageByTableIds" resultType="string">
+        select file_url
+        from file_manage
+        where table_id = #{id}
+          AND table_name = #{pdGroupOrdertask}
+          and is_delete!=2
+    </select>
+
+    <update id="removeFileDataByTableId">
+        update file_manage
+        <set>
+            is_delete = 2
+        </set>
+        where table_id in
+        <foreach item="item" collection="tableIdList" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateFileManageByFileUrl">
+        <foreach item="item" collection="filePaths" index="index" separator=",">
+            update file_manage
+            <set>
+                is_delete = 2
+            </set>
+            where file_url = #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertFileManage" parameterType="FileManage" useGeneratedKeys="true" keyProperty="id">
+        insert into file_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tableName != null">table_name,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="title != null">title,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="originalFileName != null">original_file_name,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="operator != null">operator,</if>
+            <if test="operatorCode != null">operator_code,</if>
+            <if test="operateTime != null">operate_time,</if>
+            <if test="note != null">note,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tableName != null">#{tableName},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="originalFileName != null">#{originalFileName},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="operatorCode != null">#{operatorCode},</if>
+            <if test="operateTime != null">#{operateTime},</if>
+            <if test="note != null">#{note},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            CURRENT_TIMESTAMP,
+        </trim>
+    </insert>
+
+    <update id="updateFileManage" parameterType="FileManage">
+        update file_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tableName != null">table_name = #{tableName},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="originalFileName != null">original_file_name = #{originalFileName},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="operatorCode != null">operator_code = #{operatorCode},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFileManageById" parameterType="Long">
+        delete
+        from file_manage
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteFileManageByIds" parameterType="String">
+        delete from file_manage where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

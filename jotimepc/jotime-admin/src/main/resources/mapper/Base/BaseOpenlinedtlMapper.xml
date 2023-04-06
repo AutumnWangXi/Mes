@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseOpenlinedtlMapper">
+
+    <resultMap type="com.jotime.web.domain.base.BaseOpenlinedtl" id="BaseOpenlinedtlResult">
+        <result property="id"    column="id"    />
+        <result property="openlineId"    column="openline_id"    />
+        <result property="judgmentMode"    column="judgment_mode"    />
+        <result property="inspectType"    column="inspect_type"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="upFloatingValue"    column="up_floating_value"    />
+        <result property="downFloatingValue"    column="down_floating_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="inspectContent"    column="inspect_content"    />
+        <result property="inspectItems"    column="inspect_items"    />
+    </resultMap>
+    <resultMap type="com.jotime.web.domainVo.base.BaseOpenlinedtlVo" id="BaseOpenlinedtlVoResult">
+        <result property="id"    column="id"    />
+        <result property="openlineId"    column="openline_id"    />
+        <result property="judgmentMode"    column="judgment_mode"    />
+        <result property="inspectType"    column="inspect_type"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="upFloatingValue"    column="up_floating_value"    />
+        <result property="downFloatingValue"    column="down_floating_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="inspectContent"    column="inspect_content"    />
+        <result property="inspectItems"    column="inspect_items"    />
+    </resultMap>
+
+    <sql id="selectBaseOpenlinedtlVo">
+        select id, openline_id, judgment_mode, inspect_type, standard_value, up_floating_value, down_floating_value, sort, inspect_content, inspect_items,create_by, create_time, update_by, update_time from base_openlinedtl
+    </sql>
+
+    <select id="selectBaseOpenlinedtlList" parameterType="BaseOpenlinedtl" resultMap="BaseOpenlinedtlResult">
+        <include refid="selectBaseOpenlinedtlVo"/>
+        <where>
+            <if test="openlineId != null "> and openline_id = #{openlineId}</if>
+            <if test="upFloatingValue != null "> and up_floating_value = #{upFloatingValue}</if>
+            <if test="downFloatingValue != null "> and down_floating_value = #{downFloatingValue}</if>
+        </where>
+    </select>
+    <select id="selectBaseOpenlinedtlVoList" parameterType="BaseOpenlinedtl" resultMap="BaseOpenlinedtlVoResult">
+        <include refid="selectBaseOpenlinedtlVo"/>
+        <where>
+            <if test="openlineId != null "> and openline_id = #{openlineId}</if>
+            <if test="upFloatingValue != null "> and up_floating_value = #{upFloatingValue}</if>
+            <if test="downFloatingValue != null "> and down_floating_value = #{downFloatingValue}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseOpenlinedtlById" parameterType="Long" resultMap="BaseOpenlinedtlResult">
+        <include refid="selectBaseOpenlinedtlVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseOpenlinedtl" parameterType="BaseOpenlinedtl" useGeneratedKeys="true" keyProperty="id">
+        insert into base_openlinedtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="openlineId != null">openline_id,</if>
+            <if test="judgmentMode != null">judgment_mode,</if>
+            <if test="inspectType != null">inspect_type,</if>
+            <if test="standardValue != null">standard_value,</if>
+            <if test="upFloatingValue != null">up_floating_value,</if>
+            <if test="downFloatingValue != null">down_floating_value,</if>
+            <if test="sort != null">sort,</if>
+            <if test="inspectItems != null">inspect_items,</if>
+            <if test="inspectContent != null">inspect_content,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="openlineId != null">#{openlineId},</if>
+            <if test="judgmentMode != null">#{judgmentMode},</if>
+            <if test="inspectType != null">#{inspectType},</if>
+            <if test="standardValue != null">#{standardValue},</if>
+            <if test="upFloatingValue != null">#{upFloatingValue},</if>
+            <if test="downFloatingValue != null">#{downFloatingValue},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="inspectItems != null">#{inspectItems},</if>
+            <if test="inspectContent != null">#{inspectContent},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseOpenlinedtl" parameterType="BaseOpenlinedtl">
+        update base_openlinedtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="openlineId != null">openline_id = #{openlineId},</if>
+            <if test="judgmentMode != null">judgment_mode = #{judgmentMode},</if>
+            <if test="inspectType != null">inspect_type = #{inspectType},</if>
+            <if test="standardValue != null">standard_value = #{standardValue},</if>
+            <if test="upFloatingValue != null">up_floating_value = #{upFloatingValue},</if>
+            <if test="downFloatingValue != null">down_floating_value = #{downFloatingValue},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="inspectItems != null">inspect_items = #{inspectItems},</if>
+            <if test="inspectContent != null">inspect_content = #{inspectContent},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseOpenlinedtlById" parameterType="Long">
+        delete from base_openlinedtl where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseOpenlinedtlByIds" parameterType="String">
+        delete from base_openlinedtl where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteBaseOpenlinedtlByLineId" parameterType="Long">
+        delete from base_openlinedtl where openline_id = #{openlineId}
+    </delete>
+</mapper>

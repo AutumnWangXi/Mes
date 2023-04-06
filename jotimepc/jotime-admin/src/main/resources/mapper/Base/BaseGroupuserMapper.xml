@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseGroupuserMapper">
+
+    <resultMap type="BaseGroupuser" id="BaseGroupuserResult">
+        <result property="id" column="id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="groupCode" column="group_code"/>
+        <result property="status" column="status"/>
+        <result property="userId" column="user_id"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <resultMap type="BaseGroupuserVo" id="BaseGroupuserVoResult">
+        <result property="id" column="id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="groupCode" column="group_code"/>
+        <result property="status" column="status"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userCode" column="employee_code"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <sql id="selectBaseGroupuserVo">
+        select id,
+               group_id,
+               workshop_id,
+               group_code,
+               status,
+               user_id,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from base_groupuser
+    </sql>
+
+    <select id="selectBaseGroupuserList" parameterType="BaseGroupuser" resultMap="BaseGroupuserResult">
+        <include refid="selectBaseGroupuserVo"/>
+        <where>
+            <if test="groupId != null  and groupId != ''">and group_id = #{groupId}</if>
+            <if test="workshopId != null  and workshopId != ''">and workshop_id = #{workshopId}</if>
+            <if test="groupCode != null  and groupCode != ''">and group_code = #{groupCode}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="userId != null  and userId != ''">and user_id = #{userId}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+
+    <select id="selectBaseGroupuserVoList" parameterType="BaseGroupuser" resultMap="BaseGroupuserVoResult">
+        select u.id, u.group_id, u.workshop_id, u.group_code, u.status, u.user_id, u.note,
+        u.create_by, u.create_time, u.update_by, u.update_time,g.group_name,w.workshop_name,i.employee_name as
+        user_name,i.employee_code from base_groupuser u
+        LEFT JOIN base_group g on(g.id = u.group_id)
+        LEFT JOIN base_workshop w on(w.id = u.workshop_id)
+        LEFT JOIN employee_info i on(i.id = u.user_id)
+        <where>
+            <if test="groupId != null  and groupId != ''">and u.group_id = #{groupId}</if>
+            <if test="workshopId != null  and workshopId != ''">and u.workshop_id = #{workshopId}</if>
+            <if test="groupCode != null  and groupCode != ''">and u.group_code = #{groupCode}</if>
+            <if test="status != null ">and u.status = #{status}</if>
+            <if test="userId != null  and userId != ''">and u.user_id = #{userId}</if>
+            <if test="note != null  and note != ''">and u.note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseGroupuserById" parameterType="Integer" resultMap="BaseGroupuserResult">
+        <include refid="selectBaseGroupuserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseGroupuser" parameterType="BaseGroupuser" useGeneratedKeys="true" keyProperty="id">
+        insert into base_groupuser
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">group_id,</if>
+            <if test="workshopId != null">workshop_id,</if>
+            <if test="groupCode != null and groupCode != ''">group_code,</if>
+            <if test="status != null">status,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">#{groupId},</if>
+            <if test="workshopId != null">#{workshopId},</if>
+            <if test="groupCode != null and groupCode != ''">#{groupCode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseGroupuser" parameterType="BaseGroupuser">
+        update base_groupuser
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="workshopId != null">workshop_id = #{workshopId},</if>
+            <if test="groupCode != null and groupCode != ''">group_code = #{groupCode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseGroupuserById" parameterType="Integer">
+        delete
+        from base_groupuser
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseGroupuserByIds" parameterType="String">
+        delete from base_groupuser where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selelctByGroupId" resultMap="BaseGroupuserResult">
+        <include refid="selectBaseGroupuserVo"/>
+        where group_id = #{groupId} and user_id =#{getId}
+    </select>
+
+    <select id="selelctByGroupIds" resultType="int">
+        select count(1)
+        from base_groupuser
+        where group_id = #{groupId}
+    </select>
+
+    <select id="selelctByUserId" resultMap="BaseGroupuserVoResult">
+        select bgu.*,bg.group_name
+        from base_groupuser bgu
+        left join base_group bg on bg.id=bgu.group_id
+        where bgu.user_id = #{getId}
+          and bgu.group_id != #{groupId}
+          and bgu.status = 2
+    </select>
+
+
+    <update id="updateBaseGroupuserByGroupId">
+        update base_groupuser
+            set status = 2
+        where
+        group_id = #{groupId}
+        and user_id = #{getId}
+    </update>
+</mapper>

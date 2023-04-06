@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseFileManageMapper">
+    
+    <resultMap type="BaseFileManage" id="BaseFileManageResult">
+        <result property="id"    column="id"    />
+        <result property="tableName"    column="table_name"    />
+        <result property="tableId"    column="table_id"    />
+        <result property="tableType"    column="table_type"    />
+        <result property="title"    column="title"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="originalFileName"    column="original_file_name"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="operator"    column="operator"    />
+        <result property="operatorCode"    column="operator_code"    />
+        <result property="operateTime"    column="operate_time"    />
+        <result property="note"    column="note"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseFileManageVo">
+        select id, table_name, table_id, table_type, title, file_name, file_type, file_url, original_file_name, file_size, operator, operator_code, operate_time, note, is_delete, status, create_by, create_time, update_by, update_time from base_file_manage
+    </sql>
+
+    <select id="selectBaseFileManageList" parameterType="BaseFileManage" resultMap="BaseFileManageResult">
+        <include refid="selectBaseFileManageVo"/>
+        <where>  
+            <if test="tableName != null  and tableName != ''"> and table_name like concat('%', #{tableName}, '%')</if>
+            <if test="tableId != null "> and table_id = #{tableId}</if>
+            <if test="tableType != null "> and table_type = #{tableType}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="originalFileName != null  and originalFileName != ''"> and original_file_name like concat('%', #{originalFileName}, '%')</if>
+            <if test="fileSize != null  and fileSize != ''"> and file_size = #{fileSize}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="operatorCode != null  and operatorCode != ''"> and operator_code = #{operatorCode}</if>
+            <if test="operateTime != null "> and operate_time = #{operateTime}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseFileManageListBytableIdAndtableType" resultType="java.lang.String">
+        select bfm.file_url from base_file_manage bfm
+        where
+            bfm.table_id = #{tableId}
+            and bfm.table_type= #{tableType}
+            and bfm.is_delete =1
+    </select>
+    
+    <select id="selectBaseFileManageById" parameterType="Long" resultMap="BaseFileManageResult">
+        <include refid="selectBaseFileManageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseFileManage" parameterType="BaseFileManage" useGeneratedKeys="true" keyProperty="id">
+        insert into base_file_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tableName != null">table_name,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="tableType != null">table_type,</if>
+            <if test="title != null">title,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url,</if>
+            <if test="originalFileName != null">original_file_name,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="operator != null">operator,</if>
+            <if test="operatorCode != null">operator_code,</if>
+            <if test="operateTime != null">operate_time,</if>
+            <if test="note != null">note,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tableName != null">#{tableName},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="tableType != null">#{tableType},</if>
+            <if test="title != null">#{title},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="originalFileName != null">#{originalFileName},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="operatorCode != null">#{operatorCode},</if>
+            <if test="operateTime != null">#{operateTime},</if>
+            <if test="note != null">#{note},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseFileManage" parameterType="BaseFileManage">
+        update base_file_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tableName != null">table_name = #{tableName},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="tableType != null">table_type = #{tableType},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="originalFileName != null">original_file_name = #{originalFileName},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="operatorCode != null">operator_code = #{operatorCode},</if>
+            <if test="operateTime != null">operate_time = #{operateTime},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time =  sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseFileManageById" parameterType="Long">
+        delete from base_file_manage where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseFileManageByIds" parameterType="String">
+        delete from base_file_manage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

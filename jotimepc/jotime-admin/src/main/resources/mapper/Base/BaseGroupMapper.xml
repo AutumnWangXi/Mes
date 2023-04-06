@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseGroupMapper">
+
+    <resultMap type="BaseGroup" id="BaseGroupResult">
+        <result property="id"    column="id"    />
+        <result property="groupCode"    column="group_code"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="groupLeaderId"    column="group_leader_id"    />
+        <result property="workshopId"    column="workshop_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseGroupVo">
+        select id, group_code, group_name, group_leader_id, workshop_id,dept_id,status, note, create_by, create_time, update_by, update_time from base_group
+    </sql>
+    <sql id="selectBaseGroupVo1">
+        select t1.id, t1.group_code, t1.group_name, t1.group_leader_id, t1.workshop_id,t1.dept_id, t1.status, t1.note, t1.create_by, t1.create_time, t1.update_by, t1.update_time
+    </sql>
+
+    <select id="selectBaseGroupList" parameterType="BaseGroup" resultMap="BaseGroupResult">
+        <include refid="selectBaseGroupVo"/>
+        <where>
+            <if test="groupCode != null  and groupCode != ''"> and group_code = #{groupCode}</if>
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="groupLeaderId != null "> and group_leader_id = #{groupLeaderId}</if>
+            <if test="workshopId != null "> and workshop_id = #{workshopId}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseGroupVoList" resultType="com.jotime.web.domainVo.base.BaseGroupVo">
+        <include refid="selectBaseGroupVo"/>
+        <where>
+            <if test="groupCode != null  and groupCode != ''"> and group_code = #{groupCode}</if>
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="groupLeaderId != null "> and group_leader_id = #{groupLeaderId}</if>
+            <if test="workshopId != null "> and workshop_id = #{workshopId}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectGroupList" resultMap="BaseGroupResult">
+        <include refid="selectBaseGroupVo1"/>
+        from base_group t1
+        left join  base_groupuser t2 on t1.id = t2.group_id
+        left join employee_info t3 on t2.user_id = t3.id
+        where
+            t3.employee_code =#{eeCode}
+
+    </select>
+
+
+
+
+
+    <select id="selectBaseGroupById" parameterType="Long" resultMap="BaseGroupResult">
+        <include refid="selectBaseGroupVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseGroup" parameterType="BaseGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into base_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupCode != null and groupCode != ''">group_code,</if>
+            <if test="groupName != null">group_name,</if>
+            <if test="groupLeaderId != null">group_leader_id,</if>
+            <if test="workshopId != null">workshop_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="updateBy != null">update_by,</if>
+            update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupCode != null and groupCode != ''">#{groupCode},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="groupLeaderId != null">#{groupLeaderId},</if>
+            <if test="workshopId != null">#{workshopId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="updateBy != null">#{updateBy},</if>
+            sysdate(),
+         </trim>
+    </insert>
+
+    <update id="updateBaseGroup" parameterType="BaseGroup">
+        update base_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupCode != null and groupCode != ''">group_code = #{groupCode},</if>
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="groupLeaderId != null">group_leader_id = #{groupLeaderId},</if>
+            <if test="workshopId != null">workshop_id = #{workshopId},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseGroupById" parameterType="Long">
+        delete from base_group where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseGroupByIds" parameterType="String">
+        delete from base_group where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--    查询该班组生产订单的班组的负责人-->
+    <select id="selectGroupleader" parameterType="String"
+            resultType="com.jotime.web.domain.employee.EmployeeInfo">
+        select id as id, employee_code as employeeCode, employee_name as employeeName
+        from employee_info
+        where id = (select g.group_leader_id
+                    from pd_group_ordertask gt
+                             LEFT JOIN base_group g ON (gt.group_id = g.id)
+                    where gt.gp_ordertask_no = #{gpOrdertaskNo})
+    </select>
+
+    <select id="selectBaseGroupuserBygroupName" parameterType="String"
+            resultType="com.jotime.web.domain.base.BaseGroup">
+        <include refid="selectBaseGroupVo"/>
+        where group_name = #{groupName}
+    </select>
+</mapper>

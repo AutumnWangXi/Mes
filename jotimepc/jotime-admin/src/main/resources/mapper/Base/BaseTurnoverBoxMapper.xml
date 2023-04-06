@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseTurnoverBoxMapper">
+
+    <resultMap type="BaseTurnoverBox" id="BaseTurnoverBoxResult">
+        <result property="id"    column="id"    />
+        <result property="boxNo"    column="box_no"    />
+        <result property="boxName"    column="box_name"    />
+        <result property="boxType"    column="box_type"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseTurnoverBoxVo">
+        select id, box_no,box_name, box_type, bar_code, capacity, status, note, create_by, create_time, update_by, update_time from base_turnover_box
+    </sql>
+
+    <select id="selectBaseTurnoverBoxList" parameterType="BaseTurnoverBox" resultMap="BaseTurnoverBoxResult">
+        <include refid="selectBaseTurnoverBoxVo"/>
+        <where>
+            <if test="boxNo != null  and boxNo != ''"> and box_no = #{boxNo}</if>
+            <if test="boxName != null  and boxName != ''"> and box_name like concat('%', #{boxName}, '%')</if>
+            <if test="boxType != null  and boxType != ''"> and box_type = #{boxType}</if>
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseTurnoverBoxById" parameterType="Long" resultMap="BaseTurnoverBoxResult">
+        <include refid="selectBaseTurnoverBoxVo"/>
+        where id = #{id}
+    </select>
+<!--查询物料箱名或者条形码是否有唯一-->
+    <select id="selectBaseTurnoverBoxNameOrCodeUnique" parameterType="BaseTurnoverBox" resultType="int">
+        SELECT count(id) from
+        <choose>
+            <when test="id != null  and id != ''">
+                (SELECT * FROM base_turnover_box WHERE id !=#{id}) base_turnover_box
+            </when>
+            <otherwise>
+                base_turnover_box
+            </otherwise>
+        </choose>
+         WHERE box_name = #{boxName} or bar_code = #{barCode}
+    </select>
+
+    <insert id="insertBaseTurnoverBox" parameterType="BaseTurnoverBox" useGeneratedKeys="true" keyProperty="id">
+        insert into base_turnover_box
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boxNo != null  and boxNo != ''">box_no,</if>
+            <if test="boxName != null and boxName != ''">box_name,</if>
+            <if test="boxType != null">box_type,</if>
+            <if test="barCode != null">bar_code,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boxNo != null  and boxNo != ''">#{boxNo},</if>
+            <if test="boxName != null and boxName != ''">#{boxName},</if>
+            <if test="boxType != null">#{boxType},</if>
+            <if test="barCode != null">#{barCode},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseTurnoverBox" parameterType="BaseTurnoverBox">
+        update base_turnover_box
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boxNo != null  and boxNo != ''">box_no = #{boxNo},</if>
+            <if test="boxName != null and boxName != ''">box_name = #{boxName},</if>
+            <if test="boxType != null">box_type = #{boxType},</if>
+            <if test="barCode != null">bar_code = #{barCode},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseTurnoverBoxById" parameterType="Long">
+        delete from base_turnover_box where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseTurnoverBoxByIds" parameterType="String">
+        delete from base_turnover_box where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseTurnoverBoxByBarCode" parameterType="String" resultMap="BaseTurnoverBoxResult">
+        <include refid="selectBaseTurnoverBoxVo"/>
+        where bar_code = #{barCode}
+    </select>
+
+    <select id="selectBaseTurnoverBoxByBoxNo" resultMap="BaseTurnoverBoxResult">
+        <include refid="selectBaseTurnoverBoxVo"/>
+        where box_no = #{boxNo}
+    </select>
+
+    <select id="selectBaseTurnoverBoxListBox" resultType="BaseTurnoverBox">
+        select * from base_turnover_box
+        <where> status=2
+        <if test="boxName != null  and boxName != ''"> and box_name like concat('%', #{boxName}, '%')</if>
+        </where>
+    </select>
+    <select id="selectBaseTurnoverBoxByIds" resultType="com.jotime.web.domain.base.BaseTurnoverBox">
+        <include refid="selectBaseTurnoverBoxVo"/>
+        <where>
+            id in
+            <foreach item="id" collection="ids" open="("  close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCodeRulevalueMapper">
+
+    <resultMap type="com.jotime.web.domainVo.base.BaseCodeRulevalueVo" id="BaseCodeRulevalueVoResult">
+        <result property="id"    column="id"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleNumber"    column="rule_number"    />
+        <result property="prefix"    column="prefix"    />
+        <result property="curValue"    column="cur_value"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseCodeRulevalueVo">
+        select id, rule_id,rule_number, prefix, cur_value, create_by, create_time, update_by, update_time from base_code_rulevalue
+    </sql>
+
+    <select id="selectBaseCodeRulevalueList" parameterType="com.jotime.web.domain.base.BaseCodeRulevalue" resultMap="BaseCodeRulevalueVoResult">
+        <include refid="selectBaseCodeRulevalueVo"/>
+        <where>
+            <if test="ruleId != null "> and rule_id = #{ruleId}</if>
+            <if test="ruleNumber != null "> and rule_number = #{ruleNumber}</if>
+            <if test="prefix != null  and prefix != ''"> and prefix = #{prefix}</if>
+            <if test="curValue != null "> and cur_value = #{curValue}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCodeRulevalueById" parameterType="Integer" resultMap="BaseCodeRulevalueVoResult">
+        <include refid="selectBaseCodeRulevalueVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseCodeRulevalue" parameterType="com.jotime.web.domain.base.BaseCodeRulevalue" useGeneratedKeys="true" keyProperty="id">
+        insert into base_code_rulevalue
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">rule_id,</if>
+            <if test="ruleNumber != null">rule_number,</if>
+            <if test="prefix != null">prefix,</if>
+            <if test="curValue != null">cur_value,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="ruleNumber != null">#{ruleNumber},</if>
+            <if test="prefix != null">#{prefix},</if>
+            <if test="curValue != null">#{curValue},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateBaseCodeRulevalue" parameterType="com.jotime.web.domain.base.BaseCodeRulevalue">
+        update base_code_rulevalue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleId != null">rule_id = #{ruleId},</if>
+            <if test="ruleNumber != null">rule_number = #{ruleNumber},</if>
+            <if test="prefix != null">prefix = #{prefix},</if>
+            <if test="curValue != null">cur_value = #{curValue},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCodeRulevalueById" parameterType="Integer">
+        delete from base_code_rulevalue where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCodeRulevalueByIds" parameterType="String">
+        delete from base_code_rulevalue where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

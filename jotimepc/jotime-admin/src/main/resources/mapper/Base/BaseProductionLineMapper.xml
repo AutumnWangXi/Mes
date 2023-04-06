@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseProductionLineMapper">
+    
+    <resultMap type="BaseProductionLine" id="BaseProductionLineResult">
+        <result property="id"    column="id"    />
+        <result property="productionlineId"    column="productionline_id"    />
+        <result property="productionlineName"    column="productionline_name"    />
+        <result property="yield"    column="yield"    />
+        <result property="workshop"    column="workshop"    />
+        <result property="workshopId"    column="workshop_id"    />
+        <result property="status"    column="status"    />
+        <result property="creator"    column="creator"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="createDate"    column="create_date"    />
+    </resultMap>
+
+    <sql id="selectBaseProductionLineVo">
+        select id, productionline_id, productionline_name, yield, workshop, workshop_id, status, creator, creator_id, create_date from base_production_line
+    </sql>
+
+    <select id="selectBaseProductionLineList" parameterType="BaseProductionLine" resultMap="BaseProductionLineResult">
+        <include refid="selectBaseProductionLineVo"/>
+        <where>  
+            <if test="productionlineId != null  and productionlineId != ''"> and productionline_id = #{productionlineId}</if>
+            <if test="productionlineName != null  and productionlineName != ''"> and productionline_name like concat('%', #{productionlineName}, '%')</if>
+            <if test="yield != null "> and yield = #{yield}</if>
+            <if test="workshop != null  and workshop != ''"> and workshop = #{workshop}</if>
+            <if test="workshopId != null  and workshopId != ''"> and workshop_id = #{workshopId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseProductionLineById" parameterType="Long" resultMap="BaseProductionLineResult">
+        <include refid="selectBaseProductionLineVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseProductionLine" parameterType="BaseProductionLine" useGeneratedKeys="true" keyProperty="id">
+        insert into base_production_line
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productionlineId != null and productionlineId != ''">productionline_id,</if>
+            <if test="productionlineName != null and productionlineName != ''">productionline_name,</if>
+            <if test="yield != null">yield,</if>
+            <if test="workshop != null and workshop != ''">workshop,</if>
+            <if test="workshopId != null and workshopId != ''">workshop_id,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="creatorId != null and creatorId != ''">creator_id,</if>
+            <if test="createDate != null">create_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productionlineId != null and productionlineId != ''">#{productionlineId},</if>
+            <if test="productionlineName != null and productionlineName != ''">#{productionlineName},</if>
+            <if test="yield != null">#{yield},</if>
+            <if test="workshop != null and workshop != ''">#{workshop},</if>
+            <if test="workshopId != null and workshopId != ''">#{workshopId},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+            <if test="createDate != null">#{createDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseProductionLine" parameterType="BaseProductionLine">
+        update base_production_line
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productionlineId != null and productionlineId != ''">productionline_id = #{productionlineId},</if>
+            <if test="productionlineName != null and productionlineName != ''">productionline_name = #{productionlineName},</if>
+            <if test="yield != null">yield = #{yield},</if>
+            <if test="workshop != null and workshop != ''">workshop = #{workshop},</if>
+            <if test="workshopId != null and workshopId != ''">workshop_id = #{workshopId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="creatorId != null and creatorId != ''">creator_id = #{creatorId},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseProductionLineById" parameterType="Long">
+        delete from base_production_line where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseProductionLineByIds" parameterType="String">
+        delete from base_production_line where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

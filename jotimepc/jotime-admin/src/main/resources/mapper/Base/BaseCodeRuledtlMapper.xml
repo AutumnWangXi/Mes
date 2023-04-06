@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCodeRuledtlMapper">
+    
+    <resultMap type="com.jotime.web.domain.base.BaseCodeRuledtl" id="BaseCodeRuledtlResult">
+        <result property="id"    column="id"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleNumber"    column="rule_number"    />
+        <result property="ruleType"    column="rule_type"    />
+        <result property="ruleParam"    column="rule_param"    />
+        <result property="paddingLength"    column="padding_length"    />
+        <result property="paddingSide"    column="padding_side"    />
+        <result property="paddingChar"    column="padding_char"    />
+        <result property="step"    column="step"    />
+        <result property="initValue"    column="init_value"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="com.jotime.web.domainVo.base.BaseCodeRuledtlVo" id="BaseCodeRuledtlVoResult">
+        <result property="id"    column="id"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleNo"    column="rule_no"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="ruleNumber"    column="rule_number"    />
+        <result property="ruleType"    column="rule_type"    />
+        <result property="ruleParam"    column="rule_param"    />
+        <result property="paddingLength"    column="padding_length"    />
+        <result property="paddingSide"    column="padding_side"    />
+        <result property="paddingChar"    column="padding_char"    />
+        <result property="step"    column="step"    />
+        <result property="initValue"    column="init_value"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseCodeRuledtlVo">
+        select id, rule_id, rule_number, rule_type, rule_param, padding_length, padding_side, padding_char, step, init_value, status, note, create_by, create_time, update_by, update_time from base_code_ruledtl
+    </sql>
+
+    <sql id="selectBaseCodeRuledtlItemVo">
+        select t.id, t.rule_id, t.rule_number, t.rule_type, t.rule_param, t.padding_length, t.padding_side, t.padding_char, t.step, t.init_value, t.status, t.note, t.create_by, t.create_time, t.update_by, t.update_time
+    </sql>
+
+    <select id="selectBaseCodeRuledtlList" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl" resultMap="BaseCodeRuledtlVoResult">
+        <include refid="selectBaseCodeRuledtlVo"/>
+        <where>  
+            <if test="ruleId != null "> and rule_id = #{ruleId}</if>
+            <if test="ruleNumber != null "> and rule_number = #{ruleNumber}</if>
+            <if test="ruleType != null  and ruleType != ''"> and rule_type = #{ruleType}</if>
+            <if test="ruleParam != null  and ruleParam != ''"> and rule_param = #{ruleParam}</if>
+            <if test="paddingLength != null "> and padding_length = #{paddingLength}</if>
+            <if test="paddingSide != null  and paddingSide != ''"> and padding_side = #{paddingSide}</if>
+            <if test="paddingChar != null  and paddingChar != ''"> and padding_char = #{paddingChar}</if>
+            <if test="step != null "> and step = #{step}</if>
+            <if test="initValue != null "> and init_value = #{initValue}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseCodeRuledtlById" parameterType="Integer" resultMap="BaseCodeRuledtlVoResult">
+        <include refid="selectBaseCodeRuledtlVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseCodeRuledtl" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl" useGeneratedKeys="true" keyProperty="id">
+        insert into base_code_ruledtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">rule_id,</if>
+            <if test="ruleNumber != null">rule_number,</if>
+            <if test="ruleType != null and ruleType != ''">rule_type,</if>
+            <if test="ruleParam != null">rule_param,</if>
+            <if test="paddingLength != null">padding_length,</if>
+            padding_side,
+            <if test="paddingChar != null">padding_char,</if>
+            <if test="step != null">step,</if>
+            <if test="initValue != null">init_value,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time,
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="ruleNumber != null">#{ruleNumber},</if>
+            <if test="ruleType != null and ruleType != ''">#{ruleType},</if>
+            <if test="ruleParam != null">#{ruleParam},</if>
+            <if test="paddingLength != null">#{paddingLength},</if>
+            #{paddingSide},
+            <if test="paddingChar != null">#{paddingChar},</if>
+            <if test="step != null">#{step},</if>
+            <if test="initValue != null">#{initValue},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate(),
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCodeRuledtl" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl">
+        update base_code_ruledtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleId != null">rule_id = #{ruleId},</if>
+            <if test="ruleNumber != null">rule_number = #{ruleNumber},</if>
+            <if test="ruleType != null and ruleType != ''">rule_type = #{ruleType},</if>
+            <if test="ruleParam != null">rule_param = #{ruleParam},</if>
+            <if test="paddingLength != null">padding_length = #{paddingLength},</if>
+            <if test="paddingSide != null">padding_side = #{paddingSide},</if>
+            <if test="paddingChar != null">padding_char = #{paddingChar},</if>
+            <if test="step != null">step = #{step},</if>
+            <if test="initValue != null">init_value = #{initValue},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateBaseCodeRuledtlType" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl">
+        update base_code_ruledtl
+        <trim prefix="SET" suffixOverrides=",">
+            rule_id = #{ruleId},
+            rule_number = #{ruleNumber},
+            rule_type = #{ruleType},
+            rule_param = #{ruleParam},
+            padding_length = #{paddingLength},
+            padding_side = #{paddingSide},
+            padding_char = #{paddingChar},
+            step = #{step},
+            init_value = #{initValue},
+            status = #{status},
+            note = #{note},
+            create_by = #{createBy},
+            create_time = #{createTime},
+            update_by = #{updateBy},
+            update_time =  sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCodeRuledtlById" parameterType="Integer">
+        delete from base_code_ruledtl where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCodeRuledtlByIds" parameterType="String">
+        delete from base_code_ruledtl where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseCodeRuledtVolList" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl" resultMap="BaseCodeRuledtlVoResult">
+        <include refid="selectBaseCodeRuledtlItemVo"/>,cr.rule_no,cr.rule_name
+        from base_code_ruledtl t, base_code_rule cr
+        where t.rule_id = cr.id
+            <if test="id != null "> and t.id = #{id}</if>
+            <if test="ruleId != null "> and t.rule_id = #{ruleId}</if>
+            <if test="ruleNumber != null "> and t.rule_number = #{ruleNumber}</if>
+            <if test="ruleType != null  and ruleType != ''"> and t.rule_type = #{ruleType}</if>
+            <if test="ruleParam != null  and ruleParam != ''"> and t.rule_param = #{ruleParam}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+            <if test="note != null  and note != ''"> and t.note = #{note}</if>
+    </select>
+
+    <select id="selectRuledtVolListByRuleNo" parameterType="com.jotime.web.domain.base.BaseCodeRuledtl" resultMap="BaseCodeRuledtlVoResult">
+        <include refid="selectBaseCodeRuledtlItemVo"/>,cr.rule_no,cr.rule_name
+        from base_code_ruledtl t, base_code_rule cr
+        where t.rule_id = cr.id
+        and t.rule_id = #{ruleId}
+        and t.status = #{status}
+        order by t.rule_number asc
+    </select>
+</mapper>

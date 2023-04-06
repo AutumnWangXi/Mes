@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCustomersMapper">
+
+    <resultMap type="BaseCustomers" id="BaseCustomersResult">
+        <result property="id" column="id"/>
+        <result property="customerCode" column="customer_code"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="address" column="address"/>
+        <result property="companyTelephone" column="company_telephone"/>
+        <result property="tin" column="tin"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="caccountNumber" column="caccount_number"/>
+        <result property="recipientAddress" column="recipient_address"/>
+        <result property="consignee" column="consignee"/>
+        <result property="consigneeTelephone" column="consignee_telephone"/>
+        <result property="deliveryAddress" column="delivery_address"/>
+        <result property="contactPerson" column="contact_person"/>
+        <result property="contactTelephone" column="contact_telephone"/>
+        <result property="email" column="email"/>
+        <result property="payType" column="pay_type"/>
+        <result property="cooperationDepth" column="cooperation_depth"/>
+        <result property="customerBrand" column="customer_brand"/>
+        <result property="brandStatus" column="brand_status"/>
+        <result property="categoryStatus" column="category_status"/>
+        <result property="customerLevel" column="customer_level"/>
+        <result property="salesModel" column="sales_model"/>
+        <result property="onlineShopAddress" column="online_shop_address"/>
+        <result property="onlineMonthlySales" column="online_monthly_sales"/>
+        <result property="staffSize" column="staff_size"/>
+        <result property="salesScale" column="sales_scale"/>
+        <result property="packagingSupplier" column="packaging_supplier"/>
+        <result property="completeSuppliers" column="complete_suppliers"/>
+        <result property="customerDemand" column="customer_demand"/>
+        <result property="businessContactOutline" column="business_contact_outline"/>
+        <result property="businessType" column="business_type"/>
+        <result property="mainProduct" column="main_product"/>
+        <result property="distributionChannel" column="distribution_channel"/>
+        <result property="majorCountryMarkets" column="major_country_markets"/>
+        <result property="salesYear" column="sales_year"/>
+        <result property="customerStarLevel" column="customer_star_level"/>
+        <result property="customerType" column="customer_type"/>
+        <result property="customerCategory" column="customer_category"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="BaseCustomersVo" id="BaseCusOptionResult">
+        <result property="id" column="id"/>
+        <result property="customerCode" column="customer_code"/>
+        <result property="customerName" column="customer_name"/>
+    </resultMap>
+
+    <sql id="selectBaseCustomersVo">
+        select id,
+               customer_code,
+               customer_name,
+               address,
+               company_telephone,
+               tin,
+               bank_name,
+               caccount_number,
+               recipient_address,
+               consignee,
+               consignee_telephone,
+               delivery_address,
+               contact_person,
+               contact_telephone,
+               email,
+               pay_type,
+               cooperation_depth,
+               customer_brand,
+               brand_status,
+               category_status,
+               customer_level,
+               sales_model,
+               online_shop_address,
+               online_monthly_sales,
+               staff_size,
+               sales_scale,
+               packaging_supplier,
+               complete_suppliers,
+               customer_demand,
+               business_contact_outline,
+               business_type,
+               main_product,
+               distribution_channel,
+               major_country_markets,
+               sales_year,
+               customer_star_level,
+               customer_type,
+               customer_category,
+               status,
+               note,
+               creator,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from base_customers
+    </sql>
+
+    <select id="selectBaseCustomersList" parameterType="BaseCustomers" resultMap="BaseCustomersResult">
+        <include refid="selectBaseCustomersVo"/>
+        <where>
+            <if test="customerCode != null  and customerCode != ''">and customer_code = #{customerCode}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="companyTelephone != null  and companyTelephone != ''">and company_telephone =
+                #{companyTelephone}
+            </if>
+            <if test="tin != null  and tin != ''">and tin = #{tin}</if>
+            <if test="bankName != null  and bankName != ''">and bank_name = #{bankName}</if>
+            <if test="caccountNumber != null  and caccountNumber != ''">and caccount_number = #{caccountNumber}</if>
+            <if test="recipientAddress != null  and recipientAddress != ''">and recipient_address =
+                #{recipientAddress}
+            </if>
+            <if test="consignee != null  and consignee != ''">and consignee = #{consignee}</if>
+            <if test="consigneeTelephone != null  and consigneeTelephone != ''">and consignee_telephone =
+                #{consigneeTelephone}
+            </if>
+            <if test="deliveryAddress != null  and deliveryAddress != ''">and delivery_address = #{deliveryAddress}</if>
+            <if test="contactPerson != null  and contactPerson != ''">and contact_person = #{contactPerson}</if>
+            <if test="contactTelephone != null  and contactTelephone != ''">and contact_telephone =
+                #{contactTelephone}
+            </if>
+            <if test="email != null  and email != ''">and email = #{email}</if>
+            <if test="payType != null ">and pay_type = #{payType}</if>
+            <if test="cooperationDepth != null  and cooperationDepth != ''">and cooperation_depth =
+                #{cooperationDepth}
+            </if>
+            <if test="customerBrand != null  and customerBrand != ''">and customer_brand = #{customerBrand}</if>
+            <if test="brandStatus != null  and brandStatus != ''">and brand_status = #{brandStatus}</if>
+            <if test="categoryStatus != null  and categoryStatus != ''">and category_status = #{categoryStatus}</if>
+            <if test="customerLevel != null ">and customer_level = #{customerLevel}</if>
+            <if test="salesModel != null ">and sales_model = #{salesModel}</if>
+            <if test="onlineShopAddress != null  and onlineShopAddress != ''">and online_shop_address =
+                #{onlineShopAddress}
+            </if>
+            <if test="onlineMonthlySales != null ">and online_monthly_sales = #{onlineMonthlySales}</if>
+            <if test="staffSize != null  and staffSize != ''">and staff_size = #{staffSize}</if>
+            <if test="salesScale != null  and salesScale != ''">and sales_scale = #{salesScale}</if>
+            <if test="packagingSupplier != null ">and packaging_supplier = #{packagingSupplier}</if>
+            <if test="completeSuppliers != null ">and complete_suppliers = #{completeSuppliers}</if>
+            <if test="customerDemand != null  and customerDemand != ''">and customer_demand = #{customerDemand}</if>
+            <if test="businessContactOutline != null  and businessContactOutline != ''">and business_contact_outline =
+                #{businessContactOutline}
+            </if>
+            <if test="businessType != null ">and business_type = #{businessType}</if>
+            <if test="mainProduct != null  and mainProduct != ''">and main_product = #{mainProduct}</if>
+            <if test="distributionChannel != null  and distributionChannel != ''">and distribution_channel =
+                #{distributionChannel}
+            </if>
+            <if test="majorCountryMarkets != null  and majorCountryMarkets != ''">and major_country_markets =
+                #{majorCountryMarkets}
+            </if>
+            <if test="salesYear != null ">and sales_year = #{salesYear}</if>
+            <if test="customerStarLevel != null ">and customer_star_level = #{customerStarLevel}</if>
+            <if test="customerType != null ">and customer_type = #{customerType}</if>
+            <if test="customerCategory != null ">and customer_category = #{customerCategory}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="creator != null  and creator != ''">and creator = #{creator}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCustomersDataList" parameterType="BaseCustomers" resultMap="BaseCustomersResult">
+        select id, customer_code, customer_name,status from base_customers
+        <where>
+            <if test="customerCode != null  and customerCode != ''">and customer_code = #{customerCode}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="status != null ">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCustomersById" parameterType="Long" resultMap="BaseCustomersResult">
+        <include refid="selectBaseCustomersVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseCustomers" parameterType="BaseCustomers" useGeneratedKeys="true" keyProperty="id">
+        insert into base_customers
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerCode != null">customer_code,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="address != null">address,</if>
+            <if test="companyTelephone != null">company_telephone,</if>
+            <if test="tin != null">tin,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="caccountNumber != null">caccount_number,</if>
+            <if test="recipientAddress != null">recipient_address,</if>
+            <if test="consignee != null">consignee,</if>
+            <if test="consigneeTelephone != null">consignee_telephone,</if>
+            <if test="deliveryAddress != null">delivery_address,</if>
+            <if test="contactPerson != null">contact_person,</if>
+            <if test="contactTelephone != null">contact_telephone,</if>
+            <if test="email != null">email,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="cooperationDepth != null">cooperation_depth,</if>
+            <if test="customerBrand != null">customer_brand,</if>
+            <if test="brandStatus != null">brand_status,</if>
+            <if test="categoryStatus != null">category_status,</if>
+            <if test="customerLevel != null">customer_level,</if>
+            <if test="salesModel != null">sales_model,</if>
+            <if test="onlineShopAddress != null">online_shop_address,</if>
+            <if test="onlineMonthlySales != null">online_monthly_sales,</if>
+            <if test="staffSize != null">staff_size,</if>
+            <if test="salesScale != null">sales_scale,</if>
+            <if test="packagingSupplier != null">packaging_supplier,</if>
+            <if test="completeSuppliers != null">complete_suppliers,</if>
+            <if test="customerDemand != null">customer_demand,</if>
+            <if test="businessContactOutline != null">business_contact_outline,</if>
+            <if test="businessType != null">business_type,</if>
+            <if test="mainProduct != null">main_product,</if>
+            <if test="distributionChannel != null">distribution_channel,</if>
+            <if test="majorCountryMarkets != null">major_country_markets,</if>
+            <if test="salesYear != null">sales_year,</if>
+            <if test="customerStarLevel != null">customer_star_level,</if>
+            <if test="customerType != null">customer_type,</if>
+            <if test="customerCategory != null">customer_category,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerCode != null">#{customerCode},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="address != null">#{address},</if>
+            <if test="companyTelephone != null">#{companyTelephone},</if>
+            <if test="tin != null">#{tin},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="caccountNumber != null">#{caccountNumber},</if>
+            <if test="recipientAddress != null">#{recipientAddress},</if>
+            <if test="consignee != null">#{consignee},</if>
+            <if test="consigneeTelephone != null">#{consigneeTelephone},</if>
+            <if test="deliveryAddress != null">#{deliveryAddress},</if>
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactTelephone != null">#{contactTelephone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="cooperationDepth != null">#{cooperationDepth},</if>
+            <if test="customerBrand != null">#{customerBrand},</if>
+            <if test="brandStatus != null">#{brandStatus},</if>
+            <if test="categoryStatus != null">#{categoryStatus},</if>
+            <if test="customerLevel != null">#{customerLevel},</if>
+            <if test="salesModel != null">#{salesModel},</if>
+            <if test="onlineShopAddress != null">#{onlineShopAddress},</if>
+            <if test="onlineMonthlySales != null">#{onlineMonthlySales},</if>
+            <if test="staffSize != null">#{staffSize},</if>
+            <if test="salesScale != null">#{salesScale},</if>
+            <if test="packagingSupplier != null">#{packagingSupplier},</if>
+            <if test="completeSuppliers != null">#{completeSuppliers},</if>
+            <if test="customerDemand != null">#{customerDemand},</if>
+            <if test="businessContactOutline != null">#{businessContactOutline},</if>
+            <if test="businessType != null">#{businessType},</if>
+            <if test="mainProduct != null">#{mainProduct},</if>
+            <if test="distributionChannel != null">#{distributionChannel},</if>
+            <if test="majorCountryMarkets != null">#{majorCountryMarkets},</if>
+            <if test="salesYear != null">#{salesYear},</if>
+            <if test="customerStarLevel != null">#{customerStarLevel},</if>
+            <if test="customerType != null">#{customerType},</if>
+            <if test="customerCategory != null">#{customerCategory},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            #{createTime},
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateBaseCustomers" parameterType="BaseCustomers">
+        update base_customers
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerCode != null">customer_Code = #{customerCode},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="companyTelephone != null">company_telephone = #{companyTelephone},</if>
+            <if test="tin != null">tin = #{tin},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="caccountNumber != null">caccount_number = #{caccountNumber},</if>
+            <if test="recipientAddress != null">recipient_address = #{recipientAddress},</if>
+            <if test="consignee != null">consignee = #{consignee},</if>
+            <if test="consigneeTelephone != null">consignee_telephone = #{consigneeTelephone},</if>
+            <if test="deliveryAddress != null">delivery_address = #{deliveryAddress},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactTelephone != null">contact_telephone = #{contactTelephone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="cooperationDepth != null">cooperation_depth = #{cooperationDepth},</if>
+            <if test="customerBrand != null">customer_brand = #{customerBrand},</if>
+            <if test="brandStatus != null">brand_status = #{brandStatus},</if>
+            <if test="categoryStatus != null">category_status = #{categoryStatus},</if>
+            <if test="customerLevel != null">customer_level = #{customerLevel},</if>
+            <if test="salesModel != null">sales_model = #{salesModel},</if>
+            <if test="onlineShopAddress != null">online_shop_address = #{onlineShopAddress},</if>
+            <if test="onlineMonthlySales != null">online_monthly_sales = #{onlineMonthlySales},</if>
+            <if test="staffSize != null">staff_size = #{staffSize},</if>
+            <if test="salesScale != null">sales_scale = #{salesScale},</if>
+            <if test="packagingSupplier != null">packaging_supplier = #{packagingSupplier},</if>
+            <if test="completeSuppliers != null">complete_suppliers = #{completeSuppliers},</if>
+            <if test="customerDemand != null">customer_demand = #{customerDemand},</if>
+            <if test="businessContactOutline != null">business_contact_outline = #{businessContactOutline},</if>
+            <if test="businessType != null">business_type = #{businessType},</if>
+            <if test="mainProduct != null">main_product = #{mainProduct},</if>
+            <if test="distributionChannel != null">distribution_channel = #{distributionChannel},</if>
+            <if test="majorCountryMarkets != null">major_country_markets = #{majorCountryMarkets},</if>
+            <if test="salesYear != null">sales_year = #{salesYear},</if>
+            <if test="customerStarLevel != null">customer_star_level = #{customerStarLevel},</if>
+            <if test="customerType != null">customer_type = #{customerType},</if>
+            <if test="customerCategory != null">customer_category = #{customerCategory},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCustomersById" parameterType="Long">
+#         delete
+#         from base_customers
+#         where id = #{id}
+        update base_customers
+        set
+        <!-- 禁用-->
+        status = 0
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCustomersByIds" parameterType="String">
+<!--        delete from base_customers where id in-->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+        update base_customers
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCustomerNameUnique" parameterType="String" resultMap="BaseCustomersResult">
+        <include refid="selectBaseCustomersVo"/>
+        where customer_name = #{customerName} limit 2
+    </select>
+    <select id="selectCustomerOption" parameterType="Integer" resultMap="BaseCusOptionResult">
+        select id, customer_code, customer_name
+        from base_customers
+        where status = #{status}
+    </select>
+    <select id="selectBaseCustomersByCode" parameterType="String" resultMap="BaseCustomersResult">
+        <include refid="selectBaseCustomersVo"/>
+        where customer_code = #{code}
+    </select>
+</mapper>

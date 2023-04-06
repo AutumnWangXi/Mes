@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseItemNetcontentMapper">
+
+    <resultMap type="BaseItemNetcontent" id="BaseItemNetcontentResult">
+        <result property="id" column="id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="innerItemId" column="inner_item_id"/>
+        <result property="bomNo" column="bom_no"/>
+        <result property="version" column="version"/>
+        <result property="density" column="density"/>
+        <result property="netContent" column="net_content"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="productQty" column="product_qty"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectBaseItemNetcontentVo">
+        select id,
+               item_id,
+               inner_item_id,
+               bom_no,
+               version,
+               density,
+               net_content,
+               product_qty,
+               net_weight,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from base_item_netcontent
+    </sql>
+
+    <select id="selectBaseItemNetcontentList" parameterType="BaseItemNetcontent" resultMap="BaseItemNetcontentResult">
+        <include refid="selectBaseItemNetcontentVo"/>
+        <where>
+            <if test="itemId != null  and itemId != ''">and item_id = #{itemId}</if>
+            <if test="innerItemId != null ">and inner_item_id = #{innerItemId}</if>
+            <if test="bomNo != null  and bomNo != ''">and bom_no = #{bomNo}</if>
+            <if test="version != null  and version != ''">and version = #{version}</if>
+            <if test="density != null ">and density = #{density}</if>
+            <if test="netContent != null ">and net_content = #{netContent}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseItemNetcontentById" parameterType="Long" resultMap="BaseItemNetcontentResult">
+        <include refid="selectBaseItemNetcontentVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBaseItemNetcontentData" resultMap="BaseItemNetcontentResult">
+        <include refid="selectBaseItemNetcontentVo"/>
+        where item_id = #{itemId} AND inner_item_id = #{innerItemId} and bom_no = #{bomNo} and version = #{version}
+    </select>
+
+    <select id="selectBaseItemNetcontentDataByItemId" resultMap="BaseItemNetcontentResult">
+        <include refid="selectBaseItemNetcontentVo"/>
+        where item_id = #{itemId} and bom_no = #{bomNo} and version = #{version}
+    </select>
+
+    <insert id="insertBaseItemNetcontent" parameterType="BaseItemNetcontent" useGeneratedKeys="true" keyProperty="id">
+        insert into base_item_netcontent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">item_id,</if>
+            <if test="innerItemId != null">inner_item_id,</if>
+            <if test="bomNo != null">bom_no,</if>
+            <if test="version != null">version,</if>
+            <if test="density != null">density,</if>
+            <if test="netContent != null">net_content,</if>
+            <if test="netWeight != null">net_weight,</if>
+            <if test="productQty != null">product_qty ,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">#{itemId},</if>
+            <if test="innerItemId != null">#{innerItemId},</if>
+            <if test="bomNo != null">#{bomNo},</if>
+            <if test="version != null">#{version},</if>
+            <if test="density != null">#{density},</if>
+            <if test="netContent != null">#{netContent},</if>
+            <if test="netWeight != null">#{netWeight},</if>
+            <if test="productQty != null">#{productQty},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseItemNetcontent" parameterType="BaseItemNetcontent">
+        update base_item_netcontent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
+            <if test="innerItemId != null">inner_item_id = #{innerItemId},</if>
+            <if test="bomNo != null">bom_no = #{bomNo},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="density != null">density = #{density},</if>
+            <if test="netContent != null">net_content = #{netContent},</if>
+            <if test="netWeight != null">net_weight = #{netWeight},</if>
+            <if test="productQty != null">product_qty = #{productQty},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseItemNetcontentById" parameterType="Long">
+        delete
+        from base_item_netcontent
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseItemNetcontentByIds" parameterType="String">
+        delete from base_item_netcontent where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBaseItemNetcontentByItemId" parameterType="Long">
+        delete from base_item_netcontent where item_id = #{id}
+    </delete>
+</mapper>

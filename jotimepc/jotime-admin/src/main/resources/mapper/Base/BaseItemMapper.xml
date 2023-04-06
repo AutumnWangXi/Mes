@@ -1,0 +1,1234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseItemMapper">
+    <resultMap type="com.jotime.web.domain.base.BaseItem" id="BaseItemResult">
+        <result property="id" column="id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="itemName" column="item_name"/>
+        <result property="productUseMethods" column="product_use_methods"/>
+        <result property="itemShortName" column="item_short_name"/>
+        <result property="itemSpecification" column="item_specification"/>
+        <result property="itemType" column="item_type"/>
+        <result property="itemOwn" column="item_own"/>
+        <result property="categoryType" column="category_type"/>
+        <result property="customerItemCode" column="customer_item_code"/>
+        <result property="mItemType" column="m_item_type"/>
+        <result property="sItemType" column="s_item_type"/>
+        <result property="colourNumber" column="colour_number"/>
+        <result property="appearance" column="appearance"/>
+        <result property="specifications" column="specifications"/>
+        <result property="unit" column="unit"/>
+        <result property="whStockUnit" column="wh_stock_unit"/>
+        <result property="discount" column="discount"/>
+        <result property="brand" column="brand"/>
+        <result property="brandOwn" column="brand_own"/>
+        <result property="price" column="price"/>
+        <result property="tareWeight" column="tare_weight"/>
+        <result property="grossWeight" column="gross_weight"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="lineNetWeight" column="line_net_weight"/>
+        <result property="identificationNetWeight" column="identification_net_weight"/>
+        <result property="fillingVolumeUpper" column="filling_volume_upper"/>
+        <result property="fillingVolumeLower" column="filling_volume_lower"/>
+        <result property="fillingUnit" column="filling_unit"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="density" column="density"/>
+        <result property="imageUrl2" column="image_url2"/>
+        <result property="innerImageUrl" column="inner_image_url"/>
+        <result property="innerImageUrl2" column="inner_image_url2"/>
+        <result property="description" column="description"/>
+        <result property="netContent" column="net_content"/>
+        <result property="percentage" column="percentage"/>
+        <result property="barCode" column="bar_code"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="property" column="property"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="manufacturerId" column="manufacturer_id"/>
+        <result property="note" column="note"/>
+        <result property="warnToplimit" column="warn_toplimit"/>
+        <result property="warnLowerlimit" column="warn_lowerlimit"/>
+        <result property="content" column="content"/>
+        <result property="storageCondition" column="storage_condition"/>
+        <result property="placeOrigin" column="place_origin"/>
+        <result property="introductionConditions" column="Introduction_conditions"/>
+        <result property="introductionDate" column="Introduction_date"/>
+        <result property="effectiveDay" column="effective_Day"/>
+        <result property="needQuality" column="need_quality"/>
+        <result property="needBarcodeStockout" column="need_barcode_stockout"/>
+        <result property="needWeigh" column="need_weigh"/>
+        <result property="needConfidential" column="need_confidential"/>
+        <result property="vulgo" column="vulgo"/>
+        <result property="meltingPoint" column="melting_point"/>
+        <result property="particleSize" column="particle_size"/>
+        <result property="conventionalPacking" column="conventional_packing"/>
+        <result property="msds" column="msds"/>
+        <result property="coa" column="coa"/>
+        <result property="tds" column="tds"/>
+        <result property="attachmentUrl14" column="attachment_url14"/>
+        <result property="nonAnimalTest" column="non_animal_test"/>
+        <result property="allergenInfo" column="allergen_info"/>
+        <result property="ifraFile" column="ifra_file"/>
+        <result property="otherFile" column="other_file"/>
+        <result property="companyStandards" column="company_standards"/>
+        <result property="submissionCode" column="submission_code"/>
+        <result property="reachNo" column="reach_no"/>
+        <result property="origin" column="origin"/>
+        <result property="firstAid" column="first_aid"/>
+        <result property="status" column="status"/>
+        <result property="productType" column="product_type"/>
+        <result property="bomNote" column="bom_note"/>
+        <result property="checkStatus" column="check_status"/>
+        <result property="submissionCodeSts" column="submission_code_sts"/>
+
+    </resultMap>
+    <resultMap type="com.jotime.web.domain.base.BaseItem" id="BaseItemDataResult">
+        <result property="id" column="id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemType" column="item_type"/>
+    </resultMap>
+
+    <resultMap type="com.jotime.web.domainVo.base.BaseItemVo" id="BaseItemVoResult">
+        <result property="id" column="id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="itemName" column="item_name"/>
+        <result property="productUseMethods" column="product_use_methods"/>
+        <result property="itemShortName" column="item_short_name"/>
+        <result property="itemSpecification" column="item_specification"/>
+        <result property="itemType" column="item_type"/>
+        <result property="itemOwn" column="item_own"/>
+        <result property="categoryType" column="category_type"/>
+        <result property="customerItemCode" column="customer_item_code"/>
+        <result property="mItemType" column="m_item_type"/>
+        <result property="sItemType" column="s_item_type"/>
+        <result property="colourNumber" column="colour_number"/>
+        <result property="appearance" column="appearance"/>
+        <result property="specifications" column="specifications"/>
+        <result property="unit" column="unit"/>
+        <result property="whStockUnit" column="wh_stock_unit"/>
+        <result property="discount" column="discount"/>
+        <result property="brand" column="brand"/>
+        <result property="brandOwn" column="brand_own"/>
+        <result property="price" column="price"/>
+        <result property="tareWeight" column="tare_weight"/>
+        <result property="grossWeight" column="gross_weight"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="lineNetWeight" column="line_net_weight"/>
+        <result property="identificationNetWeight" column="identification_net_weight"/>
+        <result property="fillingVolumeUpper" column="filling_volume_upper"/>
+        <result property="fillingVolumeLower" column="filling_volume_lower"/>
+        <result property="fillingUnit" column="filling_unit"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="density" column="density"/>
+        <result property="imageUrl2" column="image_url2"/>
+        <result property="innerImageUrl" column="inner_image_url"/>
+        <result property="innerImageUrl2" column="inner_image_url2"/>
+        <result property="description" column="description"/>
+        <result property="netContent" column="net_content"/>
+        <result property="percentage" column="percentage"/>
+        <result property="barCode" column="bar_code"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="property" column="property"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="manufacturerId" column="manufacturer_id"/>
+        <result property="manufacturerName" column="mfrs_name"/>
+        <result property="note" column="note"/>
+        <result property="warnToplimit" column="warn_toplimit"/>
+        <result property="warnLowerlimit" column="warn_lowerlimit"/>
+        <result property="content" column="content"/>
+        <result property="storageCondition" column="storage_condition"/>
+        <result property="placeOrigin" column="place_origin"/>
+        <result property="introductionConditions" column="Introduction_conditions"/>
+        <result property="introductionDate" column="Introduction_date"/>
+        <result property="effectiveDay" column="effective_Day"/>
+        <result property="needQuality" column="need_quality"/>
+        <result property="needBarcodeStockout" column="need_barcode_stockout"/>
+        <result property="needWeigh" column="need_weigh"/>
+        <result property="needConfidential" column="need_confidential"/>
+        <result property="vulgo" column="vulgo"/>
+        <result property="meltingPoint" column="melting_point"/>
+        <result property="particleSize" column="particle_size"/>
+        <result property="conventionalPacking" column="conventional_packing"/>
+        <result property="submissionCode" column="submission_code"/>
+        <result property="reachNo" column="reach_no"/>
+        <result property="origin" column="origin"/>
+        <result property="firstAid" column="first_aid"/>
+        <result property="status" column="status"/>
+        <result property="productType" column="product_type"/>
+        <result property="bomNote" column="bom_note"/>
+        <result property="checkStatus" column="check_status"/>
+    </resultMap>
+
+    <resultMap type="com.jotime.web.domainVo.base.ItemStockAndPriceVo" id="BaseItemPriceResult">
+        <result property="itemId" column="item_id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemType" column="item_type"/>
+        <result property="usageStockQty" column="usage_stock_qty"/>
+        <result property="purchaseInQty" column="purchase_in_qty"/>
+        <result property="avgPrice" column="avg_price"/>
+        <result property="lastPrice" column="last_price"/>
+    </resultMap>
+
+    <sql id="selectBaseItemVo">
+        select id,
+               item_code,
+               item_no,
+               item_name,
+               product_use_methods,
+               item_short_name,
+               item_specification,
+               item_type,
+               item_own,
+               category_type,
+               customer_item_code,
+               m_item_type,
+               s_item_type,
+               colour_number,
+               appearance,
+               specifications,
+               unit,
+               wh_stock_unit,
+               discount,
+               brand,
+               brand_own,
+               price,
+               tare_weight,
+               gross_weight,
+               net_weight,
+               line_net_weight,
+               identification_net_weight,
+               filling_volume_upper,
+               filling_volume_lower,
+               filling_unit,
+               image_url,
+               density,
+               image_url2,
+               inner_image_url,
+               inner_image_url2,
+               description,
+               net_content,
+               percentage,
+               bar_code,
+               customer_id,
+               property,
+               supplier_id,
+               manufacturer_id,
+               note,
+               warn_toplimit,
+               warn_lowerlimit,
+               content,
+               storage_condition,
+               place_origin,
+               Introduction_conditions,
+               Introduction_date,
+               effective_Day,
+               need_quality,
+               need_barcode_stockout,
+               need_weigh,
+               need_confidential,
+               vulgo,
+               melting_point,
+               particle_size,
+               conventional_packing,
+               submission_code,
+               reach_no,
+               origin,
+               first_aid,
+               bom_note,
+               status,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               product_type,
+               submission_code_sts,
+               check_status
+        from base_item
+    </sql>
+
+    <select id="selectBaseItemList" parameterType="BaseItem" resultMap="BaseItemVoResult">
+        select
+        supplier.supplier_name,
+        mfrs.mfrs_name,
+        customers.customer_name,
+        item.id,
+        item.item_code,
+        item.item_no,
+        item.item_name,
+        item.product_use_methods,
+        item.item_short_name,
+        item.item_specification,
+        item.item_type,
+        item.item_own,
+        item.category_type,
+        item.customer_item_code,
+        item.m_item_type,
+        item.s_item_type,
+        item.colour_number,
+        item.appearance,
+        item.specifications,
+        item.unit,
+        item.wh_stock_unit,
+        item.discount,
+        item.brand,
+        item.brand_own,
+        item.price,
+        item.tare_weight,
+        item.gross_weight,
+        item.net_weight,
+        item.line_net_weight,
+        item.identification_net_weight,
+        item.filling_volume_upper,
+        item.filling_volume_lower,
+        item.filling_unit,
+        item.image_url,
+        item.density,
+        item.image_url2,
+        item.inner_image_url,
+        item.inner_image_url2,
+        item.description,
+        item.net_content,
+        item.percentage,
+        item.bar_code,
+        item.customer_id,
+        item.property,
+        item.supplier_id,
+        item.manufacturer_id,
+        item.note,
+        item.warn_toplimit,
+        item.warn_lowerlimit,
+        item.content,
+        item.storage_condition,
+        item.place_origin,
+        item.Introduction_conditions,
+        item.Introduction_date,
+        item.effective_Day,
+        item.need_quality,
+        item.need_barcode_stockout,
+        item.need_weigh,
+        item.need_confidential,
+        item.vulgo,
+        item.melting_point,
+        item.particle_size,
+        item.conventional_packing,
+        item.submission_code,
+        item.reach_no,
+        item.origin,
+        item.first_aid,
+        item.status,
+        item.create_by,
+        item.create_time,
+        item.update_by,
+        item.update_time,
+        item.product_type,
+        item.submission_code_sts
+        from base_item item LEFT JOIN base_supplier supplier on item.supplier_id = supplier.id
+        LEFT JOIN base_mfrs mfrs on item.manufacturer_id = mfrs.id
+        LEFT JOIN base_customers customers on item.customer_id = customers.id
+        <where>
+            <if test="supplierId != null  and supplierId != ''">and item.supplier_id = #{supplierId}</if>
+            <if test="itemCode != null  and itemCode != ''">and item.item_code like concat('%', #{itemCode}, '%')</if>
+            <if test="itemNo != null  and itemNo != ''">and item.item_no = #{itemNo}</if>
+            <if test="itemName != null  and itemName != ''">and item.item_name like concat('%', #{itemName}, '%')</if>
+            <if test="productUseMethods != null  and productUseMethods != ''">and item.product_use_methods =
+                #{productUseMethods}
+            </if>
+            <if test="itemShortName != null  and itemShortName != ''">and item.item_short_name like concat('%',
+                #{itemShortName}, '%')
+            </if>
+            <if test="itemSpecification != null  and itemSpecification != ''">and item.item_specification =
+                #{itemSpecification}
+            </if>
+            <if test="itemType != null ">and item.item_type = #{itemType}</if>
+            <if test="itemOwn != null ">and item.item_own = #{itemOwn}</if>
+            <if test="categoryType != null  and categoryType != ''">and item.category_type = #{categoryType}</if>
+            <if test="customerItemCode != null  and customerItemCode != ''">and item.customer_item_code =
+                #{customerItemCode}
+            </if>
+            <if test="mItemType != null ">and item.m_item_type = #{mItemType}</if>
+            <if test="sItemType != null ">and item.s_item_type = #{sItemType}</if>
+            <if test="colourNumber != null ">and item.colour_number = #{colourNumber}</if>
+            <if test="appearance != null ">and item.appearance = #{appearance}</if>
+            <if test="specifications != null  and specifications != ''">and item.specifications = #{specifications}</if>
+            <if test="unit != null  and unit != ''">and item.unit = #{unit}</if>
+            <if test="whStockUnit != null  and whStockUnit != ''">and item.wh_stock_unit = #{whStockUnit}</if>
+            <if test="discount != null  and discount != ''">and item.discount = #{discount}</if>
+            <if test="brand != null  and brand != ''">and item.brand = #{brand}</if>
+            <if test="brandOwn != null ">and item.brand_own = #{brandOwn}</if>
+            <if test="price != null ">and item.price = #{price}</if>
+            <if test="lineNetWeight != null  and lineNetWeight != ''">and item.line_net_weight = #{lineNetWeight}</if>
+            <if test="identificationNetWeight != null  and identificationNetWeight != ''">and
+                item.identification_net_weight
+                = #{identificationNetWeight}
+            </if>
+            <if test="fillingVolumeUpper != null  and fillingVolumeUpper != ''">and item.filling_volume_upper =
+                #{fillingVolumeUpper}
+            </if>
+            <if test="fillingVolumeLower != null  and fillingVolumeLower != ''">and item.filling_volume_lower =
+                #{fillingVolumeLower}
+            </if>
+            <if test="fillingUnit != null  and fillingUnit != ''">and item.filling_unit = #{fillingUnit}</if>
+            <if test="imageUrl != null  and imageUrl != ''">and item.image_url = #{imageUrl}</if>
+            <if test="density != null  and density != ''">and item.density = #{density}</if>
+            <if test="percentage != null ">and item.percentage = #{percentage}</if>
+            <if test="barCode != null  and barCode != ''">and item.bar_code = #{barCode}</if>
+            <if test="customerId != null ">and item.customer_id = #{customerId}</if>
+            <if test="property != null and property != ''">and item.property = #{property}</if>
+            <if test="manufacturerId != null ">and item.manufacturer_id = #{manufacturerId}</if>
+            <if test="note != null  and note != ''">and item.note = #{note}</if>
+            <if test="warnToplimit != null ">and item.warn_toplimit = #{warnToplimit}</if>
+            <if test="warnLowerlimit != null ">and item.warn_lowerlimit = #{warnLowerlimit}</if>
+            <if test="content != null ">and item.content = #{content}</if>
+            <if test="storageCondition != null  and storageCondition != ''">and item.storage_condition =
+                #{storageCondition}
+            </if>
+            <if test="placeOrigin != null  and placeOrigin != ''">and item.place_origin = #{placeOrigin}</if>
+            <if test="introductionConditions != null  and introductionConditions != ''">and item.Introduction_conditions
+                =
+                #{introductionConditions}
+            </if>
+            <if test="introductionDate != null ">and item.Introduction_date = #{introductionDate}</if>
+            <if test="effectiveDay != null ">and item.effective_Day = #{effectiveDay}</if>
+            <if test="needQuality != null ">and item.need_quality = #{needQuality}</if>
+            <if test="needBarcodeStockout != null ">and item.need_barcode_stockout = #{needBarcodeStockout}</if>
+            <if test="needWeigh != null ">and item.need_weigh = #{needWeigh}</if>
+            <if test="needConfidential != null ">and item.need_confidential = #{needConfidential}</if>
+            <if test="vulgo != null  and vulgo != ''">and item.vulgo = #{vulgo}</if>
+            <if test="meltingPoint != null  and meltingPoint != ''">and item.melting_point = #{meltingPoint}</if>
+            <if test="particleSize != null  and particleSize != ''">and item.particle_size = #{particleSize}</if>
+            <if test="conventionalPacking != null  and conventionalPacking != ''">and item.conventional_packing =
+                #{conventionalPacking}
+            </if>
+            <if test="submissionCode != null  and submissionCode != ''">and item.submission_code = #{submissionCode}
+            </if>
+            <if test="reachNo != null  and reachNo != ''">and item.reach_no = #{reachNo}</if>
+            <if test="origin != null  and origin != ''">and item.origin = #{origin}</if>
+            <if test="firstAid != null  and firstAid != ''">and item.firstAid = #{firstAid}</if>
+            <if test="status != null ">and item.status = #{status}</if>
+            <if test="productType != null ">and item.product_type = #{productType}</if>
+            <if test="checkStatus != null ">and item.check_status = #{checkStatus}</if>
+        </where>
+        order by item.item_code DESC
+    </select>
+
+    <select id="selectItemEffectiveAll" resultMap="BaseItemResult">
+        <include refid="selectBaseItemVo"/>
+        where
+        status = 2
+    </select>
+
+    <select id="selectBaseItemById" parameterType="Long" resultMap="BaseItemResult">
+        <include refid="selectBaseItemVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectItemByItemCode" parameterType="String" resultMap="BaseItemResult">
+        <include refid="selectBaseItemVo"/>
+        where item_code = #{itemCode}
+    </select>
+
+    <select id="selectItemDataByItemType" resultMap="BaseItemResult">
+        select id,
+        item_code,
+        item_no,
+        item_type,
+        case when need_confidential = '2' then '******' ELSE item_name END as item_name,
+        specifications,
+        unit,
+        wh_stock_unit,
+        status
+        from base_item
+        <where>
+            <if test="itemTypeList != null ">
+                <foreach collection="itemTypeList" item="itemType" open="and item_type in (" separator="," close=")">
+                    #{itemType}
+                </foreach>
+            </if>
+            AND status = 2
+            <if test="limit != null and limit != 0">limit #{limit}</if>
+        </where>
+    </select>
+
+    <select id="selectItemData" parameterType="Integer" resultMap="BaseItemResult">
+        select id,
+               item_code,
+               item_no,
+               item_type,
+               item_own,
+               colour_number,
+               case when need_confidential = '2' then '******' ELSE item_name END as item_name,
+               specifications,
+               unit,
+               wh_stock_unit,
+               discount,
+               brand,
+               brand_own,
+               price,
+               net_weight,
+               bar_code,
+               customer_id,
+               property,
+               supplier_id,
+               manufacturer_id,
+               content,
+               origin,
+               status,
+               product_type,
+               check_status
+        from base_item
+        where item_type = #{itemType}
+          AND status = 2
+    </select>
+
+    <select id="selectVItemData" resultMap="BaseItemResult">
+        select item_id,
+        item_code,
+        item_name,
+        item_type,
+        product_type,
+        unit,
+        wh_stock_unit,
+        bar_code,
+        item_no
+        from v_item
+        <where>
+            <if test="itemType != null">
+                <foreach collection="itemType" item="item" open="and item_type in(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectVItemDataByItemId" resultMap="BaseItemResult">
+        select item_id,
+               item_code,
+               item_name,
+               item_type,
+               product_type,
+               unit,
+               wh_stock_unit,
+               bar_code,
+               item_no
+        from v_item
+        where item_id = #{itemId}
+    </select>
+
+    <select id="selectBaseItemCodeByItemName" resultType="java.lang.Long">
+        select item_id
+        from v_item
+        <where>
+        <if test="itemName != null  and itemName != ''">item_Name like concat('%', #{itemName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectItemNameList" resultMap="BaseItemDataResult">
+        select id,
+               item_code,
+               item_no,
+               item_name,
+               item_type,
+               unit
+        from base_item
+    </select>
+
+
+    <select id="selectByItemNo" resultType="BaseItem">
+        <include refid="selectBaseItemVo"/>
+        where item_no = #{itemNo}
+          and item_type = #{type}
+    </select>
+
+    <select id="selectByItemId" resultType="com.jotime.web.domain.base.BaseItem">
+        <include refid="selectBaseItemVo"/>
+        where id = #{itemId}
+    </select>
+    <select id="selectByItemCode" resultType="com.jotime.web.domain.base.BaseItem">
+        select a.*,b.id as mfrsId,b.mfrs_name from base_item a left join base_mfrs b on a.manufacturer_id = b.id
+        where a.item_code = #{itemCode}
+        <if test="type != null and type != '' and type != 'null'">and a.item_type = #{type}</if>
+    </select>
+
+    <select id="selectBaseItemByItemId" resultType="com.jotime.web.domain.base.BaseItem">
+        <include refid="selectBaseItemVo"/>
+        where id = #{itemId}
+    </select>
+
+    <insert id="insertBaseItem" parameterType="BaseItemVo" useGeneratedKeys="true" keyProperty="id">
+        insert into base_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">item_code,</if>
+            <if test="itemNo != null and itemNo != ''">item_no,</if>
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="productUseMethods != null and productUseMethods != ''">product_use_methods,</if>
+            <if test="itemShortName != null">item_short_name,</if>
+            <if test="itemSpecification != null">item_specification,</if>
+            <if test="itemType != null">item_type,</if>
+            <if test="itemOwn != null">item_own,</if>
+            <if test="categoryType != null">category_type,</if>
+            <if test="customerItemCode != null">customer_item_code,</if>
+            <if test="mItemType != null">m_item_type,</if>
+            <if test="sItemType != null">s_item_type,</if>
+            <if test="colourNumber != null">colour_number,</if>
+            <if test="appearance != null">appearance,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="unit != null">unit,</if>
+            <if test="whStockUnit != null">wh_stock_unit,</if>
+            <if test="discount != null">discount,</if>
+            <if test="brand != null">brand,</if>
+            <if test="brandOwn != null">brand_own,</if>
+            <if test="price != null">price,</if>
+            <if test="tareWeight != null">tare_weight,</if>
+            <if test="grossWeight != null">gross_weight,</if>
+            <if test="netWeight != null">net_weight,</if>
+            <if test="lineNetWeight != null">line_net_weight,</if>
+            <if test="identificationNetWeight != null">identification_net_weight,</if>
+            <if test="fillingVolumeUpper != null">filling_volume_upper,</if>
+            <if test="fillingVolumeLower != null">filling_volume_lower,</if>
+            <if test="fillingUnit != null">filling_unit,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="density != null">density,</if>
+            <if test="imageUrl2 != null">image_url2,</if>
+            <if test="innerImageUrl != null">inner_image_url,</if>
+            <if test="innerImageUrl2 != null">inner_image_url2,</if>
+            <if test="description != null">`description`,</if>
+            <if test="netContent != null">net_content,</if>
+            <if test="percentage != null">percentage,</if>
+            <if test="barCode != null">bar_code,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="property != null and property != ''">property,</if>
+            <if test="manufacturerId != null">manufacturer_id,</if>
+            <if test="note != null">note,</if>
+            <if test="warnToplimit != null">warn_toplimit,</if>
+            <if test="warnLowerlimit != null">warn_lowerlimit,</if>
+            <if test="content != null">content,</if>
+            <if test="storageCondition != null">storage_condition,</if>
+            <if test="placeOrigin != null">place_origin,</if>
+            <if test="introductionConditions != null">Introduction_conditions,</if>
+            <if test="introductionDate != null">Introduction_date,</if>
+            <if test="effectiveDay != null">effective_Day,</if>
+            <if test="needQuality != null">need_quality,</if>
+            <if test="needBarcodeStockout != null">need_barcode_stockout,</if>
+            <if test="needWeigh != null">need_weigh,</if>
+            <if test="needConfidential != null">need_confidential,</if>
+            <if test="vulgo != null">vulgo,</if>
+            <if test="meltingPoint != null">melting_point,</if>
+            <if test="particleSize != null">particle_size,</if>
+            <if test="conventionalPacking != null">conventional_packing,</if>
+            <if test="msds != null">msds,</if>
+            <if test="coa != null">coa,</if>
+            <if test="tds != null">tds,</if>
+            <if test="attachmentUrl14 != null">attachment_url14,</if>
+            <if test="nonAnimalTest != null">non_animal_test,</if>
+            <if test="allergenInfo != null">allergen_info,</if>
+            <if test="ifraFile != null">ifra_file,</if>
+            <if test="otherFile != null">other_file,</if>
+            <if test="companyStandards != null">company_standards,</if>
+            <if test="submissionCode != null">submission_code,</if>
+            <if test="reachNo != null">reach_no,</if>
+            <if test="origin != null">origin,</if>
+            <if test="firstAid != null">first_aid,</if>
+            <if test="bomNote != null">bom_note,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="productType != null">product_type,</if>
+            <if test="checkStatus != null">check_status,</if>
+            <if test="submissionCodeSts != null">submission_code_sts,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">#{itemCode},</if>
+            <if test="itemNo != null and itemNo != ''">#{itemNo},</if>
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="productUseMethods != null and productUseMethods != ''">#{productUseMethods},</if>
+            <if test="itemShortName != null">#{itemShortName},</if>
+            <if test="itemSpecification != null">#{itemSpecification},</if>
+            <if test="itemType != null">#{itemType},</if>
+            <if test="itemOwn != null">#{itemOwn},</if>
+            <if test="categoryType != null">#{categoryType},</if>
+            <if test="customerItemCode != null">#{customerItemCode},</if>
+            <if test="mItemType != null">#{mItemType},</if>
+            <if test="sItemType != null">#{sItemType},</if>
+            <if test="colourNumber != null">#{colourNumber},</if>
+            <if test="appearance != null">#{appearance},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="whStockUnit != null">#{whStockUnit},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="brandOwn != null">#{brandOwn},</if>
+            <if test="price != null">#{price},</if>
+            <if test="tareWeight != null">#{tareWeight},</if>
+            <if test="grossWeight != null">#{grossWeight},</if>
+            <if test="netWeight != null">#{netWeight},</if>
+            <if test="lineNetWeight != null">#{lineNetWeight},</if>
+            <if test="identificationNetWeight != null">#{identificationNetWeight},</if>
+            <if test="fillingVolumeUpper != null">#{fillingVolumeUpper},</if>
+            <if test="fillingVolumeLower != null">#{fillingVolumeLower},</if>
+            <if test="fillingUnit != null">#{fillingUnit},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="density != null">#{density},</if>
+            <if test="imageUrl2 != null">#{imageUrl2},</if>
+            <if test="innerImageUrl != null">#{innerImageUrl},</if>
+            <if test="innerImageUrl2 != null">#{innerImageUrl2},</if>
+            <if test="description != null">#{description},</if>
+            <if test="netContent != null">#{netContent},</if>
+            <if test="percentage != null">#{percentage},</if>
+            <if test="barCode != null">#{barCode},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="property != null and property != ''">#{property},</if>
+            <if test="manufacturerId != null">#{manufacturerId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="warnToplimit != null">#{warnToplimit},</if>
+            <if test="warnLowerlimit != null">#{warnLowerlimit},</if>
+            <if test="content != null">#{content},</if>
+            <if test="storageCondition != null">#{storageCondition},</if>
+            <if test="placeOrigin != null">#{placeOrigin},</if>
+            <if test="introductionConditions != null">#{introductionConditions},</if>
+            <if test="introductionDate != null">#{introductionDate},</if>
+            <if test="effectiveDay != null">#{effectiveDay},</if>
+            <if test="needQuality != null">#{needQuality},</if>
+            <if test="needBarcodeStockout != null">#{needBarcodeStockout},</if>
+            <if test="needWeigh != null">#{needWeigh},</if>
+            <if test="needConfidential != null">#{needConfidential},</if>
+            <if test="vulgo != null">#{vulgo},</if>
+            <if test="meltingPoint != null">#{meltingPoint},</if>
+            <if test="particleSize != null">#{particleSize},</if>
+            <if test="conventionalPacking != null">#{conventionalPacking},</if>
+            <if test="msds != null">#{msds},</if>
+            <if test="coa != null">#{coa},</if>
+            <if test="tds != null">#{tds},</if>
+            <if test="attachmentUrl14 != null">#{attachmentUrl14},</if>
+            <if test="nonAnimalTest != null">#{nonAnimalTest},</if>
+            <if test="allergenInfo != null">#{allergenInfo},</if>
+            <if test="ifraFile != null">#{ifraFile},</if>
+            <if test="otherFile != null">#{otherFile},</if>
+            <if test="companyStandards != null">#{companyStandards},</if>
+            <if test="submissionCode != null">#{submissionCode},</if>
+            <if test="reachNo != null">#{reachNo},</if>
+            <if test="origin != null">#{origin},</if>
+            <if test="firstAid != null">#{firstAid},</if>
+            <if test="bomNote != null">#{bomNote},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="productType != null">#{productType},</if>
+            <if test="checkStatus != null">#{checkStatus},</if>
+            <if test="submissionCodeSts != null">#{submissionCodeSts},</if>
+        </trim>
+    </insert>
+
+    <insert id="interPositionBaseItem" parameterType="BaseItem" useGeneratedKeys="true" keyProperty="id">
+        insert into base_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">item_code,</if>
+            <if test="itemNo != null and itemNo != ''">item_no,</if>
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="productUseMethods != null and productUseMethods != ''">product_use_methods,</if>
+            <if test="itemShortName != null">item_short_name,</if>
+            <if test="itemSpecification != null">item_specification,</if>
+            <if test="itemType != null">item_type,</if>
+            <if test="itemOwn != null">item_own,</if>
+            <if test="categoryType != null">category_type,</if>
+            <if test="customerItemCode != null">customer_item_code,</if>
+            <if test="mItemType != null">m_item_type,</if>
+            <if test="sItemType != null">s_item_type,</if>
+            <if test="colourNumber != null">colour_number,</if>
+            <if test="appearance != null">appearance,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="unit != null">unit,</if>
+            <if test="whStockUnit != null">wh_stock_unit,</if>
+            <if test="discount != null">discount,</if>
+            <if test="brand != null">brand,</if>
+            <if test="brandOwn != null">brand_own,</if>
+            <if test="price != null">price,</if>
+            <if test="tareWeight != null">tare_weight,</if>
+            <if test="grossWeight != null">gross_weight,</if>
+            <if test="netWeight != null">net_weight,</if>
+            <if test="lineNetWeight != null">line_net_weight,</if>
+            <if test="identificationNetWeight != null">identification_net_weight,</if>
+            <if test="fillingVolumeUpper != null">filling_volume_upper,</if>
+            <if test="fillingVolumeLower != null">filling_volume_lower,</if>
+            <if test="fillingUnit != null">filling_unit,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="density != null">density,</if>
+            <if test="imageUrl2 != null">image_url2,</if>
+            <if test="innerImageUrl != null">inner_image_url,</if>
+            <if test="innerImageUrl2 != null">inner_image_url2,</if>
+            <if test="description != null">`description`,</if>
+            <if test="netContent != null">net_content,</if>
+            <if test="percentage != null">percentage,</if>
+            <if test="barCode != null">bar_code,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="property != null and property != ''">property,</if>
+            <if test="manufacturerId != null">manufacturer_id,</if>
+            <if test="note != null">note,</if>
+            <if test="warnToplimit != null">warn_toplimit,</if>
+            <if test="warnLowerlimit != null">warn_lowerlimit,</if>
+            <if test="content != null">content,</if>
+            <if test="storageCondition != null">storage_condition,</if>
+            <if test="placeOrigin != null">place_origin,</if>
+            <if test="introductionConditions != null">Introduction_conditions,</if>
+            <if test="introductionDate != null">Introduction_date,</if>
+            <if test="effectiveDay != null">effective_Day,</if>
+            <if test="needQuality != null">need_quality,</if>
+            <if test="needBarcodeStockout != null">need_barcode_stockout,</if>
+            <if test="needWeigh != null">need_weigh,</if>
+            <if test="needConfidential != null">need_confidential,</if>
+            <if test="vulgo != null">vulgo,</if>
+            <if test="meltingPoint != null">melting_point,</if>
+            <if test="particleSize != null">particle_size,</if>
+            <if test="conventionalPacking != null">conventional_packing,</if>
+            <if test="msds != null">msds,</if>
+            <if test="coa != null">coa,</if>
+            <if test="tds != null">tds,</if>
+            <if test="attachmentUrl14 != null">attachment_url14,</if>
+            <if test="nonAnimalTest != null">non_animal_test,</if>
+            <if test="allergenInfo != null">allergen_info,</if>
+            <if test="ifraFile != null">ifra_file,</if>
+            <if test="otherFile != null">other_file,</if>
+            <if test="companyStandards != null">company_standards,</if>
+            <if test="submissionCode != null">submission_code,</if>
+            <if test="reachNo != null">reach_no,</if>
+            <if test="origin != null">origin,</if>
+            <if test="firstAid != null">first_aid,</if>
+            <if test="bomNote != null">bom_note,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="productType != null">product_type,</if>
+            <if test="checkStatus != null">check_status,</if>
+            <if test="submissionCodeSts != null">submission_code_sts,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">#{itemCode},</if>
+            <if test="itemNo != null and itemNo != ''">#{itemNo},</if>
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="productUseMethods != null and productUseMethods != ''">#{productUseMethods},</if>
+            <if test="itemShortName != null">#{itemShortName},</if>
+            <if test="itemSpecification != null">#{itemSpecification},</if>
+            <if test="itemType != null">#{itemType},</if>
+            <if test="itemOwn != null">#{itemOwn},</if>
+            <if test="categoryType != null">#{categoryType},</if>
+            <if test="customerItemCode != null">#{customerItemCode},</if>
+            <if test="mItemType != null">#{mItemType},</if>
+            <if test="sItemType != null">#{sItemType},</if>
+            <if test="colourNumber != null">#{colourNumber},</if>
+            <if test="appearance != null">#{appearance},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="whStockUnit != null">#{whStockUnit},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="brandOwn != null">#{brandOwn},</if>
+            <if test="price != null">#{price},</if>
+            <if test="tareWeight != null">#{tareWeight},</if>
+            <if test="grossWeight != null">#{grossWeight},</if>
+            <if test="netWeight != null">#{netWeight},</if>
+            <if test="lineNetWeight != null">#{lineNetWeight},</if>
+            <if test="identificationNetWeight != null">#{identificationNetWeight},</if>
+            <if test="fillingVolumeUpper != null">#{fillingVolumeUpper},</if>
+            <if test="fillingVolumeLower != null">#{fillingVolumeLower},</if>
+            <if test="fillingUnit != null">#{fillingUnit},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="density != null">#{density},</if>
+            <if test="imageUrl2 != null">#{imageUrl2},</if>
+            <if test="innerImageUrl != null">#{innerImageUrl},</if>
+            <if test="innerImageUrl2 != null">#{innerImageUrl2},</if>
+            <if test="description != null">#{description},</if>
+            <if test="netContent != null">#{netContent},</if>
+            <if test="percentage != null">#{percentage},</if>
+            <if test="barCode != null">#{barCode},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="property != null and property != ''">#{property},</if>
+            <if test="manufacturerId != null">#{manufacturerId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="warnToplimit != null">#{warnToplimit},</if>
+            <if test="warnLowerlimit != null">#{warnLowerlimit},</if>
+            <if test="content != null">#{content},</if>
+            <if test="storageCondition != null">#{storageCondition},</if>
+            <if test="placeOrigin != null">#{placeOrigin},</if>
+            <if test="introductionConditions != null">#{introductionConditions},</if>
+            <if test="introductionDate != null">#{introductionDate},</if>
+            <if test="effectiveDay != null">#{effectiveDay},</if>
+            <if test="needQuality != null">#{needQuality},</if>
+            <if test="needBarcodeStockout != null">#{needBarcodeStockout},</if>
+            <if test="needWeigh != null">#{needWeigh},</if>
+            <if test="needConfidential != null">#{needConfidential},</if>
+            <if test="vulgo != null">#{vulgo},</if>
+            <if test="meltingPoint != null">#{meltingPoint},</if>
+            <if test="particleSize != null">#{particleSize},</if>
+            <if test="conventionalPacking != null">#{conventionalPacking},</if>
+            <if test="msds != null">#{msds},</if>
+            <if test="coa != null">#{coa},</if>
+            <if test="tds != null">#{tds},</if>
+            <if test="attachmentUrl14 != null">#{attachmentUrl14},</if>
+            <if test="nonAnimalTest != null">#{nonAnimalTest},</if>
+            <if test="allergenInfo != null">#{allergenInfo},</if>
+            <if test="ifraFile != null">#{ifraFile},</if>
+            <if test="otherFile != null">#{otherFile},</if>
+            <if test="companyStandards != null">#{companyStandards},</if>
+            <if test="submissionCode != null">#{submissionCode},</if>
+            <if test="reachNo != null">#{reachNo},</if>
+            <if test="origin != null">#{origin},</if>
+            <if test="firstAid != null">#{firstAid},</if>
+            <if test="bomNote != null">#{bomNote},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="productType != null">#{productType},</if>
+            <if test="checkStatus != null">#{checkStatus},</if>
+            <if test="submissionCodeSts != null">#{submissionCodeSts},</if>
+        </trim>
+    </insert>
+
+    <insert id="inserts" parameterType="BaseItem" useGeneratedKeys="true" keyProperty="id">
+        insert into base_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">item_code,</if>
+            <if test="itemNo != null and itemNo != ''">item_no,</if>
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="productUseMethods != null and productUseMethods != ''">product_use_methods,</if>
+            <if test="itemShortName != null">item_short_name,</if>
+            <if test="itemSpecification != null">item_specification,</if>
+            <if test="itemType != null">item_type,</if>
+            <if test="itemOwn != null">item_own,</if>
+            <if test="categoryType != null">category_type,</if>
+            <if test="customerItemCode != null">customer_item_code,</if>
+            <if test="mItemType != null">m_item_type,</if>
+            <if test="sItemType != null">s_item_type,</if>
+            <if test="colourNumber != null">colour_number,</if>
+            <if test="appearance != null">appearance,</if>
+            <if test="specifications != null">specifications,</if>
+            <if test="unit != null">unit,</if>
+            <if test="whStockUnit != null">wh_stock_unit,</if>
+            <if test="discount != null">discount,</if>
+            <if test="brand != null">brand,</if>
+            <if test="brandOwn != null">brand_own,</if>
+            <if test="price != null">price,</if>
+            <if test="tareWeight != null">tare_weight,</if>
+            <if test="grossWeight != null">gross_weight,</if>
+            <if test="netWeight != null">net_weight,</if>
+            <if test="lineNetWeight != null">line_net_weight,</if>
+            <if test="identificationNetWeight != null">identification_net_weight,</if>
+            <if test="fillingVolumeUpper != null">filling_volume_upper,</if>
+            <if test="fillingVolumeLower != null">filling_volume_lower,</if>
+            <if test="fillingUnit != null">filling_unit,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="density != null">density,</if>
+            <if test="imageUrl2 != null">image_url2,</if>
+            <if test="innerImageUrl != null">inner_image_url,</if>
+            <if test="innerImageUrl2 != null">inner_image_url2,</if>
+            <if test="description != null">`description`,</if>
+            <if test="netContent != null">net_content,</if>
+            <if test="percentage != null">percentage,</if>
+            <if test="barCode != null">bar_code,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="property != null and property != ''">property,</if>
+            <if test="manufacturerId != null">manufacturer_id,</if>
+            <if test="note != null">note,</if>
+            <if test="warnToplimit != null">warn_toplimit,</if>
+            <if test="warnLowerlimit != null">warn_lowerlimit,</if>
+            <if test="content != null">content,</if>
+            <if test="storageCondition != null">storage_condition,</if>
+            <if test="placeOrigin != null">place_origin,</if>
+            <if test="introductionConditions != null">Introduction_conditions,</if>
+            <if test="introductionDate != null">Introduction_date,</if>
+            <if test="effectiveDay != null">effective_Day,</if>
+            <if test="needQuality != null">need_quality,</if>
+            <if test="needBarcodeStockout != null">need_barcode_stockout,</if>
+            <if test="needWeigh != null">need_weigh,</if>
+            <if test="needConfidential != null">need_confidential,</if>
+            <if test="vulgo != null">vulgo,</if>
+            <if test="meltingPoint != null">melting_point,</if>
+            <if test="particleSize != null">particle_size,</if>
+            <if test="conventionalPacking != null">conventional_packing,</if>
+            <if test="msds != null">msds,</if>
+            <if test="coa != null">coa,</if>
+            <if test="tds != null">tds,</if>
+            <if test="attachmentUrl14 != null">attachment_url14,</if>
+            <if test="nonAnimalTest != null">non_animal_test,</if>
+            <if test="allergenInfo != null">allergen_info,</if>
+            <if test="ifraFile != null">ifra_file,</if>
+            <if test="otherFile != null">other_file,</if>
+            <if test="companyStandards != null">company_standards,</if>
+            <if test="submissionCode != null">submission_code,</if>
+            <if test="reachNo != null">reach_no,</if>
+            <if test="origin != null">origin,</if>
+            <if test="firstAid != null">first_aid,</if>
+            <if test="bomNote != null">bom_note,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="productType != null">product_type,</if>
+            <if test="submissionCodeSts != null">submission_code_sts,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">#{itemCode},</if>
+            <if test="itemNo != null and itemNo != ''">#{itemNo},</if>
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="productUseMethods != null and productUseMethods != ''">#{productUseMethods},</if>
+            <if test="itemShortName != null">#{itemShortName},</if>
+            <if test="itemSpecification != null">#{itemSpecification},</if>
+            <if test="itemType != null">#{itemType},</if>
+            <if test="itemOwn != null">#{itemOwn},</if>
+            <if test="categoryType != null">#{categoryType},</if>
+            <if test="customerItemCode != null">#{customerItemCode},</if>
+            <if test="mItemType != null">#{mItemType},</if>
+            <if test="sItemType != null">#{sItemType},</if>
+            <if test="colourNumber != null">#{colourNumber},</if>
+            <if test="appearance != null">#{appearance},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="whStockUnit != null">#{whStockUnit},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="brandOwn != null">#{brandOwn},</if>
+            <if test="price != null">#{price},</if>
+            <if test="tareWeight != null">#{tareWeight},</if>
+            <if test="grossWeight != null">#{grossWeight},</if>
+            <if test="netWeight != null">#{netWeight},</if>
+            <if test="lineNetWeight != null">#{lineNetWeight},</if>
+            <if test="identificationNetWeight != null">#{identificationNetWeight},</if>
+            <if test="fillingVolumeUpper != null">#{fillingVolumeUpper},</if>
+            <if test="fillingVolumeLower != null">#{fillingVolumeLower},</if>
+            <if test="fillingUnit != null">#{fillingUnit},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="density != null">#{density},</if>
+            <if test="imageUrl2 != null">#{imageUrl2},</if>
+            <if test="innerImageUrl != null">#{innerImageUrl},</if>
+            <if test="innerImageUrl2 != null">#{innerImageUrl2},</if>
+            <if test="description != null">#{description},</if>
+            <if test="netContent != null">#{netContent},</if>
+            <if test="percentage != null">#{percentage},</if>
+            <if test="barCode != null">#{barCode},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="property != null and property != ''">#{property},</if>
+            <if test="manufacturerId != null">#{manufacturerId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="warnToplimit != null">#{warnToplimit},</if>
+            <if test="warnLowerlimit != null">#{warnLowerlimit},</if>
+            <if test="content != null">#{content},</if>
+            <if test="storageCondition != null">#{storageCondition},</if>
+            <if test="placeOrigin != null">#{placeOrigin},</if>
+            <if test="introductionConditions != null">#{introductionConditions},</if>
+            <if test="introductionDate != null">#{introductionDate},</if>
+            <if test="effectiveDay != null">#{effectiveDay},</if>
+            <if test="needQuality != null">#{needQuality},</if>
+            <if test="needBarcodeStockout != null">#{needBarcodeStockout},</if>
+            <if test="needWeigh != null">#{needWeigh},</if>
+            <if test="needConfidential != null">#{needConfidential},</if>
+            <if test="vulgo != null">#{vulgo},</if>
+            <if test="meltingPoint != null">#{meltingPoint},</if>
+            <if test="particleSize != null">#{particleSize},</if>
+            <if test="conventionalPacking != null">#{conventionalPacking},</if>
+            <if test="msds != null">#{msds},</if>
+            <if test="coa != null">#{coa},</if>
+            <if test="tds != null">#{tds},</if>
+            <if test="attachmentUrl14 != null">#{attachmentUrl14},</if>
+            <if test="nonAnimalTest != null">#{nonAnimalTest},</if>
+            <if test="allergenInfo != null">#{allergenInfo},</if>
+            <if test="ifraFile != null">#{ifraFile},</if>
+            <if test="otherFile != null">#{otherFile},</if>
+            <if test="companyStandards != null">#{companyStandards},</if>
+            <if test="submissionCode != null">#{submissionCode},</if>
+            <if test="reachNo != null">#{reachNo},</if>
+            <if test="origin != null">#{origin},</if>
+            <if test="firstAid != null">#{firstAid},</if>
+            <if test="bomNote != null">#{bomNote},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="productType != null">#{productType},</if>
+            <if test="submissionCodeSts != null">#{submissionCodeSts},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseItem" parameterType="BaseItem">
+        update base_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">item_code = #{itemCode},</if>
+            <if test="itemNo != null and itemNo != ''">item_no = #{itemNo},</if>
+            <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+            <if test="productUseMethods != null and productUseMethods != ''">product_use_methods =
+                #{productUseMethods},
+            </if>
+            <if test="itemShortName != null">item_short_name = #{itemShortName},</if>
+            <if test="itemSpecification != null">item_specification = #{itemSpecification},</if>
+            <if test="itemType != null">item_type = #{itemType},</if>
+            <if test="itemOwn != null">item_own = #{itemOwn},</if>
+            <if test="categoryType != null">category_type = #{categoryType},</if>
+            <if test="customerItemCode != null">customer_item_code = #{customerItemCode},</if>
+            <if test="mItemType != null">m_item_type = #{mItemType},</if>
+            <if test="sItemType != null">s_item_type = #{sItemType},</if>
+            <if test="colourNumber != null">colour_number = #{colourNumber},</if>
+            <if test="appearance != null">appearance = #{appearance},</if>
+            <if test="specifications != null">specifications = #{specifications},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="whStockUnit != null">wh_stock_unit = #{whStockUnit},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="brandOwn != null">brand_own = #{brandOwn},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="tareWeight != null">tare_weight = #{tareWeight},</if>
+            <if test="grossWeight != null">gross_weight = #{grossWeight},</if>
+            <if test="netWeight != null">net_weight = #{netWeight},</if>
+            <if test="lineNetWeight != null">line_net_weight = #{lineNetWeight},</if>
+            <if test="identificationNetWeight != null">identification_net_weight = #{identificationNetWeight},</if>
+            <if test="fillingVolumeUpper != null">filling_volume_upper = #{fillingVolumeUpper},</if>
+            <if test="fillingVolumeLower != null">filling_volume_lower = #{fillingVolumeLower},</if>
+            <if test="fillingUnit != null">filling_unit = #{fillingUnit},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="density != null">density = #{density},</if>
+            <if test="imageUrl2 != null">image_url2 = #{imageUrl2},</if>
+            <if test="innerImageUrl != null">inner_image_url = #{innerImageUrl},</if>
+            <if test="innerImageUrl2 != null">inner_image_url2 = #{innerImageUrl2},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="netContent != null">net_content = #{netContent},</if>
+            <if test="percentage != null">percentage = #{percentage},</if>
+            <if test="barCode != null">bar_code = #{barCode},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="property != null and property != ''">property = #{property},</if>
+            <if test="manufacturerId != null">manufacturer_id = #{manufacturerId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="warnToplimit != null">warn_toplimit = #{warnToplimit},</if>
+            <if test="warnLowerlimit != null">warn_lowerlimit = #{warnLowerlimit},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="storageCondition != null">storage_condition = #{storageCondition},</if>
+            <if test="placeOrigin != null">place_origin = #{placeOrigin},</if>
+            <if test="introductionConditions != null">Introduction_conditions = #{introductionConditions},</if>
+            <if test="introductionDate != null">Introduction_date = #{introductionDate},</if>
+            <if test="effectiveDay != null">effective_Day = #{effectiveDay},</if>
+            <if test="needQuality != null">need_quality = #{needQuality},</if>
+            <if test="needBarcodeStockout != null">need_barcode_stockout = #{needBarcodeStockout},</if>
+            <if test="needWeigh != null">need_weigh = #{needWeigh},</if>
+            <if test="needConfidential != null">need_confidential = #{needConfidential},</if>
+            <if test="vulgo != null">vulgo = #{vulgo},</if>
+            <if test="meltingPoint != null">melting_point = #{meltingPoint},</if>
+            <if test="particleSize != null">particle_size = #{particleSize},</if>
+            <if test="conventionalPacking != null">conventional_packing = #{conventionalPacking},</if>
+            <if test="msds != null">msds = #{msds},</if>
+            <if test="coa != null">coa = #{coa},</if>
+            <if test="tds != null">tds = #{tds},</if>
+            <if test="attachmentUrl14 != null">attachment_url14 = #{attachmentUrl14},</if>
+            <if test="nonAnimalTest != null">non_animal_test = #{nonAnimalTest},</if>
+            <if test="allergenInfo != null">allergen_info = #{allergenInfo},</if>
+            <if test="ifraFile != null">ifra_file = #{ifraFile},</if>
+            <if test="otherFile != null">other_file = #{otherFile},</if>
+            <if test="companyStandards != null">company_standards = #{companyStandards},</if>
+            <if test="submissionCode != null">submission_code = #{submissionCode},</if>
+            <if test="reachNo != null">reach_no = #{reachNo},</if>
+            <if test="origin != null">origin = #{origin},</if>
+            <if test="firstAid != null">first_aid = #{firstAid},</if>
+            <if test="bomNote != null">bom_note = #{bomNote},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate(),
+            <if test="productType != null">product_type = #{productType},</if>
+            <if test="checkStatus != null">check_status = #{checkStatus},</if>
+            <if test="submissionCodeSts != null">submission_code_sts = #{submissionCodeSts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseItemById" parameterType="Long">
+        delete
+        from base_item
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseItemByIds" parameterType="String">
+        <!--        delete from base_item where id in-->
+        <!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+        <!--            #{id}-->
+        <!--        </foreach>-->
+        update base_item
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectItemInfoByItemCode" resultType="com.jotime.web.domain.base.BaseItem" resultMap="BaseItemVoResult">
+        <include refid="selectBaseItemVo"/>
+        where item_code = #{itemCode}
+    </select>
+
+    <select id="selectBaseItemByItemCode" resultType="com.jotime.web.domain.base.BaseItem" resultMap="BaseItemVoResult">
+        select bi.* from base_item bi
+        where bi.item_code = #{itemCode}
+        <if test="itemName != null  and itemName != ''">and bi.item_name= #{itemName}</if>
+        <if test="manufacturerCode != null and manufacturerCode != ''">and bi.manufacturer_id=(select bc.id from
+            base_customers bc where bc.customer_code=#{manufacturerCode})
+        </if>
+    </select>
+
+    <select id="selectItemInfoByItemId" resultType="com.jotime.web.domainVo.base.BaseItemVo">
+        select
+        t1.item_code,
+        t1.item_no,
+        t1.item_name,
+        t2.content,
+        t2.item_sort,
+        t1.id
+        from base_item as t1
+        Left JOIN base_bomdtl as t2 on t1.id = t2.item_id
+        <where>
+            t1.id in
+            <foreach item="itemId" collection="itemId" open="(" separator="," close=")">
+                #{itemId}
+            </foreach>
+        </where>
+        ORDER BY t2.item_sort
+    </select>
+    <select id="selectItemByItemType" resultType="com.jotime.web.domainVo.base.BaseItemVo">
+        <include refid="selectBaseItemVo"/>
+        where
+        item_type = #{itemType}
+        and status = 2
+    </select>
+    <select id="selectItemByColourNumber" resultType="com.jotime.web.domain.base.BaseItem">
+        <include refid="selectBaseItemVo"/>
+        where colour_number = #{colourNumber}
+    </select>
+
+    <select id="selectItem" resultType="com.jotime.web.domainVo.base.BaseItemSelectAllVo">
+        select id, item_code, IF(need_confidential = 2, '******', item_name) as item_name, price,submission_code_sts
+        from base_item #
+        where item_type in (1, 3, 4)
+    </select>
+
+    <select id="selectItemPriceByItemIds" parameterType="ItemStockAndPriceVo" resultMap="BaseItemPriceResult">
+        select t.id as item_id, t.item_code,t.item_name, t.item_type,
+               IFNULL(vus.usage_stock_qty,0) as usage_stock_qty,
+               IFNULL(pp.avg_price,0) as avg_price,
+               IFNULL(pp.last_price,0) as last_price,
+               IFNULL(gppur.purchase_in_qty,0) as purchase_in_qty
+        from base_item t
+             LEFT JOIN v_usage_stock vus on vus.item_id = t.id and vus.keep_type = #{keepType}
+             LEFT JOIN purchase_price pp on pp.item_id = t.id and pp.`status` = #{status}
+            LEFT JOIN (select pur.item_id, IFNULL(sum(pur.purchase_qty - (pur.deliver_qty + pur.count_qty + pur.good_qty + pur.stockin_good_qty + pur.sample_qty)),0) as purchase_in_qty
+                    from purchasedtl pur
+                    where pur.item_id in
+                    <foreach item="itemId" collection="itemIds" open="(" separator="," close=")">
+                        #{itemId}
+                    </foreach>
+                    and pur.status in(1,2)) gppur on  gppur.item_id = t.id
+        where t.id in
+            <foreach item="itemId" collection="itemIds" open="(" separator="," close=")">
+                #{itemId}
+            </foreach>
+    </select>
+</mapper>

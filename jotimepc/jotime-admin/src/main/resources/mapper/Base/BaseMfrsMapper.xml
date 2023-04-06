@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseMfrsMapper">
+
+    <resultMap type="BaseMfrs" id="BaseMfrsResult">
+        <result property="id" column="id"/>
+        <result property="mfrsCode" column="mfrs_code"/>
+        <result property="mfrsName" column="mfrs_name"/>
+        <result property="address" column="address"/>
+        <result property="contactPerson" column="contact_person"/>
+        <result property="contactTelephone" column="contact_telephone"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectBaseMfrsVo">
+        select id,
+               mfrs_code,
+               mfrs_name,
+               address,
+               contact_person,
+               contact_telephone,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from base_mfrs
+    </sql>
+
+    <select id="selectBaseMfrsList" parameterType="BaseMfrs" resultMap="BaseMfrsResult">
+        <include refid="selectBaseMfrsVo"/>
+        <where>
+            <if test="mfrsCode != null  and mfrsCode != ''">and mfrs_code = #{mfrsCode}</if>
+            <if test="mfrsName != null  and mfrsName != ''">and mfrs_name like concat('%', #{mfrsName}, '%')</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="contactPerson != null  and contactPerson != ''">and contact_person = #{contactPerson}</if>
+            <if test="contactTelephone != null  and contactTelephone != ''">and contact_telephone =
+                #{contactTelephone}
+            </if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseMfrsById" parameterType="Long" resultMap="BaseMfrsResult">
+        <include refid="selectBaseMfrsVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBaseMfrsByCode" parameterType="String" resultMap="BaseMfrsResult">
+        <include refid="selectBaseMfrsVo"/>
+        where mfrs_code = #{mfrsCode}
+    </select>
+
+    <insert id="insertBaseMfrs" parameterType="BaseMfrs" useGeneratedKeys="true" keyProperty="id">
+        insert into base_mfrs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mfrsCode != null and mfrsCode != ''">mfrs_code,</if>
+            <if test="mfrsName != null and mfrsName != ''">mfrs_name,</if>
+            <if test="address != null">address,</if>
+            <if test="contactPerson != null">contact_person,</if>
+            <if test="contactTelephone != null">contact_telephone,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mfrsCode != null and mfrsCode != ''">#{mfrsCode},</if>
+            <if test="mfrsName != null and mfrsName != ''">#{mfrsName},</if>
+            <if test="address != null">#{address},</if>
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactTelephone != null">#{contactTelephone},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateBaseMfrs" parameterType="BaseMfrs">
+        update base_mfrs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mfrsCode != null and mfrsCode != ''">mfrs_code = #{mfrsCode},</if>
+            <if test="mfrsName != null and mfrsName != ''">mfrs_name = #{mfrsName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactTelephone != null">contact_telephone = #{contactTelephone},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseMfrsById" parameterType="Long">
+#         delete
+#         from base_mfrs
+#         where id = #{id}
+        update base_mfrs
+        set
+            <!-- 禁用-->
+            status = 1
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseMfrsByIds" parameterType="String">
+<!--        delete from base_mfrs where id in-->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+       update base_mfrs
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseMfrsInfoByCode" parameterType="String" resultMap="BaseMfrsResult">
+        <include refid="selectBaseMfrsVo"/>
+        where mfrs_code = #{mfrsCode} limit 2
+    </select>
+    <select id="selectBaseMfrsInfoByName" parameterType="String" resultMap="BaseMfrsResult">
+        <include refid="selectBaseMfrsVo"/>
+        where mfrs_name = #{mfrsName} limit 2
+    </select>
+    <select id="selectMfrsInfoBySts" parameterType="Long" resultMap="BaseMfrsResult">
+        select id, mfrs_code, mfrs_name
+        from base_mfrs
+        where status = #{status}
+        order by mfrs_code asc
+    </select>
+</mapper>

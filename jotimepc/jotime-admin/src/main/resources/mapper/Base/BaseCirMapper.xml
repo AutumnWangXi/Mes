@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCirMapper">
+
+    <resultMap type="BaseCir" id="BaseCirResult">
+        <result property="id"    column="id"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="usedConclusionEn"    column="used_conclusion_en"    />
+        <result property="usedConclusionCn"    column="used_conclusion_cn"    />
+        <result property="safeNumber"    column="safe_number"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseCirVo">
+        select id, inci_name_en, used_conclusion_en, used_conclusion_cn, safe_number, create_by, create_time, update_by, update_time from base_cir
+    </sql>
+
+    <select id="selectBaseCirList" parameterType="BaseCir" resultMap="BaseCirResult">
+        <include refid="selectBaseCirVo"/>
+        <where>
+            <if test="inciNameEn != null  and inciNameEn != ''"> and inci_name_en = #{inciNameEn}</if>
+            <if test="usedConclusionEn != null  and usedConclusionEn != ''"> and used_conclusion_en = #{usedConclusionEn}</if>
+            <if test="usedConclusionCn != null  and usedConclusionCn != ''"> and used_conclusion_cn = #{usedConclusionCn}</if>
+            <if test="safeNumber != null  and safeNumber != ''"> and safe_number = #{safeNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCirById" parameterType="Long" resultMap="BaseCirResult">
+        <include refid="selectBaseCirVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectBaseCirByNameEn" parameterType="String" resultMap="BaseCirResult">
+        <include refid="selectBaseCirVo"/>
+        where inci_name_en = #{inciNameEn}
+    </select>
+
+    <insert id="insertBaseCir" parameterType="BaseCir" useGeneratedKeys="true" keyProperty="id">
+        insert into base_cir
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inciNameEn != null and inciNameEn != ''">inci_name_en,</if>
+            <if test="usedConclusionEn != null">used_conclusion_en,</if>
+            <if test="usedConclusionCn != null">used_conclusion_cn,</if>
+            <if test="safeNumber != null">safe_number,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inciNameEn != null and inciNameEn != ''">#{inciNameEn},</if>
+            <if test="usedConclusionEn != null">#{usedConclusionEn},</if>
+            <if test="usedConclusionCn != null">#{usedConclusionCn},</if>
+            <if test="safeNumber != null">#{safeNumber},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCir" parameterType="BaseCir">
+        update base_cir
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inciNameEn != null and inciNameEn != ''">inci_name_en = #{inciNameEn},</if>
+            <if test="usedConclusionEn != null">used_conclusion_en = #{usedConclusionEn},</if>
+            <if test="usedConclusionCn != null">used_conclusion_cn = #{usedConclusionCn},</if>
+            <if test="safeNumber != null">safe_number = #{safeNumber},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCirById" parameterType="Long">
+        delete from base_cir where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCirByIds" parameterType="String">
+        delete from base_cir where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

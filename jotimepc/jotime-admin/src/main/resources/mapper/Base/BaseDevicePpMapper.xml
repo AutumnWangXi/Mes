@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDevicePpMapper">
+
+    <resultMap type="BaseDevicePp" id="BaseDevicePpResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="paramSort"    column="param_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <resultMap type="BaseDevicePpVo" id="BaseDevicePpVoResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="paramSort"    column="param_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseDevicePpVo">
+        select id, device_id, group_name, param_sort, create_by, create_time, update_by, update_time from base_device_pp
+    </sql>
+
+    <select id="selectBaseDevicePpList" parameterType="BaseDevicePp" resultMap="BaseDevicePpResult">
+        <include refid="selectBaseDevicePpVo"/>
+        <where>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="groupName != null  and groupName != ''"> and group_name= #{groupName}</if>
+            <if test="paramSort != null "> and param_sort = #{paramSort}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseDevicePpVoList" parameterType="BaseDevicePpVo" resultMap="BaseDevicePpVoResult">
+        select p.id, p.device_id,d.device_name, p.group_name, p.param_sort, p.create_by, p.create_time, p.update_by, p.update_time from base_device_pp p
+        left join base_device d on(p.device_id=d.id)
+        <where>
+            <if test="deviceId != null  and deviceId != ''"> and p.device_id = #{deviceId}</if>
+            <if test="groupName != null  and groupName != ''"> and p.group_name like concat('%', #{groupName}, '%')</if>
+            <if test="paramSort != null "> and p.param_sort = #{paramSort}</if>
+        </where>
+    </select>
+
+
+    <select id="selectBaseDevicePpById" parameterType="Long" resultMap="BaseDevicePpResult">
+        <include refid="selectBaseDevicePpVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDevicePp" parameterType="BaseDevicePp" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device_pp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">device_id,</if>
+            <if test="groupName != null and groupName != ''">group_name,</if>
+            <if test="paramSort != null">param_sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
+            <if test="groupName != null and groupName != ''">#{groupName},</if>
+            <if test="paramSort != null">#{paramSort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseDevicePp" parameterType="BaseDevicePp">
+        update base_device_pp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">device_id = #{deviceId},</if>
+            <if test="groupName != null and groupName != ''">group_name = #{groupName},</if>
+            <if test="paramSort != null">param_sort = #{paramSort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDevicePpById" parameterType="Long">
+        delete from base_device_pp where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDevicePpByIds" parameterType="String">
+        delete from base_device_pp where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

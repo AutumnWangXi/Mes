@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.pd.PdProcessConfigurationMapper">
+
+    <resultMap type="PdProcessConfiguration" id="PdProcessConfigurationResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="processStepName" column="process_step_name"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="PdProcessConfigurationVo" id="PdProcessConfigurationVoResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="processStepName" column="process_step_name"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="preNode" column="pre_node"/>
+        <result property="preNodeName" column="pre_node_name"/>
+        <result property="nextNode" column="next_node"/>
+        <result property="nextNodeName" column="next_node_name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectPdProcessConfigurationVo">
+        select id,
+               module_id,
+               process_step_name,
+               ancestors,
+               pre_node,
+               next_node,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from pd_process_configuration
+    </sql>
+
+    <select id="selectPdProcessConfigurationVoList" parameterType="PdProcessConfigurationVo"
+            resultMap="PdProcessConfigurationVoResult">
+        select ppc.id,
+        ppc.module_id,
+        ppc.process_step_name,
+        ppc.ancestors,
+        ppc.pre_node,
+        ppc.next_node,
+        ppc.status,
+        ppc.note,
+        ppc.create_by,
+        ppc.create_time,
+        ppc.update_by,
+        ppc.update_time,
+        ppn.node_name as pre_node_name,
+        ppnt.node_name as next_node_name,
+        pm.module_name
+        from pd_process_configuration ppc
+        left join pd_module pm on ppc.module_id = pm.id
+        left join pd_process_node ppn on ppc.pre_node = ppn.id
+        left join pd_process_node ppnt on ppc.next_node = ppnt.id
+        <where>
+            <if test="moduleId != null ">and ppc.module_id = #{moduleId}</if>
+            <if test="processStepName != null  and processStepName != ''">and ppc.process_step_name like concat('%',
+                #{processStepName}, '%')
+            </if>
+            <if test="preNodeName != null  and preNodeName != ''">and pre_node_name like concat('%',
+                #{preNodeName}, '%')
+            </if>
+            <if test="nextNodeName != null  and nextNodeName != ''">and next_node_name like concat('%',
+                #{nextNodeName}, '%')
+            </if>
+            <if test="moduleName != null and moduleName != ''">and module_name like concat('%',#{moduleName}, '%')</if>
+            <if test="ancestors != null  and ancestors != ''">
+                and FIND_IN_SET (#{ancestors},ppc.ancestors)
+
+            </if>
+            <if test="preNode != null ">and pre_node = #{preNode}</if>
+            <if test="nextNode != null ">and next_node = #{nextNode}</if>
+            <if test="status != null ">and ppc.status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdProcessConfigurationList" parameterType="PdProcessConfiguration"
+            resultMap="PdProcessConfigurationResult">
+        <include refid="selectPdProcessConfigurationVo"/>
+        <where>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="processStepName != null  and processStepName != ''">and process_step_name like concat('%',
+                #{processStepName}, '%')
+            </if>
+            <if test="ancestors != null  and ancestors != ''">and ancestors = #{ancestors}</if>
+            <if test="preNode != null ">and pre_node = #{preNode}</if>
+            <if test="nextNode != null ">and next_node = #{nextNode}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdProcessConfigurationById" parameterType="Long" resultMap="PdProcessConfigurationResult">
+        <include refid="selectPdProcessConfigurationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPdProcessConfiguration" parameterType="PdProcessConfiguration" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into pd_process_configuration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">module_id,</if>
+            <if test="processStepName != null">process_step_name,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="preNode != null">pre_node,</if>
+            <if test="nextNode != null">next_node,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="processStepName != null">#{processStepName},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="preNode != null">#{preNode},</if>
+            <if test="nextNode != null">#{nextNode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePdProcessConfiguration" parameterType="PdProcessConfiguration">
+        update pd_process_configuration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="processStepName != null">process_step_name = #{processStepName},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="preNode != null">pre_node = #{preNode},</if>
+            <if test="nextNode != null">next_node = #{nextNode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdProcessConfigurationById" parameterType="Long">
+        delete
+        from pd_process_configuration
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePdProcessConfigurationByIds" parameterType="String">
+        delete from pd_process_configuration where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.VItemMapper">
+    <resultMap type="com.jotime.web.domain.base.VItem" id="VItemResult">
+        <result property="itemId" column="item_id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemType" column="item_type"/>
+        <result property="productType" column="product_type"/>
+        <result property="unit" column="unit"/>
+        <result property="whStockUnit" column="wh_stock_unit"/>
+        <result property="discount" column="discount"/>
+        <result property="barCode" column="bar_code"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="manufacturerId" column="manufacturer_id"/>
+        <result property="needQuality" column="need_quality"/>
+        <result property="needBarcodeStockout" column="need_barcode_stockout"/>
+        <result property="needWeigh" column="need_weigh"/>
+        <result property="needConfidential" column="need_confidential"/>
+    </resultMap>
+
+    <resultMap type="com.jotime.web.domainVo.base.VItemVo" id="VItemVoResult">
+        <result property="itemId" column="item_id"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemType" column="item_type"/>
+        <result property="productType" column="product_type"/>
+        <result property="unit" column="unit"/>
+        <result property="whStockUnit" column="wh_stock_unit"/>
+        <result property="discount" column="discount"/>
+        <result property="barCode" column="bar_code"/>
+        <result property="itemNo" column="item_no"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="manufacturerId" column="manufacturer_id"/>
+        <result property="needQuality" column="need_quality"/>
+        <result property="needBarcodeStockout" column="need_barcode_stockout"/>
+        <result property="needWeigh" column="need_weigh"/>
+        <result property="needConfidential" column="need_confidential"/>
+    </resultMap>
+
+    <sql id="selectVItemVo">
+        select
+           item_id,
+           item_code,
+           item_name,
+           item_type,
+           product_type,
+           unit,
+           wh_stock_unit,
+           discount,
+           bar_code,
+           item_no,
+           need_confidential,
+           need_weigh,
+           need_barcode_stockout,
+           need_quality,
+           manufacturer_id,
+           supplier_id
+        from v_item
+    </sql>
+
+
+
+    <select id="selectItemNameList" resultMap="VItemVoResult">
+        <include refid="selectVItemVo"/>
+        <where>
+        <if test="itemId != null  and itemId != ''">and item_id = #{itemId}</if>
+        <if test="itemCode != null  and itemCode != ''">and item_code={itemCode}</if>
+        <if test="itemName != null  and itemName != ''">and item_name={itemName}</if>
+        <if test="itemType != null ">and item_type={itemType}</if>
+        <if test="productType != null ">and product_type={productType}</if>
+        <if test="unit != null ">and unit={unit}</if>
+        <if test="whStockUnit != null ">and wh_stock_unit={whStockUnit}</if>
+        <if test="barCode != null ">and bar_code={barCode}</if>
+        <if test="itemNo != null ">and item_no={itemNo}</if>
+        </where>
+    </select>
+
+
+    <select id="selecItemByItemId" parameterType="Long" resultMap="VItemVoResult">
+        <include refid="selectVItemVo"/>
+        where item_id = #{itemId}
+    </select>
+
+    <select id="getItemTypeList" parameterType="Long" resultMap="VItemVoResult">
+            select
+                item_id,
+                item_type
+            from v_item
+            where
+            item_id in
+            <foreach item="id" collection="itemIdList" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+    </select>
+
+
+</mapper>

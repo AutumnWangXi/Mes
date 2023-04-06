@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.statistics.FormulaStatisticsMapper">
+
+    <resultMap type="com.jotime.web.domainVo.statistics.FormulaStatisticsVo" id="FormulaStatisticsVoResult">
+        <result property="formulaName"    column="formulaName"    />
+        <result property="formulaCount"    column="formulaCount"    />
+        <result property="formulaCount"    column="formulaCount"    />
+        <result property="eeId"    column="ee_id"    />
+        <result property="eeCode"    column="ee_code"    />
+        <result property="eeName"    column="ee_name"    />
+        <result property="formulaCount"    column="formulaCount"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptCode"    column="dept_Code"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="jobStatus"    column="job_status"    />
+    </resultMap>
+
+    <select id="selectFormulaCount" parameterType="FormulaStatistics" resultMap="FormulaStatisticsVoResult">
+        select '临时配方' as formulaName, count(t.id) as formulaCount, 1 as num
+        from rd_formulatask t
+        where t.status = #{status}
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+           and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        UNION ALL
+        select '一期配方' as formulaName, count(t.id) as formulaCount, 2 as num
+        from base_initial_formula t
+        where t.status = #{status1}
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        UNION ALL
+        select '二期配方' as formulaName,count(t.id) as formulaCount, 3 as num
+        from base_bom t
+        where t.status = #{status2}
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        UNION ALL
+        select '观察配方' as formulaName, count(t.id) as formulaCount, 4 as num
+        from base_bom t
+        where t.status = #{status3}
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        UNION ALL
+        select '成熟配方' as formulaName, count(t.id) as formulaCount, 5 as num
+        from base_bom t
+        where t.status = #{status4}
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        order by num
+    </select>
+    <select id="selectRdEeFormulaSum" parameterType="FormulaStatistics" resultMap="FormulaStatisticsVoResult">
+        select aa.ee_id, aa.attackCount,aa.formulaCount,aa.innovativeCount, emp.employee_code as ee_code,emp.employee_name as ee_name
+        from (select t.ee_id,
+        sum(ifnull(t.plan_attack_formulation,0)) as attackCount,
+        sum(ifnull(t.plan_formula_formulation,0)) as formulaCount,
+        sum(ifnull(t.plan_innovative_formulation,0)) as innovativeCount
+        from rd_ee_workinfo t
+        <if test="deptId != null">
+            join rd_dept_formulatask dept on t.depttask_no = dept.depttask_no and dept.dept_id = #{deptId}
+        </if>
+        where t.`status` in
+        <foreach item="status" collection="arrStatus" open="(" separator="," close=")">
+            #{status}
+        </foreach>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        group by t.ee_id) aa
+        LEFT JOIN employee_info emp on aa.ee_id = emp.id
+    </select>
+    <select id="selectRdDeptFormulaSum" parameterType="FormulaStatistics" resultMap="FormulaStatisticsVoResult">
+        select dept.dept_id,
+        sum(ifnull(t.plan_attack_formulation,0)) as attackCount,
+        sum(ifnull(t.plan_formula_formulation,0)) as formulaCount,
+        sum(ifnull(t.plan_innovative_formulation,0)) as innovativeCount
+        from rd_ee_workinfo t
+        join rd_dept_formulatask dept on t.depttask_no = dept.depttask_no
+        <if test="deptId != null">
+            and dept.dept_id = #{deptId}
+        </if>
+        where t.`status` in
+        <foreach item="status" collection="arrStatus" open="(" separator="," close=")">
+            #{status}
+        </foreach>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        group by dept.dept_id
+    </select>
+    <select id="selectRdEmployee" parameterType="FormulaStatistics" resultMap="FormulaStatisticsVoResult">
+        select dept.dept_name,dept.dept_code,dept.dept_id, t.employee_code as ee_code, t.job_status, t.employee_name as ee_name, t.id as ee_id
+        from employee_info t
+        join sys_dept dept on t.dept_id = dept.dept_id
+        <if test="parentId != null">
+            and dept.parent_id = #{parentId}
+        </if>
+        <if test="deptId != null">
+            and dept.dept_id = #{deptId}
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''">
+            and IFNULL(date_format(t.dimission_date,'%y%m%d'),date_format('9999/12/31','%y%m%d')) &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''">
+            and date_format(t.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+    </select>
+</mapper>

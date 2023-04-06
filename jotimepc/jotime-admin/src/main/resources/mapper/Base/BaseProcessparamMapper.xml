@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseProcessparamMapper">
+
+    <resultMap type="BaseProcessparam" id="BaseProcessparamResult">
+        <result property="id"    column="id"    />
+        <result property="paramValue"    column="param_value"    />
+        <result property="paramName"    column="param_name"    />
+        <result property="unit"    column="unit"    />
+        <result property="paramSort"    column="param_sort"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseProcessparamVo">
+        select id, param_value, param_name, unit, param_sort, note, create_by, create_time, update_by, update_time from base_processparam
+    </sql>
+
+    <select id="selectBaseProcessparamList" parameterType="BaseProcessparam" resultMap="BaseProcessparamResult">
+        <include refid="selectBaseProcessparamVo"/>
+        <where>
+            <if test="paramValue != null  and paramValue != ''"> and param_value = #{paramValue}</if>
+            <if test="paramName != null  and paramName != ''"> and param_name like concat('%', #{paramName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBaseProcessparamById" parameterType="Integer" resultMap="BaseProcessparamResult">
+        <include refid="selectBaseProcessparamVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseProcessparam" parameterType="BaseProcessparam" useGeneratedKeys="true" keyProperty="id">
+        insert into base_processparam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paramValue != null">param_value,</if>
+            <if test="paramName != null">param_name,</if>
+            <if test="unit != null">unit,</if>
+            <if test="paramSort != null">param_sort,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paramValue != null">#{paramValue},</if>
+            <if test="paramName != null">#{paramName},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="paramSort != null">#{paramSort},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseProcessparam" parameterType="BaseProcessparam">
+        update base_processparam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paramValue != null">param_value = #{paramValue},</if>
+            <if test="paramName != null">param_name = #{paramName},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="paramSort != null">param_sort = #{paramSort},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseProcessparamById" parameterType="Integer">
+        delete from base_processparam where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseProcessparamByIds" parameterType="String">
+        delete from base_processparam where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseSupplierMapper">
+
+    <resultMap type="BaseSupplier" id="BaseSupplierResult">
+        <result property="id"    column="id"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="address"    column="address"    />
+
+        <result property="companyTelephone"    column="company_telephone"    />
+        <result property="tin"    column="tin"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="caccountNumber"    column="caccount_number"    />
+        <result property="recipientAddress"    column="recipient_address"    />
+        <result property="terms"    column="terms"    />
+
+        <result property="businessLicense"    column="business_license"    />
+        <result property="legalRepresentative"    column="legal_representative"    />
+        <result property="contactMail"    column="contact_mail"    />
+
+        <result property="contactPerson"    column="contact_person"    />
+        <result property="contactTelephone"    column="contact_telephone"    />
+        <result property="supplierItemType"    column="supplier_item_type"    />
+        <result property="supplierLevel"    column="supplier_level"    />
+        <result property="supplyItemName"    column="supply_item_name"    />
+        <result property="checkStatus"    column="check_status"    />
+        <result property="checkId"    column="check_id"    />
+        <result property="checker"    column="checker"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="checkNote"    column="check_note"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseSupplierVo">
+        select id, supplier_code, check_note,supplier_name, address,business_license,legal_representative,contact_mail,company_telephone,tin,bank_name,caccount_number,recipient_address,terms, contact_person, contact_telephone, supplier_item_type, supplier_level, supply_item_name, check_status, check_id, checker, check_time, status, note, create_by, create_time, update_by, update_time from base_supplier
+    </sql>
+
+    <select id="selectBaseSupplierList" parameterType="BaseSupplier" resultMap="BaseSupplierResult">
+        <include refid="selectBaseSupplierVo"/>
+        <where>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="companyTelephone != null  and companyTelephone != ''"> and company_telephone = #{companyTelephone}</if>
+            <if test="businessLicense != null  and businessLicense != ''"> and business_license = #{businessLicense}</if>
+            <if test="legalRepresentative != null  and legalRepresentative != ''"> and legal_representative = #{legalRepresentative}</if>
+            <if test="contactMail != null  and contactMail != ''"> and contact_mail = #{contactMail}</if>
+            <if test="tin != null  and tin != ''"> and tin = #{tin}</if>
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="caccountNumber != null  and caccountNumber != ''"> and caccount_number = #{caccountNumber}</if>
+            <if test="recipientAddress != null  and recipientAddress != ''"> and recipient_address = #{recipientAddress}</if>
+            <if test="terms != null  and terms != ''"> and terms = #{terms}</if>
+            <if test="contactPerson != null  and contactPerson != ''"> and contact_person = #{contactPerson}</if>
+            <if test="contactTelephone != null  and contactTelephone != ''"> and contact_telephone = #{contactTelephone}</if>
+            <if test="supplierItemType != null  and supplierItemType != ''"> and supplier_item_type = #{supplierItemType}</if>
+            <if test="supplierLevel != null "> and supplier_level = #{supplierLevel}</if>
+            <if test="supplyItemName != null  and supplyItemName != ''"> and supply_item_name like concat('%', #{supplyItemName}, '%')</if>
+            <if test="checkStatus != null  and checkStatus != ''"> and check_status = #{checkStatus}</if>
+            <if test="checkId != null "> and check_id = #{checkId}</if>
+            <if test="checker != null  and checker != ''"> and checker = #{checker}</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseSupplierById" parameterType="Long" resultMap="BaseSupplierResult">
+        <include refid="selectBaseSupplierVo"/>
+        where id = #{id}
+    </select>
+    <select id="checkSupplierNameUnique" parameterType="String" resultMap="BaseSupplierResult">
+        <include refid="selectBaseSupplierVo"/>
+        where supplier_name = #{supplierName} limit 1
+    </select>
+    <insert id="insertBaseSupplier" parameterType="BaseSupplier" useGeneratedKeys="true" keyProperty="id">
+        insert into base_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplierCode != null">supplier_code,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="address != null">address,</if>
+            <if test="companyTelephone != null">company_telephone,</if>
+
+            <if test="businessLicense != null">business_license,</if>
+            <if test="legalRepresentative != null">legal_representative,</if>
+            <if test="contactMail != null">contact_mail,</if>
+
+            <if test="tin != null">tin,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="caccountNumber != null">caccount_number,</if>
+            <if test="recipientAddress != null">recipient_address,</if>
+            <if test="terms != null">terms,</if>
+            <if test="contactPerson != null">contact_person,</if>
+            <if test="contactTelephone != null">contact_telephone,</if>
+            <if test="supplierItemType != null">supplier_item_type,</if>
+            <if test="supplierLevel != null">supplier_level,</if>
+            <if test="supplyItemName != null">supply_item_name,</if>
+            <if test="checkStatus != null">check_status,</if>
+            <if test="checkId != null">check_id,</if>
+            <if test="checker != null">checker,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplierCode != null">#{supplierCode},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="address != null">#{address},</if>
+
+            <if test="companyTelephone != null">#{companyTelephone},</if>
+            <if test="businessLicense != null">#{businessLicense},</if>
+            <if test="legalRepresentative != null">#{legalRepresentative},</if>
+            <if test="contactMail != null">#{contactMail},</if>
+            <if test="tin != null">#{tin},</if>
+
+            <if test="bankName != null">#{bankName},</if>
+            <if test="caccountNumber != null">#{caccountNumber},</if>
+            <if test="recipientAddress != null">#{recipientAddress},</if>
+            <if test="terms != null">#{terms},</if>
+
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactTelephone != null">#{contactTelephone},</if>
+            <if test="supplierItemType != null">#{supplierItemType},</if>
+            <if test="supplierLevel != null">#{supplierLevel},</if>
+            <if test="supplyItemName != null">#{supplyItemName},</if>
+            <if test="checkStatus != null">#{checkStatus},</if>
+            <if test="checkId != null">#{checkId},</if>
+            <if test="checker != null">#{checker},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseSupplier" parameterType="BaseSupplier">
+        update base_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierCode != null">supplier_code = #{supplierCode},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="companyTelephone != null">company_telephone = #{companyTelephone},</if>
+            <if test="businessLicense != null">business_license = #{businessLicense},</if>
+            <if test="legalRepresentative != null">legal_representative = #{legalRepresentative},</if>
+            <if test="contactMail != null">contact_mail = #{contactMail},</if>
+            <if test="tin != null">tin = #{tin},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="caccountNumber != null">caccount_number = #{caccountNumber},</if>
+            <if test="recipientAddress != null">recipient_address = #{recipientAddress},</if>
+            <if test="terms != null">terms = #{terms},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactTelephone != null">contact_telephone = #{contactTelephone},</if>
+            <if test="supplierItemType != null">supplier_item_type = #{supplierItemType},</if>
+            <if test="supplierLevel != null">supplier_level = #{supplierLevel},</if>
+            <if test="supplyItemName != null">supply_item_name = #{supplyItemName},</if>
+            <if test="checkStatus != null">check_status = #{checkStatus},</if>
+            <if test="checkId != null">check_id = #{checkId},</if>
+            <if test="checker != null">checker = #{checker},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="checkNote != null">check_note = #{checkNote},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseSupplierById" parameterType="Long">
+        delete from base_supplier where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseSupplierByIds" parameterType="String">
+<!--        delete from base_supplier where id in-->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+
+        update base_supplier
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateSupplierCheckSts" parameterType="BaseSupplier">
+        update base_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            check_status = #{checkStatus},
+            check_id = #{checkId},
+            checker = #{checker},
+            check_time = sysdate(),
+            check_note = #{checkNote},
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+     <!--条件框筛选条件审核通过的-->
+    <select id="selectSupplierName" parameterType="Integer" resultType="com.jotime.web.domain.base.BaseSupplier">
+        select id,supplier_code,supplier_name from base_supplier
+        where check_status = 3 and status = #{status}
+    </select>
+
+    <select id="selectBaseCustomersByCode" parameterType="String" resultMap="BaseSupplierResult">
+        <include refid="selectBaseSupplierVo"/>
+        where supplier_code = #{code}
+    </select>
+
+    <select id="selectBaseSupplierByName" parameterType="String" resultMap="BaseSupplierResult">
+        <include refid="selectBaseSupplierVo"/>
+        where supplier_name = #{supplierName}
+    </select>
+
+</mapper>

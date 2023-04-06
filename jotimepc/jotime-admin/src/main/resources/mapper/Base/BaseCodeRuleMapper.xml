@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCodeRuleMapper">
+    
+    <resultMap type="com.jotime.web.domainVo.base.BaseCodeRuleVo" id="BaseCodeRuleVoResult">
+        <result property="id"    column="id"    />
+        <result property="ruleNo"    column="rule_no"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="resetRule"    column="reset_rule"    />
+        <result property="curCode"    column="cur_code"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseCodeRuleVo">
+        select id, rule_no, rule_name, reset_rule, cur_code, status, note, create_by, create_time, update_by, update_time from base_code_rule
+    </sql>
+
+    <select id="selectBaseCodeRuleList" parameterType="com.jotime.web.domain.base.BaseCodeRule" resultMap="BaseCodeRuleVoResult">
+        <include refid="selectBaseCodeRuleVo"/>
+        <where>  
+            <if test="ruleNo != null  and ruleNo != ''"> and rule_no = #{ruleNo}</if>
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="resetRule != null  and resetRule != ''"> and reset_rule = #{resetRule}</if>
+            <if test="curCode != null  and curCode != ''"> and cur_code = #{curCode}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseCodeRuleById" parameterType="Integer" resultMap="BaseCodeRuleVoResult">
+        <include refid="selectBaseCodeRuleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseCodeRule" parameterType="com.jotime.web.domain.base.BaseCodeRule" useGeneratedKeys="true" keyProperty="id">
+        insert into base_code_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleNo != null and ruleNo != ''">rule_no,</if>
+            <if test="ruleName != null and ruleName != ''">rule_name,</if>
+            <if test="resetRule != null">reset_rule,</if>
+            <if test="curCode != null">cur_code,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleNo != null and ruleNo != ''">#{ruleNo},</if>
+            <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+            <if test="resetRule != null">#{resetRule},</if>
+            <if test="curCode != null">#{curCode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCodeRule" parameterType="com.jotime.web.domain.base.BaseCodeRule">
+        update base_code_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleNo != null and ruleNo != ''">rule_no = #{ruleNo},</if>
+            <if test="ruleName != null and ruleName != ''">rule_name = #{ruleName},</if>
+            <if test="resetRule != null">reset_rule = #{resetRule},</if>
+            <if test="curCode != null">cur_code = #{curCode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCodeRuleById" parameterType="Integer">
+        delete from base_code_rule where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCodeRuleByIds" parameterType="String">
+<!--        delete from base_code_rule where id in -->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+        update base_code_rule
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

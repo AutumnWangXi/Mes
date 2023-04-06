@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDeviceMapper">
+
+    <resultMap type="BaseDevice" id="BaseDeviceResult">
+        <result property="id"    column="id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="qrCode"    column="qr_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceModel"    column="device_model"    />
+        <result property="deviceGroup"    column="device_group"    />
+        <result property="purchaseDate"    column="purchase_date"    />
+        <result property="maximumProduction"    column="maximum_production"    />
+        <result property="unit"    column="unit"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="lineId"    column="line_id"    />
+        <result property="workshopId"    column="workshop_id"    />
+        <result property="content"    column="content"    />
+        <result property="maintenanceDate"    column="maintenance_date"    />
+        <result property="maintenanceCycle"    column="maintenance_cycle"    />
+        <result property="nextMaintenanceDate"    column="next_maintenance_date"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="twoNdMaintenanceCycle"    column="two_nd_maintenance_cycle"    />
+        <result property="nextTwoNdMaintenanceDate"    column="next_two_nd_maintenance_date"    />
+        <result property="deviceClass"    column="device_class"    />
+        <result property="deviceMfrs"    column="device_mfrs"    />
+        <result property="pdDate"    column="pd_date"    />
+        <result property="contactTelephone"    column="contact_telephone"    />
+        <result property="deviceLeaderId"    column="device_leader_id"    />
+        <result property="twoDeviceLeaderId"    column="two_device_leader_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="BaseDeviceVos" id="BaseDeviceVoResult">
+        <result property="id"    column="id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="qrCode"    column="qr_code"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceModel"    column="device_model"    />
+        <result property="deviceGroup"    column="device_group"    />
+        <result property="purchaseDate"    column="purchase_date"    />
+        <result property="maximumProduction"    column="maximum_production"    />
+        <result property="unit"    column="unit"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="lineId"    column="line_id"    />
+        <result property="lineName"    column="line_name"    />
+        <result property="workshopId"    column="workshop_id"    />
+        <result property="workshopName"    column="workshop_name"    />
+        <result property="content"    column="content"    />
+        <result property="maintenanceDate"    column="maintenance_date"    />
+        <result property="maintenanceCycle"    column="maintenance_cycle"    />
+        <result property="nextMaintenanceDate"    column="next_maintenance_date"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="twoNdMaintenanceCycle"    column="two_nd_maintenance_cycle"    />
+        <result property="nextTwoNdMaintenanceDate"    column="next_two_nd_maintenance_date"    />
+        <result property="deviceClass"    column="device_class"    />
+        <result property="deviceMfrs"    column="device_mfrs"    />
+        <result property="pdDate"    column="pd_date"    />
+        <result property="contactTelephone"    column="contact_telephone"    />
+        <result property="deviceLeaderId"    column="device_leader_id"    />
+        <result property="deviceLeaderName"    column="device_leader_name"    />
+        <result property="twoDeviceLeaderId"    column="two_device_leader_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <sql id="selectBaseDeviceVo">
+        select id, device_code,qr_code, device_name, device_model, device_group, purchase_date, maximum_production,unit,  device_type, line_id,workshop_id, content, maintenance_date, maintenance_cycle, next_maintenance_date, status, note, two_nd_maintenance_cycle,next_two_nd_maintenance_date,device_mfrs, pd_date, contact_telephone, device_leader_id,two_device_leader_id,device_class,create_by, create_time, update_by, update_time from base_device
+    </sql>
+
+    <select id="selectBaseDeviceList" parameterType="BaseDevice" resultMap="BaseDeviceResult">
+        <include refid="selectBaseDeviceVo"/>
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="qrCode != null  and qrCode != ''"> and qr_code = #{qrCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deviceName != null  and deviceModel != ''"> and device_model like concat('%', #{deviceModel}, '%')</if>
+            <if test="deviceGroup != null  and deviceGroup != ''"> and device_group = #{deviceGroup}</if>
+            <if test="deviceType != null "> and device_type = #{deviceType}</if>
+            <if test="purchaseDate != null "> and purchase_date = #{purchaseDate}</if>
+            <if test="maximumProduction != null "> and maximum_production = #{maximumProduction}</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="lineId != null "> and line_id = #{lineId}</if>
+            <if test="workshopId != null "> and workshop_id = #{workshopId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="maintenanceDate != null "> and maintenance_date = #{maintenanceDate}</if>
+            <if test="maintenanceCycle != null "> and maintenance_cycle = #{maintenanceCycle}</if>
+            <if test="nextMaintenanceDate != null "> and next_maintenance_date = #{nextMaintenanceDate}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="twoNdMaintenanceCycle != null "> and two_nd_maintenance_cycle = #{twoNdMaintenanceCycle}</if>
+            <if test="nextTwoNdMaintenanceDate != null "> and next_two_nd_maintenance_date = #{nextTwoNdMaintenanceDate}</if>
+            <if test="deviceClass != null  and deviceClass != ''"> and device_class = #{deviceClass}</if>
+            <if test="deviceMfrs != null  and deviceMfrs != ''"> and device_mfrs = #{deviceMfrs}</if>
+            <if test="pdDate != null "> and pd_date = #{pdDate}</if>
+            <if test="contactTelephone != null  and contactTelephone != ''"> and contact_telephone = #{contactTelephone}</if>
+            <if test="deviceLeaderId != null "> and device_leader_id = #{deviceLeaderId}</if>
+            <if test="twoDeviceLeaderId != null "> and two_device_leader_id = #{twoDeviceLeaderId}</if>
+        </where>
+    </select>
+    <select id="selectBaseDeviceVoList" parameterType="BaseDevice" resultMap="BaseDeviceVoResult">
+        select d.id, d.device_code,d.qr_code, d.device_name, d.device_model,d.device_type,d.device_group, d.purchase_date, d.maximum_production,d.unit,  d.line_id,d.workshop_id, d.content,
+               d.maintenance_date, d.maintenance_cycle, d.next_maintenance_date, d.status, d.note,d.two_nd_maintenance_cycle,
+               d.next_two_nd_maintenance_date,d.device_mfrs, d.pd_date, d.contact_telephone,d.device_class, d.device_leader_id, d.create_by,
+               d.create_time, d.update_by, d.update_time,e.employee_name as device_leader_name,line.line_name,w.workshop_name from base_device d
+              LEFT JOIN base_device_type type on(type.device_type = d.device_type)
+              LEFT JOIN base_device_typedtl tdtl on(tdtl.type_value = d.device_group and type.device_type = tdtl.device_type)
+              LEFT JOIN base_line line ON(d.line_id = line.id)
+              LEFT JOIN base_workshop w on(d.workshop_id = w.id)
+              LEFT JOIN employee_info e on(e.id = d.device_leader_id)
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and d.device_code = #{deviceCode}</if>
+            <if test="qrCode != null  and qrCode != ''"> and d.qr_code = #{qrCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and d.device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and d.device_model like concat('%', #{deviceModel}, '%')</if>
+            <if test="deviceGroup != null  and deviceGroup != ''"> and d.device_group = #{deviceGroup}</if>
+            <if test="purchaseDate != null "> and d.purchase_date = #{purchaseDate}</if>
+            <if test="maximumProduction != null "> and d.maximum_production = #{maximumProduction}</if>
+            <if test="unit != null  and unit != ''"> and d.unit = #{unit}</if>
+            <if test="deviceType != null "> and d.device_type = #{deviceType}</if>
+            <if test="lineId != null "> and d.line_id = #{lineId}</if>
+            <if test="workshopId != null "> and d.workshop_id = #{workshopId}</if>
+            <if test="content != null  and content != ''"> and d.content = #{content}</if>
+            <if test="maintenanceDate != null "> and d.maintenance_date = #{maintenanceDate}</if>
+            <if test="maintenanceCycle != null "> and d.maintenance_cycle = #{maintenanceCycle}</if>
+            <if test="nextMaintenanceDate != null "> and d.next_maintenance_date = #{nextMaintenanceDate}</if>
+            <if test="status != null  and status != ''"> and d.status = #{status}</if>
+            <if test="note != null  and note != ''"> and d.note = #{note}</if>
+            <if test="twoNdMaintenanceCycle != null "> and d.two_nd_maintenance_cycle = #{twoNdMaintenanceCycle}</if>
+            <if test="nextTwoNdMaintenanceDate != null "> and d.next_two_nd_maintenance_date = #{nextTwoNdMaintenanceDate}</if>
+            <if test="deviceClass != null  and deviceClass != ''"> and d.device_class = #{deviceClass}</if>
+            <if test="deviceMfrs != null  and deviceMfrs != ''"> and d.device_mfrs = #{deviceMfrs}</if>
+            <if test="pdDate != null "> and d.pd_date = #{pdDate}</if>
+            <if test="contactTelephone != null  and contactTelephone != ''"> and d.contact_telephone = #{contactTelephone}</if>
+            <if test="deviceLeaderId != null "> and d.device_leader_id = #{deviceLeaderId}</if>
+            <if test="twoDeviceLeaderId != null "> and d.two_device_leader_id = #{twoDeviceLeaderId}</if>
+        </where>
+    </select>
+<!--    查询设备组对应设备-->
+    <select id="selectGroupDevice" parameterType="Long" resultMap="BaseDeviceResult">
+        select d.* from base_device d ,(select * FROM base_device_typedtl WHERE id = #{id}) t  WHERE d.device_group = t.type_value and d.device_type = t.device_type
+    </select>
+    <select id="selectBaseDeviceById" parameterType="Long" resultMap="BaseDeviceResult">
+        <include refid="selectBaseDeviceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDevice" parameterType="BaseDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null">device_code,</if>
+            <if test="qrCode != null">qr_code,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceModel != null">device_model,</if>
+            <if test="deviceGroup != null">device_group,</if>
+            <if test="purchaseDate != null">purchase_date,</if>
+            <if test="maximumProduction != null">maximum_production,</if>
+            <if test="unit != null">unit,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="lineId != null">line_id,</if>
+            <if test="workshopId != null">workshop_id,</if>
+            <if test="content != null">content,</if>
+            <if test="maintenanceDate != null">maintenance_date,</if>
+            <if test="maintenanceCycle != null">maintenance_cycle,</if>
+            <if test="nextMaintenanceDate != null">next_maintenance_date,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="twoNdMaintenanceCycle != null">two_nd_maintenance_cycle,</if>
+            <if test="nextTwoNdMaintenanceDate != null">next_two_nd_maintenance_date,</if>
+            <if test="deviceClass != null">device_class,</if>
+            <if test="deviceMfrs != null">device_mfrs,</if>
+            <if test="pdDate != null">pd_date,</if>
+            <if test="contactTelephone != null">contact_telephone,</if>
+            <if test="deviceLeaderId != null">device_leader_id,</if>
+            <if test="twoDeviceLeaderId != null">two_device_leader_id,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="qrCode != null">#{qrCode},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceModel != null">#{deviceModel},</if>
+            <if test="deviceGroup != null">#{deviceGroup},</if>
+            <if test="purchaseDate != null">#{purchaseDate},</if>
+            <if test="maximumProduction != null">#{maximumProduction},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="deviceType != null">#{deviceType},</if>
+            <if test="lineId != null">#{lineId},</if>
+            <if test="workshopId != null">#{workshopId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="maintenanceDate != null">#{maintenanceDate},</if>
+            <if test="maintenanceCycle != null">#{maintenanceCycle},</if>
+            <if test="nextMaintenanceDate != null">#{nextMaintenanceDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="twoNdMaintenanceCycle != null">#{twoNdMaintenanceCycle},</if>
+            <if test="nextTwoNdMaintenanceDate != null">#{nextTwoNdMaintenanceDate},</if>
+            <if test="deviceClass != null">#{deviceClass},</if>
+            <if test="deviceMfrs != null">#{deviceMfrs},</if>
+            <if test="pdDate != null">#{pdDate},</if>
+            <if test="contactTelephone != null">#{contactTelephone},</if>
+            <if test="deviceLeaderId != null">#{deviceLeaderId},</if>
+            <if test="twoDeviceLeaderId != null">#{twoDeviceLeaderId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseDevice" parameterType="BaseDevice">
+        update base_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="qrCode != null">qr_code = #{qrCode},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceModel != null">device_model = #{deviceModel},</if>
+            <if test="deviceGroup != null">device_group = #{deviceGroup},</if>
+            <if test="purchaseDate != null">purchase_date = #{purchaseDate},</if>
+            <if test="maximumProduction != null">maximum_production = #{maximumProduction},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="deviceType != null">device_type = #{deviceType},</if>
+            <if test="lineId != null">line_id = #{lineId},</if>
+            <if test="workshopId != null">workshop_id = #{workshopId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="maintenanceDate != null">maintenance_date = #{maintenanceDate},</if>
+            <if test="maintenanceCycle != null">maintenance_cycle = #{maintenanceCycle},</if>
+            <if test="nextMaintenanceDate != null">next_maintenance_date = #{nextMaintenanceDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="twoNdMaintenanceCycle != null">two_nd_maintenance_cycle = #{twoNdMaintenanceCycle},</if>
+            <if test="nextTwoNdMaintenanceDate != null">next_two_nd_maintenance_date = #{nextTwoNdMaintenanceDate},</if>
+            <if test="deviceClass != null">device_class = #{deviceClass},</if>
+            <if test="deviceMfrs != null">device_mfrs = #{deviceMfrs},</if>
+            <if test="pdDate != null">pd_date = #{pdDate},</if>
+            <if test="contactTelephone != null">contact_telephone = #{contactTelephone},</if>
+            <if test="deviceLeaderId != null">device_leader_id = #{deviceLeaderId},</if>
+            <if test="twoDeviceLeaderId != null">two_device_leader_id = #{twoDeviceLeaderId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDeviceById" parameterType="Long">
+        delete from base_device where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDeviceByIds" parameterType="String">
+<!--        delete from base_device where id in-->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+        update base_device
+        <set>
+            <!-- 停用-->
+            status = 5
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseDeviceByDeviceCode" resultMap="BaseDeviceResult">
+        select *
+        from base_device
+        where device_code = #{deviceCode}
+    </select>
+    <select id="selectAllByLineCode" resultType="com.jotime.web.domain.base.BaseDevice">
+        select * from base_device a left join base_line b on a.line_id = b.id
+        where b.line_code = #{lineCode}
+    </select>
+</mapper>

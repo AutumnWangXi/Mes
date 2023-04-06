@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.file.FileFolderMapper">
+    
+    <resultMap type="com.jotime.web.domain.file.FileFolder" id="FileFolderResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="fileFolder"    column="file_folder"    />
+        <result property="displaySort"    column="display_sort"    />
+        <result property="category"    column="category"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFileFolderVo">
+        select id, parent_id, ancestors, file_folder, display_sort, category, status, create_by, create_time, update_by, update_time from file_folder
+    </sql>
+
+    <select id="selectFileFolderList" parameterType="FileFolder" resultMap="FileFolderResult">
+        <include refid="selectFileFolderVo"/>
+        <where>  
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="ancestors != null  and ancestors != ''"> and ancestors = #{ancestors}</if>
+            <if test="fileFolder != null  and fileFolder != ''"> and file_folder like concat('%', #{fileFolder}, '%')</if>
+            <if test="displaySort != null  and displaySort != ''"> and display_sort = #{displaySort}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+        order by display_sort
+    </select>
+    
+    <select id="selectFileFolderById" parameterType="Long" resultMap="FileFolderResult">
+        <include refid="selectFileFolderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFileFolder" parameterType="FileFolder" useGeneratedKeys="true" keyProperty="id">
+        insert into file_folder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">parent_id,</if>
+            <if test="ancestors != null and ancestors != ''">ancestors,</if>
+            <if test="fileFolder != null">file_folder,</if>
+            <if test="displaySort != null">display_sort,</if>
+            <if test="category != null">category,</if>
+            <if test="status != null">status,</if>
+            create_by,
+            create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">#{parentId},</if>
+            <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+            <if test="fileFolder != null">#{fileFolder},</if>
+            <if test="displaySort != null">#{displaySort},</if>
+            <if test="category != null">#{category},</if>
+            <if test="status != null">#{status},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateFileFolder" parameterType="FileFolder">
+        update file_folder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="fileFolder != null">file_folder = #{fileFolder},</if>
+            <if test="displaySort != null">display_sort = #{displaySort},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="status != null">status = #{status},</if>
+            update_by = #{updateBy},
+            update_time = #{updateTime}
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFileFolderById" parameterType="Long">
+        delete from file_folder where id = #{id}
+    </delete>
+
+    <delete id="deleteFileFolderByIds" parameterType="String">
+        delete from file_folder where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

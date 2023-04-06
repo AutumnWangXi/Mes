@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseMaterialboxMapper">
+    
+    <resultMap type="BaseMaterialbox" id="BaseMaterialboxResult">
+        <result property="id"    column="id"    />
+        <result property="materialId"    column="material_id"    />
+        <result property="materialBox"    column="material_box"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="note"    column="note"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="creator"    column="creator"    />
+        <result property="creatorId"    column="creator_id"    />
+    </resultMap>
+
+    <sql id="selectBaseMaterialboxVo">
+        select id, material_id, material_box, capacity, note, create_date, creator, creator_id from base_materialbox
+    </sql>
+
+    <select id="selectBaseMaterialboxList" parameterType="BaseMaterialbox" resultMap="BaseMaterialboxResult">
+        <include refid="selectBaseMaterialboxVo"/>
+        <where>  
+            <if test="materialId != null  and materialId != ''"> and material_id = #{materialId}</if>
+            <if test="materialBox != null  and materialBox != ''"> and material_box = #{materialBox}</if>
+            <if test="capacity != null  and capacity != ''"> and capacity = #{capacity}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseMaterialboxById" parameterType="Long" resultMap="BaseMaterialboxResult">
+        <include refid="selectBaseMaterialboxVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseMaterialbox" parameterType="BaseMaterialbox" useGeneratedKeys="true" keyProperty="id">
+        insert into base_materialbox
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialId != null">material_id,</if>
+            <if test="materialBox != null">material_box,</if>
+            <if test="capacity != null">capacity,</if>
+            <if test="note != null">note,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="creator != null">creator,</if>
+            <if test="creatorId != null">creator_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialId != null">#{materialId},</if>
+            <if test="materialBox != null">#{materialBox},</if>
+            <if test="capacity != null">#{capacity},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseMaterialbox" parameterType="BaseMaterialbox">
+        update base_materialbox
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialId != null">material_id = #{materialId},</if>
+            <if test="materialBox != null">material_box = #{materialBox},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="creatorId != null">creator_id = #{creatorId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseMaterialboxById" parameterType="Long">
+        delete from base_materialbox where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseMaterialboxByIds" parameterType="String">
+        delete from base_materialbox where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

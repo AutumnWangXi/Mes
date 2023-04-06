@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.pd.PdNodeWorkshopMapper">
+
+    <resultMap type="PdNodeWorkshop" id="PdNodeWorkshopResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="nodeId" column="node_id"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="PdNodeWorkshopVo" id="PdNodeWorkshopVoResult">
+        <result property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="nodeId" column="node_id"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectPdNodeWorkshopVo">
+        select id,
+               module_id,
+               node_id,
+               workshop_id,
+               workshop_name,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from pd_node_workshop
+    </sql>
+
+    <select id="selectPdNodeWorkshopList" parameterType="PdNodeWorkshop" resultMap="PdNodeWorkshopResult">
+        <include refid="selectPdNodeWorkshopVo"/>
+        <where>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="nodeId != null ">and node_id = #{nodeId}</if>
+            <if test="workshopId != null ">and workshop_id = #{workshopId}</if>
+            <if test="workshopName != null  and workshopName != ''">and workshop_name like concat('%', #{workshopName},
+                '%')
+            </if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdNodeWorkshopVoList" parameterType="PdNodeWorkshopVo" resultMap="PdNodeWorkshopVoResult">
+        select pnw.id, pnw.module_id, pnw.node_id, pnw.workshop_id, pnw.workshop_name, pnw.status, pnw.note,
+        pnw.create_by, pnw.create_time, pnw.update_by,
+        pnw.update_time,pm.module_name,ppn.node_name
+        from pd_node_workshop pnw left join pd_module pm on pnw.module_id =
+        pm.id left join pd_process_node ppn on pnw.node_id = ppn.id
+        <where>
+            <if test="moduleId != null ">and pnw.module_id = #{moduleId}</if>
+            <if test="nodeId != null ">and pnw.node_id = #{nodeId}</if>
+            <if test="workshopId != null ">and  pnw.workshop_id = #{workshopId}</if>
+            <if test="workshopName != null  and workshopName != ''">and  pnw.workshop_name like concat('%', #{workshopName},
+                '%')
+            </if>
+            <if test="moduleName != null  and moduleName != ''">and  pnw.module_name like concat('%', #{moduleName},
+                '%')
+            </if>
+            <if test="nodeName != null  and nodeName != ''">and  pnw.node_name like concat('%', #{nodeName},
+                '%')
+            </if>
+            <if test="status != null ">and  pnw.status = #{status}</if>
+            <if test="note != null  and note != ''">and  pnw.note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdNodeWorkshopById" parameterType="Long" resultMap="PdNodeWorkshopResult">
+        <include refid="selectPdNodeWorkshopVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectPdNodeWorkshopInfo" parameterType="Long" resultMap="PdNodeWorkshopResult">
+        <include refid="selectPdNodeWorkshopVo"/>
+        where module_id = #{moduleId}
+        and node_id = #{nodeId}
+    </select>
+
+
+    <insert id="insertPdNodeWorkshop" parameterType="PdNodeWorkshop" useGeneratedKeys="true" keyProperty="id">
+        insert into pd_node_workshop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">module_id,</if>
+            <if test="nodeId != null">node_id,</if>
+            <if test="workshopId != null">workshop_id,</if>
+            <if test="workshopName != null and workshopName != ''">workshop_name,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null and note != ''">note,</if>
+            create_by,
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="nodeId != null">#{nodeId},</if>
+            <if test="workshopId != null">#{workshopId},</if>
+            <if test="workshopName != null and workshopName != ''">#{workshopName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null and note != ''">#{note},</if>
+            #{createBy},
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updatePdNodeWorkshop" parameterType="PdNodeWorkshop">
+        update pd_node_workshop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="nodeId != null">node_id = #{nodeId},</if>
+            <if test="workshopId != null">workshop_id = #{workshopId},</if>
+            <if test="workshopName != null and workshopName != ''">workshop_name = #{workshopName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null and note != ''">note = #{note},</if>
+            update_by = #{updateBy},
+            sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdNodeWorkshopById" parameterType="Long">
+        delete
+        from pd_node_workshop
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePdNodeWorkshopByIds" parameterType="String">
+        delete from pd_node_workshop where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

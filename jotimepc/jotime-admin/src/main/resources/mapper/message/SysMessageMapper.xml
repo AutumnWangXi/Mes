@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.message.SysMessageMapper">
+    
+    <resultMap type="SysMessage" id="SysMessageResult">
+        <result property="id"    column="id"    />
+        <result property="sendId"    column="send_id"    />
+        <result property="receiveId"    column="receive_id"    />
+        <result property="messageTitle"    column="message_title"    />
+        <result property="messageContent"    column="message_content"    />
+        <result property="receiveType"    column="receive_type"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="sendStatus"    column="send_status"    />
+        <result property="receiveStatus"    column="receive_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="read"    column="read"    />
+    </resultMap>
+    <sql id="selectSysMessageVo">
+        select id, send_id, receive_id, message_title, message_content, receive_type, send_time, send_status, receive_status, create_by, create_time, update_by, update_time from sys_message
+    </sql>
+    <sql id="selectSysMessageVo1">
+        select t1.id, t1.send_id, t1.receive_id, t1.message_title, t1.message_content, t1.receive_type, t1.send_time, t1.send_status, t1.receive_status, t1.create_by, t1.create_time, t1.update_by, t1.update_time
+    </sql>
+
+    <select id="selectSysMessageList" parameterType="SysMessage" resultMap="SysMessageResult">
+        <include refid="selectSysMessageVo1"/>
+        ,t2.status as `read`
+        from sys_message t1
+        left join sys_message_receive t2 on t1.id = t2.message_id
+        <where>
+            (t2. STATUS != 3 or t2. STATUS is NULL)
+            <if test="sendId != null "> and t1.send_id = #{sendId}</if>
+            <if test="receiveId != null "> and (FIND_IN_SET( #{receiveId} ,t1.receive_id) or t1.receive_type = 1) </if>
+            <if test="messageTitle != null  and messageTitle != ''"> and t1.message_title = #{messageTitle}</if>
+            <if test="messageContent != null  and messageContent != ''"> and t1.message_content = #{messageContent}</if>
+            <if test="receiveType != null "> and t1.receive_type = #{receiveType}</if>
+            <if test="sendTime != null "> and t1.send_time = #{sendTime}</if>
+            <if test="sendStatus != null "> and t1.send_status = #{sendStatus}</if>
+            <if test="receiveStatus != null "> and t1.receive_status = #{receiveStatus}</if>
+        </where>
+        order by t2. STATUS
+    </select>
+    <select id="selectSysMessageListCount" parameterType="SysMessage" resultType="int">
+        select count(1)
+        from sys_message t1
+        left join sys_message_receive t2 on t1.id = t2.message_id
+        <where>
+            (t2. STATUS = 1 or t2. STATUS is NULL)
+            <if test="sendId != null "> and t1.send_id = #{sendId}</if>
+            <if test="receiveId != null "> and (FIND_IN_SET( #{receiveId} ,t1.receive_id) or t1.receive_type = 1) </if>
+            <if test="messageTitle != null  and messageTitle != ''"> and t1.message_title = #{messageTitle}</if>
+            <if test="messageContent != null  and messageContent != ''"> and t1.message_content = #{messageContent}</if>
+            <if test="receiveType != null "> and t1.receive_type = #{receiveType}</if>
+            <if test="sendTime != null "> and t1.send_time = #{sendTime}</if>
+            <if test="sendStatus != null "> and t1.send_status = #{sendStatus}</if>
+            <if test="receiveStatus != null "> and t1.receive_status = #{receiveStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysMessageById" parameterType="Long" resultMap="SysMessageResult">
+        <include refid="selectSysMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysMessage" parameterType="SysMessage">
+        insert into sys_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="sendId != null">send_id,</if>
+            <if test="receiveId != null">receive_id,</if>
+            <if test="messageTitle != null">message_title,</if>
+            <if test="messageContent != null">message_content,</if>
+            <if test="receiveType != null">receive_type,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="sendStatus != null">send_status,</if>
+            <if test="receiveStatus != null">receive_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="sendId != null">#{sendId},</if>
+            <if test="receiveId != null">#{receiveId},</if>
+            <if test="messageTitle != null">#{messageTitle},</if>
+            <if test="messageContent != null">#{messageContent},</if>
+            <if test="receiveType != null">#{receiveType},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="sendStatus != null">#{sendStatus},</if>
+            <if test="receiveStatus != null">#{receiveStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysMessage" parameterType="SysMessage">
+        update sys_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sendId != null">send_id = #{sendId},</if>
+            <if test="receiveId != null">receive_id = #{receiveId},</if>
+            <if test="messageTitle != null">message_title = #{messageTitle},</if>
+            <if test="messageContent != null">message_content = #{messageContent},</if>
+            <if test="receiveType != null">receive_type = #{receiveType},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="sendStatus != null">send_status = #{sendStatus},</if>
+            <if test="receiveStatus != null">receive_status = #{receiveStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysMessageById" parameterType="Long">
+        delete from sys_message where id = #{id}
+    </delete>
+
+    <delete id="deleteSysMessageByIds" parameterType="String">
+        delete from sys_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

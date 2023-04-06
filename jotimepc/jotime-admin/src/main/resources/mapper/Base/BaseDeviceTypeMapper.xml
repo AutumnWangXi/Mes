@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDeviceTypeMapper">
+
+    <resultMap type="BaseDeviceType" id="BaseDeviceTypeResult">
+        <result property="id"    column="id"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="deviceTypeName"    column="device_type_name"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseDeviceTypeVo">
+        select id, device_type, device_type_name, status, create_by, create_time, update_by, update_time from base_device_type
+    </sql>
+
+    <select id="selectBaseDeviceTypeList" parameterType="BaseDeviceType" resultMap="BaseDeviceTypeResult">
+        <include refid="selectBaseDeviceTypeVo"/>
+        <where>
+            <if test="deviceType != null  and deviceType != ''"> and device_type = #{deviceType}</if>
+            <if test="deviceTypeName != null  and deviceTypeName != ''"> and device_type_name like concat('%', #{deviceTypeName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBaseDeviceTypeById" parameterType="Long" resultMap="BaseDeviceTypeResult">
+        <include refid="selectBaseDeviceTypeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDeviceType" parameterType="BaseDeviceType" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">device_type,</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">device_type_name,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">#{deviceTypeName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseDeviceType" parameterType="BaseDeviceType">
+        update base_device_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceType != null and deviceType != ''">device_type = #{deviceType},</if>
+            <if test="deviceTypeName != null and deviceTypeName != ''">device_type_name = #{deviceTypeName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDeviceTypeById" parameterType="Long">
+        delete from base_device_type where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDeviceTypeByIds" parameterType="String">
+        delete from base_device_type where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseDeviceTypeByDeviceType" resultMap="BaseDeviceTypeResult">
+        select *
+        from base_device_type
+        where device_type = #{deviceType}
+    </select>
+</mapper>

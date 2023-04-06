@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDevicePortMapper">
+
+    <resultMap type="BaseDevicePort" id="BaseDevicePortResult">
+        <result property="id"    column="id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceMac"    column="device_mac"    />
+        <result property="portNo"    column="port_no"    />
+        <result property="portName"    column="port_name"    />
+        <result property="connType"    column="conn_type"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="latestConnDeviceCode"    column="latest_conn_device_code"    />
+        <result property="latestConnDeviceMac"    column="latest_conn_device_mac"    />
+        <result property="latestConnPortNo"    column="latest_conn_port_no"    />
+        <result property="latestConnPortName"    column="latest_conn_port_name"    />
+        <result property="connStatus"    column="conn_status"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseDevicePortVo">
+        select id, device_code, device_mac, port_no, port_name, conn_type, ip_address, latest_conn_device_code, latest_conn_device_mac, latest_conn_port_no, latest_conn_port_name, conn_status, status, create_by, create_time, update_by, update_time from base_device_port
+    </sql>
+
+    <select id="selectBaseDevicePortList" parameterType="BaseDevicePort" resultMap="BaseDevicePortResult">
+        <include refid="selectBaseDevicePortVo"/>
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="portNo != null  and portNo != ''"> and port_no = #{portNo}</if>
+            <if test="portName != null  and portName != ''"> and port_name like concat('%', #{portName}, '%')</if>
+            <if test="connType != null  and connType != ''"> and conn_type = #{connType}</if>
+            <if test="ipAddress != null  and ipAddress != ''"> and ip_address = #{ipAddress}</if>
+            <if test="latestConnDeviceCode != null  and latestConnDeviceCode != ''"> and latest_conn_device_code = #{latestConnDeviceCode}</if>
+            <if test="latestConnDeviceMac != null  and latestConnDeviceMac != ''"> and latest_conn_device_mac = #{latestConnDeviceMac}</if>
+            <if test="latestConnPortNo != null  and latestConnPortNo != ''"> and latest_conn_port_no = #{latestConnPortNo}</if>
+            <if test="latestConnPortName != null  and latestConnPortName != ''"> and latest_conn_port_name like concat('%', #{latestConnPortName}, '%')</if>
+            <if test="connStatus != null  and connStatus != ''"> and conn_status = #{connStatus}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseDevicePortById" parameterType="Long" resultMap="BaseDevicePortResult">
+        <include refid="selectBaseDevicePortVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDevicePort" parameterType="BaseDevicePort" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device_port
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code,</if>
+            <if test="deviceMac != null">device_mac,</if>
+            <if test="portNo != null and portNo != ''">port_no,</if>
+            <if test="portName != null and portName != ''">port_name,</if>
+            <if test="connType != null">conn_type,</if>
+            <if test="ipAddress != null">ip_address,</if>
+            <if test="latestConnDeviceCode != null">latest_conn_device_code,</if>
+            <if test="latestConnDeviceMac != null">latest_conn_device_mac,</if>
+            <if test="latestConnPortNo != null">latest_conn_port_no,</if>
+            <if test="latestConnPortName != null">latest_conn_port_name,</if>
+            <if test="connStatus != null">conn_status,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">#{deviceCode},</if>
+            <if test="deviceMac != null">#{deviceMac},</if>
+            <if test="portNo != null and portNo != ''">#{portNo},</if>
+            <if test="portName != null and portName != ''">#{portName},</if>
+            <if test="connType != null">#{connType},</if>
+            <if test="ipAddress != null">#{ipAddress},</if>
+            <if test="latestConnDeviceCode != null">#{latestConnDeviceCode},</if>
+            <if test="latestConnDeviceMac != null">#{latestConnDeviceMac},</if>
+            <if test="latestConnPortNo != null">#{latestConnPortNo},</if>
+            <if test="latestConnPortName != null">#{latestConnPortName},</if>
+            <if test="connStatus != null">#{connStatus},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseDevicePort" parameterType="BaseDevicePort">
+        update base_device_port
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code = #{deviceCode},</if>
+            <if test="deviceMac != null">device_mac = #{deviceMac},</if>
+            <if test="portNo != null and portNo != ''">port_no = #{portNo},</if>
+            <if test="portName != null and portName != ''">port_name = #{portName},</if>
+            <if test="connType != null">conn_type = #{connType},</if>
+            <if test="ipAddress != null">ip_address = #{ipAddress},</if>
+            <if test="latestConnDeviceCode != null">latest_conn_device_code = #{latestConnDeviceCode},</if>
+            <if test="latestConnDeviceMac != null">latest_conn_device_mac = #{latestConnDeviceMac},</if>
+            <if test="latestConnPortNo != null">latest_conn_port_no = #{latestConnPortNo},</if>
+            <if test="latestConnPortName != null">latest_conn_port_name = #{latestConnPortName},</if>
+            <if test="connStatus != null">conn_status = #{connStatus},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDevicePortById" parameterType="Long">
+        delete from base_device_port where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDevicePortByIds" parameterType="String">
+        delete from base_device_port where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

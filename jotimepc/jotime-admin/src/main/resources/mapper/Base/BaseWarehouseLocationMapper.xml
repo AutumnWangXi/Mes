@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseWarehouseLocationMapper">
+
+    <resultMap type="BaseWarehouseLocation" id="BaseWarehouseLocationResult">
+        <result property="id"    column="id"    />
+        <result property="locationCode"    column="location_code"    />
+        <result property="locationNoView"    column="location_no_view"    />
+        <result property="locationType"    column="location_type"    />
+        <result property="isMix"    column="is_mix"    />
+        <result property="keepType"    column="keep_type"    />
+        <result property="printType"    column="print_type"    />
+        <result property="locationGroup"    column="location_group"    />
+        <result property="whId"    column="wh_id"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="BaseWarehouseLocationVo" id="BaseWarehouseLocationVoResult">
+        <result property="id"    column="id"    />
+        <result property="locationCode"    column="location_code"    />
+        <result property="locationNoView"    column="location_no_view"    />
+        <result property="locationType"    column="location_type"    />
+        <result property="isMix"    column="is_mix"    />
+        <result property="keepType"    column="keep_type"    />
+        <result property="printType"    column="print_type"    />
+        <result property="locationGroup"    column="location_group"    />
+        <result property="whId"    column="wh_id"    />
+        <result property="whName"    column="wh_name"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseWarehouseLocationVo">
+        select id, location_code, location_no_view, location_type, is_mix, keep_type, print_type, location_group, wh_id, area_id, status, note, create_by, create_time, update_by, update_time from base_warehouse_location
+    </sql>
+
+    <select id="selectBaseWarehouseLocationList" parameterType="BaseWarehouseLocation" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        <where>
+            <if test="locationCode != null  and locationCode != ''"> and location_code = #{locationCode}</if>
+            <if test="locationNoView != null  and locationNoView != ''"> and location_no_view = #{locationNoView}</if>
+            <if test="locationType != null  and locationType != ''"> and location_type = #{locationType}</if>
+            <if test="isMix != null "> and is_mix = #{isMix}</if>
+            <if test="keepType != null "> and keep_type = #{keepType}</if>
+            <if test="printType != null "> and print_type = #{printType}</if>
+            <if test="locationGroup != null  and locationGroup != ''"> and location_group = #{locationGroup}</if>
+            <if test="whId != null "> and wh_id = #{whId}</if>
+            <if test="areaId != null "> and area_id = #{areaId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseWarehouseLocationVoList" parameterType="BaseWarehouseLocation" resultMap="BaseWarehouseLocationVoResult">
+        SELECT l.id, l.location_code, l.location_no_view, l.location_type, l.is_mix, l.keep_type,
+               l.print_type, l.location_group, l.wh_id, l.area_id, l.status, l.note, l.create_by,
+               l.create_time, l.update_by, l.update_time,w.wh_name,a.area_name FROM base_warehouse_location l
+        LEFT JOIN base_warehouse w ON(l.wh_id=w.id)
+        LEFT JOIN base_warehouse_area a ON(l.area_id=a.id)
+        <where>
+            <if test="locationCode != null  and locationCode != ''"> and l.location_code = #{locationCode}</if>
+            <if test="locationNoView != null  and locationNoView != ''"> and l.location_no_view = #{locationNoView}</if>
+            <if test="locationType != null  and locationType != ''"> and l.location_type = #{locationType}</if>
+            <if test="isMix != null "> and l.is_mix = #{isMix}</if>
+            <if test="keepType != null "> and l.keep_type = #{keepType}</if>
+            <if test="printType != null "> and l.print_type = #{printType}</if>
+            <if test="locationGroup != null  and locationGroup != ''"> and l.location_group = #{locationGroup}</if>
+            <if test="whId != null "> and l.wh_id = #{whId}</if>
+            <if test="areaId != null "> and l.area_id = #{areaId}</if>
+            <if test="status != null "> and l.status = #{status}</if>
+            <if test="note != null  and note != ''"> and l.note = #{note}</if>
+            <if test="areaType != null  and areaType != ''"> and a.area_type = #{areaType}</if>
+        </where>
+        ORDER BY l.id ASC
+    </select>
+
+    <select id="selectBaseWarehouseLocationById" parameterType="Long" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseWarehouseLocation" parameterType="BaseWarehouseLocation" useGeneratedKeys="true" keyProperty="id">
+        insert into base_warehouse_location
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="locationCode != null and locationCode != ''">location_code,</if>
+            <if test="locationNoView != null and locationNoView != ''">location_no_view,</if>
+            <if test="locationType != null">location_type,</if>
+            <if test="isMix != null">is_mix,</if>
+            <if test="keepType != null">keep_type,</if>
+            <if test="printType != null">print_type,</if>
+            <if test="locationGroup != null">location_group,</if>
+            <if test="whId != null">wh_id,</if>
+            <if test="areaId != null">area_id,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="locationCode != null and locationCode != ''">#{locationCode},</if>
+            <if test="locationNoView != null and locationNoView != ''">#{locationNoView},</if>
+            <if test="locationType != null">#{locationType},</if>
+            <if test="isMix != null">#{isMix},</if>
+            <if test="keepType != null">#{keepType},</if>
+            <if test="printType != null">#{printType},</if>
+            <if test="locationGroup != null">#{locationGroup},</if>
+            <if test="whId != null">#{whId},</if>
+            <if test="areaId != null">#{areaId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseWarehouseLocation" parameterType="BaseWarehouseLocation">
+        update base_warehouse_location
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="locationCode != null and locationCode != ''">location_code = #{locationCode},</if>
+            <if test="locationNoView != null and locationNoView != ''">location_no_view = #{locationNoView},</if>
+            <if test="locationType != null">location_type = #{locationType},</if>
+            <if test="isMix != null">is_mix = #{isMix},</if>
+            <if test="keepType != null">keep_type = #{keepType},</if>
+            <if test="printType != null">print_type = #{printType},</if>
+            <if test="locationGroup != null">location_group = #{locationGroup},</if>
+            <if test="whId != null">wh_id = #{whId},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseWarehouseLocationById" parameterType="Long">
+        delete from base_warehouse_location where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseWarehouseLocationByIds" parameterType="String">
+        delete from base_warehouse_location where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectLocationInfoByView" parameterType="BaseWarehouseLocation" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+            where wh_id = #{whId}
+            <if test="areaId != null">and area_id = #{areaId}</if>
+            and location_no_view = #{locationNoView}
+    </select>
+
+    <select id="selectLocationInfoByCode" parameterType="BaseWarehouseLocation" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        where wh_id = #{whId}
+        <if test="areaId != null">and area_id = #{areaId}</if>
+        and location_code = #{locationCode}
+    </select>
+
+    <select id="selectBaseWarehouseLocationBylc" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        where location_code = #{locationCode}
+    </select>
+
+    <select id="selectBaseWarehouseLocationByView" resultMap="BaseWarehouseLocationResult">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        where location_no_view = #{locationNoView}
+    </select>
+
+
+    <select id="selectByArea" resultType="com.jotime.web.domain.base.BaseWarehouseLocation">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        where area_id = #{areaId}
+        and status = 2
+    </select>
+    <select id="selectBaseWarehouseLocationByLocationCodesWhIdsAreaId"
+            resultType="com.jotime.web.domain.base.BaseWarehouseLocation">
+        <include refid="selectBaseWarehouseLocationVo"/>
+        <where>
+            location_code in
+            <foreach item="locationCode" collection="storehouseVo.locationCodes" open="("  close=")" separator=",">
+                #{locationCode}
+            </foreach>
+            and wh_id in
+            <foreach item="whId" collection="storehouseVo.whIds" open="("  close=")" separator=",">
+                #{whId}
+            </foreach>
+            and area_id in
+            <foreach item="areaId" collection="storehouseVo.areaIds" open="("  close=")" separator=",">
+                #{areaId}
+            </foreach>
+            <if test="storehouseVo.iteamIds != null">
+                and iteam_id in
+                <foreach item="iteamId" collection="storehouseVo.iteamIds" open="("  close=")" separator=",">
+                    #{iteamId}
+                </foreach>
+            </if>
+
+        </where>
+    </select>
+    <select id="selectBaseWarehouseLocationByLocationCodeS"
+            resultType="com.jotime.web.domain.base.BaseWarehouseLocation">
+        select location_code, area_id ,wh_id from base_warehouse_location
+        where location_code in
+        <foreach item="locationCode" collection="locationCodeList" open="("  close=")" separator=",">
+            #{locationCode}
+        </foreach>
+    </select>
+
+    <update id="updateBaseWarehouse" parameterType="BaseWarehouseLocation">
+        update base_warehouse_location
+        <set>
+            wh_id = #{whId},
+            area_id = #{areaId}
+        </set>
+        <where>
+        <if test="ids != null ">
+            <foreach collection="ids" index="index" item="item" open=" id in(" separator=","
+                     close=")">#{item}
+            </foreach>
+        </if>
+        </where>
+    </update>
+    <select id="selectByAreaType" parameterType="BaseWarehouseLocation" resultType="com.jotime.web.domain.base.BaseWarehouseLocation">
+        select t.id, t.location_code, t.location_no_view, t.location_type, t.is_mix, t.keep_type, t.print_type, t.location_group, t.wh_id, t.area_id
+        from base_warehouse_location t
+        join base_warehouse_area bwa on bwa.area_type = #{areaType} and bwa.id = t.area_id
+        where t.status = #{status}
+        <if test="areaId != null">and t.area_id = #{areaId}</if>
+    </select>
+</mapper>

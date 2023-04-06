@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BasePackagingAttributeMapper">
+    
+    <resultMap type="BasePackagingAttribute" id="BasePackagingAttributeResult">
+        <result property="id"    column="id"    />
+        <result property="packagingId"    column="packaging_id"    />
+        <result property="attribute"    column="attribute"    />
+        <result property="describe"    column="describe"    />
+        <result property="creator"    column="creator"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="createDate"    column="create_date"    />
+    </resultMap>
+
+    <sql id="selectBasePackagingAttributeVo">
+        select id, packaging_id, attribute, describe, creator, creator_id, create_date from base_packaging_attribute
+    </sql>
+
+    <select id="selectBasePackagingAttributeList" parameterType="BasePackagingAttribute" resultMap="BasePackagingAttributeResult">
+        <include refid="selectBasePackagingAttributeVo"/>
+        <where>  
+            <if test="packagingId != null  and packagingId != ''"> and packaging_id = #{packagingId}</if>
+            <if test="attribute != null  and attribute != ''"> and attribute = #{attribute}</if>
+            <if test="describe != null  and describe != ''"> and describe = #{describe}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectBasePackagingAttributeById" parameterType="Long" resultMap="BasePackagingAttributeResult">
+        <include refid="selectBasePackagingAttributeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBasePackagingAttribute" parameterType="BasePackagingAttribute" useGeneratedKeys="true" keyProperty="id">
+        insert into base_packaging_attribute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="packagingId != null">packaging_id,</if>
+            <if test="attribute != null">attribute,</if>
+            <if test="describe != null">describe,</if>
+            <if test="creator != null">creator,</if>
+            <if test="creatorId != null">creator_id,</if>
+            <if test="createDate != null">create_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="packagingId != null">#{packagingId},</if>
+            <if test="attribute != null">#{attribute},</if>
+            <if test="describe != null">#{describe},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+            <if test="createDate != null">#{createDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBasePackagingAttribute" parameterType="BasePackagingAttribute">
+        update base_packaging_attribute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="packagingId != null">packaging_id = #{packagingId},</if>
+            <if test="attribute != null">attribute = #{attribute},</if>
+            <if test="describe != null">describe = #{describe},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="creatorId != null">creator_id = #{creatorId},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBasePackagingAttributeById" parameterType="Long">
+        delete from base_packaging_attribute where id = #{id}
+    </delete>
+
+    <delete id="deleteBasePackagingAttributeByIds" parameterType="String">
+        delete from base_packaging_attribute where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

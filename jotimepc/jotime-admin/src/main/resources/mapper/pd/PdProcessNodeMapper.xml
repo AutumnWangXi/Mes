@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.pd.PdProcessNodeMapper">
+
+    <resultMap type="PdProcessNode" id="PdProcessNodeResult">
+        <result property="id" column="id"/>
+        <result property="nodeCode" column="node_code"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="isStart" column="is_start"/>
+        <result property="isMicrobeTests" column="is_microbe_tests"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="PdProcessNodeVo" id="PdProcessNodeVoResult">
+        <result property="id" column="id"/>
+        <result property="nodeCode" column="node_code"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="isStart" column="is_start"/>
+        <result property="isMicrobeTests" column="is_microbe_tests"/>
+        <result property="workShopId" column="workshop_id"/>
+        <result property="workShopName" column="workshop_name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectPdProcessNodeVo">
+        select id,
+               node_code,
+               node_name,
+               module_id,
+               is_start,
+               is_microbe_tests,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from pd_process_node
+    </sql>
+
+    <select id="selectPdProcessNodeList" parameterType="PdProcessNode" resultMap="PdProcessNodeResult">
+        <include refid="selectPdProcessNodeVo"/>
+        <where>
+            <if test="nodeCode != null ">and node_code = #{nodeCode}</if>
+            <if test="nodeName != null  and nodeName != ''">and node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="isStart != null ">and is_start = #{isStart}</if>
+            <if test="isMicrobeTests != null ">and is_microbe_tests = #{isMicrobeTests}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdProcessNodeVoList" parameterType="PdProcessNodeVo" resultMap="PdProcessNodeVoResult">
+        select ppn.id,
+        ppn.node_code,
+        ppn.node_name,
+        ppn.module_id,
+        ppn.is_start,
+        ppn.is_microbe_tests,
+        ppn.status,
+        ppn.note,
+        ppn.create_by,
+        ppn.create_time,
+        ppn.update_by,
+        ppn.update_time,
+        pm.module_name
+        from pd_process_node ppn
+        left join pd_module pm on ppn.module_id = pm.id
+        <where>
+            <if test="nodeCode != null ">and node_code = #{nodeCode}</if>
+            <if test="nodeName != null  and nodeName != ''">and node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="moduleName != null  and moduleName != ''">and module_name like concat('%', #{moduleName}, '%')
+            </if>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="isStart != null ">and is_start = #{isStart}</if>
+            <if test="isMicrobeTests != null ">and is_microbe_tests = #{isMicrobeTests}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectPdProcessStartNodeList" parameterType="Long" resultMap="PdProcessNodeVoResult">
+        select ppn.id,
+        ppn.node_code,
+        ppn.node_name,
+        ppn.module_id,
+        ppn.is_start,
+        ppn.is_microbe_tests,
+        ppn.status,
+        ppn.note,
+        ppn.create_by,
+        ppn.create_time,
+        ppn.update_by,
+        ppn.update_time,
+        pnw.workshop_id,
+        pnw.workshop_name
+        from pd_process_node ppn
+        left join pd_node_workshop pnw on ppn.module_id = pnw.module_id and ppn.id = pnw.node_id
+        <where>
+            and ppn.module_id = #{value} and ppn.is_start = 2 and ppn.status = 2
+        </where>
+    </select>
+
+    <select id="moduleInfo" resultType="com.jotime.web.domainVo.pd.PdProcessNodeVo">
+        select ppn.id,
+        ppn.node_code,
+        ppn.node_name,
+        ppn.module_id,
+        ppn.is_start,
+        ppn.is_microbe_tests,
+        ppn.status,
+        ppn.note,
+        ppn.create_by,
+        ppn.create_time,
+        ppn.update_by,
+        ppn.update_time,
+        pnw.workshop_id,
+        IFNULL( pnw.workshop_name, '' ) as workShopName,
+        IFNULL( sd.dept_name, '' ) as deptName,
+        ppc.next_node as nextNodeId
+        from pd_process_node ppn
+        left join pd_process_configuration ppc on ppc.pre_node = ppn.id
+        left join pd_node_workshop pnw on ppn.module_id = pnw.module_id and ppn.id = pnw.node_id
+        left join base_workshop bw on bw.id = pnw.workshop_id
+        left join sys_dept sd on sd.dept_id = bw.dept_id
+        <where>
+            and ppn.module_id = #{moduleId} and ppn.status = 2
+        </where>
+    </select>
+
+    <select id="selectPdProcessNodeById" parameterType="Long" resultMap="PdProcessNodeResult">
+        <include refid="selectPdProcessNodeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPdProcessNode" parameterType="PdProcessNode" useGeneratedKeys="true" keyProperty="id">
+        insert into pd_process_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nodeCode != null">node_code,</if>
+            <if test="nodeName != null">node_name,</if>
+            <if test="moduleId != null">module_id,</if>
+            <if test="isStart != null">is_start,</if>
+            <if test="isMicrobeTests != null">is_microbe_tests,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nodeCode != null">#{nodeCode},</if>
+            <if test="nodeName != null">#{nodeName},</if>
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="isStart != null">#{isStart},</if>
+            <if test="isMicrobeTests != null">#{isMicrobeTests},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePdProcessNode" parameterType="PdProcessNode">
+        update pd_process_node
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nodeCode != null">node_code = #{nodeCode},</if>
+            <if test="nodeName != null">node_name = #{nodeName},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="isStart != null">is_start = #{isStart},</if>
+            <if test="isMicrobeTests != null">is_microbe_tests = #{isMicrobeTests},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdProcessNodeById" parameterType="Long">
+        delete
+        from pd_process_node
+        where id = #{id}
+    </delete>
+
+    <delete id="deletePdProcessNodeByIds" parameterType="String">
+        delete from pd_process_node where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

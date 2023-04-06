@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseUnitMapMapper">
+    
+    <resultMap type="BaseUnitMap" id="BaseUnitMapResult">
+        <result property="id"    column="id"    />
+        <result property="fromUnitName"    column="from_unit_name"    />
+        <result property="toUnitId"    column="to_unit_id"    />
+        <result property="toUnitName"    column="to_unit_name"    />
+        <result property="discount"    column="discount"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseUnitMapVo">
+        select id, from_unit_name, to_unit_id, to_unit_name, discount, status, note, create_by, create_time, update_by, update_time from base_unit_map
+    </sql>
+
+    <select id="selectBaseUnitMapList" parameterType="BaseUnitMap" resultMap="BaseUnitMapResult">
+        <include refid="selectBaseUnitMapVo"/>
+        <where>  
+            <if test="fromUnitName != null  and fromUnitName != ''"> and from_unit_name like concat('%', #{fromUnitName}, '%')</if>
+            <if test="toUnitId != null "> and to_unit_id = #{toUnitId}</if>
+            <if test="toUnitName != null  and toUnitName != ''"> and to_unit_name like concat('%', #{toUnitName}, '%')</if>
+            <if test="discount != null "> and discount = #{discount}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseUnitMapChkList" parameterType="BaseUnitMap" resultMap="BaseUnitMapResult">
+        <include refid="selectBaseUnitMapVo"/>
+        where from_unit_name = #{fromUnitName}
+            and to_unit_name = #{toUnitName}
+        <if test="status != null "> and status = #{status}</if>
+    </select>
+
+    <select id="selectBaseUnitMapById" parameterType="Long" resultMap="BaseUnitMapResult">
+        <include refid="selectBaseUnitMapVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseUnitMap" parameterType="BaseUnitMap">
+        insert into base_unit_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="fromUnitName != null and fromUnitName != ''">from_unit_name,</if>
+            <if test="toUnitId != null">to_unit_id,</if>
+            <if test="toUnitName != null and toUnitName != ''">to_unit_name,</if>
+            <if test="discount != null">discount,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="fromUnitName != null and fromUnitName != ''">#{fromUnitName},</if>
+            <if test="toUnitId != null">#{toUnitId},</if>
+            <if test="toUnitName != null and toUnitName != ''">#{toUnitName},</if>
+            <if test="discount != null">#{discount},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseUnitMap" parameterType="BaseUnitMap">
+        update base_unit_map
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fromUnitName != null and fromUnitName != ''">from_unit_name = #{fromUnitName},</if>
+            <if test="toUnitId != null">to_unit_id = #{toUnitId},</if>
+            <if test="toUnitName != null and toUnitName != ''">to_unit_name = #{toUnitName},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseUnitMapById" parameterType="Long">
+        delete from base_unit_map where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseUnitMapByIds" parameterType="String">
+        delete from base_unit_map where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

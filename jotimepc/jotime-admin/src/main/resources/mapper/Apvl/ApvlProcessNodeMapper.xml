@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlProcessNodeMapper">
+
+    <resultMap type="ApvlProcessNode" id="ApvlProcessNodeResult">
+        <result property="id" column="id"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="isProposer" column="is_proposer"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="ApvlProcessNodeVo" id="ApvlProcessNodeVoResult">
+        <result property="id" column="id"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="moduleName" column="module_Name"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="isProposer" column="is_proposer"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectApvlProcessNodeVo">
+        select id,
+               node_name,
+               module_id,
+               is_proposer,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from apvl_process_node
+    </sql>
+
+    <select id="selectApvlProcessNodeList" parameterType="ApvlProcessNode" resultMap="ApvlProcessNodeResult">
+        <include refid="selectApvlProcessNodeVo"/>
+        <where>
+            <if test="nodeName != null  and nodeName != ''">and node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="moduleId != null ">and module_id = #{moduleId}</if>
+            <if test="isProposer != null ">and is_proposer = #{isProposer}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+    <!--vo，页面显示-->
+    <select id="selectApvlProcessNodeVoList" parameterType="ApvlProcessNode" resultMap="ApvlProcessNodeVoResult">
+        select node.id, node.node_name, node.module_id,am.module_name,node.is_proposer, node.status, node.note,
+        node.create_by, node.create_time, node.update_by, node.update_time from apvl_process_node node
+        left join apvl_module am on am.id = node.module_id
+        <where>
+            and 1=1
+            <if test="nodeName != null  and nodeName != ''">and node.node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="moduleId != null ">and node.module_id = #{moduleId}</if>
+            <if test="isProposer != null ">and node.is_proposer = #{isProposer}</if>
+            <if test="status != null ">and node.status = #{status}</if>
+            <if test="note != null  and note != ''">and node.note = #{note}</if>
+        </where>
+        ORDER BY node.module_id ASC, node.id ASC
+    </select>
+
+    <select id="selectApvlProcessNodeById" parameterType="Long" resultMap="ApvlProcessNodeResult">
+        <include refid="selectApvlProcessNodeVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getNodeListByModuleIdAndIsProposer" parameterType="Long" resultMap="ApvlProcessNodeResult">
+        <include refid="selectApvlProcessNodeVo"/>
+        where module_id = #{moduleId} AND is_proposer = #{isProposer}
+    </select>
+
+    <insert id="insertApvlProcessNode" parameterType="ApvlProcessNode" useGeneratedKeys="true" keyProperty="id">
+        insert into apvl_process_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nodeName != null and nodeName != ''">node_name,</if>
+            <if test="moduleId != null">module_id,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="isProposer != null">is_proposer,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nodeName != null and nodeName != ''">#{nodeName},</if>
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="isProposer != null">#{isProposer},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateApvlProcessNode" parameterType="ApvlProcessNode">
+        update apvl_process_node
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nodeName != null and nodeName != ''">node_name = #{nodeName},</if>
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="isProposer != null">is_proposer = #{isProposer},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlProcessNodeById" parameterType="Long">
+        delete
+        from apvl_process_node
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlProcessNodeByIds" parameterType="String">
+        delete from apvl_process_node where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

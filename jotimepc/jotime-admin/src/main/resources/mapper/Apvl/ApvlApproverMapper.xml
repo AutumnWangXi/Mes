@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlApproverMapper">
+
+    <resultMap type="ApvlApprover" id="ApvlApproverResult">
+        <result property="id"    column="id"    />
+        <result property="moduleId"    column="module_id"    />
+        <result property="nodeId"    column="node_id"    />
+        <result property="approverId"    column="approver_id"    />
+        <result property="approver"    column="approver"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+<!--Vo-->
+    <resultMap type="ApvlApproverVo" id="ApvlApproverVoResult">
+        <result property="id"    column="id"    />
+        <result property="moduleId"    column="module_id"    />
+        <result property="moduleName"    column="module_name"    />
+        <result property="nodeId"    column="node_id"    />
+        <result property="nodeName"    column="node_name"    />
+        <result property="approverId"    column="approver_id"    />
+        <result property="approver"    column="approver"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectApvlApproverVo">
+        select id, module_id, node_id, approver_id, approver, status, note, create_by, create_time, update_by, update_time from apvl_approver
+    </sql>
+
+    <select id="selectApvlApproverList" parameterType="ApvlApprover" resultMap="ApvlApproverResult">
+        <include refid="selectApvlApproverVo"/>
+        <where>
+            <if test="moduleId != null "> and module_id = #{moduleId}</if>
+            <if test="nodeId != null "> and node_id = #{nodeId}</if>
+            <if test="approverId != null "> and approver_id = #{approverId}</if>
+            <if test="approver != null  and approver != ''"> and approver = #{approver}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+
+    <select id="selectApvlApproverVoList" parameterType="ApvlApprover" resultMap="ApvlApproverVoResult">
+        select apvl_ap.id, apvl_ap.module_id,am.module_name, apvl_ap.node_id,an.node_name, apvl_ap.approver_id, apvl_ap.approver, apvl_ap.status, apvl_ap.note, apvl_ap.create_by, apvl_ap.create_time, apvl_ap.update_by, apvl_ap.update_time from apvl_approver apvl_ap
+        LEFT JOIN apvl_module am on am.id = apvl_ap.module_id
+        LEFT JOIN apvl_process_node an on an.id = apvl_ap.node_id
+        <where>
+            and  1=1
+            <if test="moduleId != null "> and apvl_ap.module_id = #{moduleId}</if>
+            <if test="nodeId != null "> and apvl_ap.node_id = #{nodeId}</if>
+            <if test="approverId != null "> and apvl_ap.approver_id = #{approverId}</if>
+            <if test="approver != null  and approver != ''"> and apvl_ap.approver = #{approver}</if>
+            <if test="status != null "> and apvl_ap.status = #{status}</if>
+            <if test="note != null  and note != ''"> and apvl_ap.note = #{note}</if>
+        </where>
+        ORDER BY apvl_ap.id ASC
+    </select>
+
+    <select id="selectApvlApproverById" parameterType="Long" resultMap="ApvlApproverResult">
+        <include refid="selectApvlApproverVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getApvlApproverListByModuleId" parameterType="Long" resultMap="ApvlApproverResult">
+        <include refid="selectApvlApproverVo"/>
+        where module_id = #{moduleId} AND node_id = #{nodeId}
+    </select>
+
+    <select id="selectApvlApproverByApproverId" parameterType="Long" resultMap="ApvlApproverResult">
+        <include refid="selectApvlApproverVo"/>
+        where approver_id = #{approverId} AND module_id = #{moduleId}
+    </select>
+
+    <select id="selectApvlApproverByApproverIdAndNodeId" parameterType="Long" resultMap="ApvlApproverResult">
+        <include refid="selectApvlApproverVo"/>
+        where approver_id = #{approverId} AND node_id = #{nodeId} AND  module_id = #{moduleId}
+    </select>
+
+    <insert id="insertApvlApprover" parameterType="ApvlApprover" useGeneratedKeys="true" keyProperty="id">
+        insert into apvl_approver
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">module_id,</if>
+            <if test="nodeId != null">node_id,</if>
+            <if test="approverId != null">approver_id,</if>
+            <if test="approver != null">approver,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleId != null">#{moduleId},</if>
+            <if test="nodeId != null">#{nodeId},</if>
+            <if test="approverId != null">#{approverId},</if>
+            <if test="approver != null">#{approver},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApvlApprover" parameterType="ApvlApprover">
+        update apvl_approver
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleId != null">module_id = #{moduleId},</if>
+            <if test="nodeId != null">node_id = #{nodeId},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approver != null">approver = #{approver},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlApproverById" parameterType="Long">
+        delete from apvl_approver where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlApproverByIds" parameterType="String">
+        delete from apvl_approver where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

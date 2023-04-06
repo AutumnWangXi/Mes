@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.Apvl.ApvlCommonMapper">
+
+    <resultMap type="ApvlCommon" id="ApvlCommonResult">
+        <result property="id" column="id"/>
+        <result property="apvlNo" column="apvl_no"/>
+        <result property="isUrgent" column="is_urgent"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="apvlType" column="apvl_type"/>
+        <result property="proposerId" column="proposer_id"/>
+        <result property="proposer" column="proposer"/>
+        <result property="proposeTime" column="propose_time"/>
+        <result property="lastApvlTime" column="last_apvl_time"/>
+        <result property="note" column="note"/>
+        <result property="status" column="status"/>
+        <result property="groupCode" column="group_code"/>
+
+    </resultMap>
+    <resultMap type="ApvlCommonVo" id="ApvlCommonVoResult">
+        <result property="id" column="id"/>
+        <result property="apvlNo" column="apvl_no"/>
+        <result property="isUrgent" column="is_urgent"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="apvlType" column="apvl_type"/>
+        <result property="proposerId" column="proposer_id"/>
+        <result property="proposer" column="proposer"/>
+        <result property="proposeTime" column="propose_time"/>
+        <result property="lastApvlTime" column="last_apvl_time"/>
+        <result property="note" column="note"/>
+        <result property="status" column="status"/>
+        <result property="groupCode" column="group_code"/>
+    </resultMap>
+
+
+    <sql id="selectApvlCommonVo">
+        select id,
+               apvl_no,
+               is_urgent,
+               item_id,
+               item_name,
+               customer_id,
+               customer_name,
+               apvl_type,
+               proposer_id,
+               proposer,
+               propose_time,
+               last_apvl_time,
+               note,
+               status,
+               group_code
+        from apvl_common
+    </sql>
+
+    <select id="selectApvlCommonList" parameterType="ApvlCommon" resultMap="ApvlCommonResult">
+        <include refid="selectApvlCommonVo"/>
+        <where>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="apvlType != null  and apvlType != ''">and apvl_type = #{apvlType}</if>
+            <if test="proposerId != null ">and proposer_id = #{proposerId}</if>
+            <if test="proposer != null  and proposer != ''">and proposer = #{proposer}</if>
+            <if test="proposeTime != null ">and propose_time = #{proposeTime}</if>
+            <if test="lastApvlTime != null ">and last_apvl_time = #{lastApvlTime}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="status != null ">and status = #{status}</if>
+        </where>
+    </select>
+
+
+    <select id="selectApvlCommonById" parameterType="Long" resultMap="ApvlCommonResult">
+        <include refid="selectApvlCommonVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectApvlCommonByApplyId" parameterType="String" resultMap="ApvlCommonResult">
+        <include refid="selectApvlCommonVo"/>
+        where apvl_no = #{value}
+    </select>
+
+
+    <select id="selectInitiatedList" parameterType="ApvlCommon" resultMap="ApvlCommonResult">
+        <include refid="selectApvlCommonVo"/>
+        <where>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="proposerId != null  and proposerId != ''">and proposer_id = #{proposerId}</if>
+            <if test="apvlType != null  and apvlType != ''">and apvl_type = #{apvlType}</if>
+            <if test="status != null and status !=''">and status = #{status}</if>
+        </where>
+        order by propose_time DESC
+    </select>
+
+    <select id="selectApvlCommonListByApplyList" parameterType="ApvlCommonVo" resultMap="ApvlCommonResult">
+        select id,
+        apvl_no,
+        is_urgent,
+        item_id,
+        item_name,
+        customer_id,
+        customer_name,
+        apvl_type,
+        proposer_id,
+        proposer,
+        propose_time,
+        last_apvl_time,
+        note,
+        status,
+        group_code
+        from apvl_common
+        <where>
+            <if test="apvlNoList != null">
+                and apvl_no in
+                <foreach collection="apvlNoList" item="apvlNo" open="(" close=")" separator=",">
+                    #{apvlNo}
+                </foreach>
+            </if>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="apvlType != null  and apvlType != ''">and apvl_type = #{apvlType}</if>
+            <if test="proposerId != null ">and proposer_id = #{proposerId}</if>
+            <if test="proposer != null  and proposer != ''">and proposer = #{proposer}</if>
+            <if test="proposeTime != null ">and propose_time = #{proposeTime}</if>
+            <if test="lastApvlTime != null ">and last_apvl_time = #{lastApvlTime}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+        order by propose_time DESC
+    </select>
+
+    <select id="selectApvlCommonVoList" parameterType="java.util.List" resultMap="ApvlCommonResult">
+        select id,
+        apvl_no,
+        is_urgent,
+        item_id,
+        item_name,
+        customer_id,
+        customer_name,
+        apvl_type,
+        proposer_id,
+        proposer,
+        propose_time,
+        last_apvl_time,
+        note,
+        status,
+        group_code
+        from apvl_common
+        <where>
+            <foreach collection="apvlNoList" item="apvlNo" open=" and apvl_no in (" close=")" separator=",">
+                #{apvlNo}
+            </foreach>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="apvlType != null  and apvlType != ''">and apvl_type = #{apvlType}</if>
+            <if test="proposerId != null ">and proposer_id = #{proposerId}</if>
+            <if test="proposer != null  and proposer != ''">and proposer = #{proposer}</if>
+            <if test="proposeTime != null ">and propose_time = #{proposeTime}</if>
+            <if test="lastApvlTime != null ">and last_apvl_time = #{lastApvlTime}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+        order by propose_time DESC
+    </select>
+
+    <select id="selectPendingListByApvlType" parameterType="ApvlCommonVo" resultMap="ApvlCommonResult">
+        select id,
+        apvl_no,
+        is_urgent,
+        item_id,
+        item_name,
+        customer_id,
+        customer_name,
+        apvl_type,
+        proposer_id,
+        proposer,
+        propose_time,
+        last_apvl_time,
+        note,
+        status,
+        group_code
+        from apvl_common
+        <where>
+            <foreach collection="apvlNoList" item="apvlNo" open=" and apvl_no in (" close=")" separator=",">
+                #{apvlNo}
+            </foreach>
+            <if test="apvlNo != null  and apvlNo != ''">and apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and customer_name like concat('%', #{customerName},
+                '%')
+            </if>
+            <if test="proposerId != null ">and proposer_id = #{proposerId}</if>
+            <if test="proposer != null  and proposer != ''">and proposer = #{proposer}</if>
+            <if test="proposeTime != null ">and propose_time = #{proposeTime}</if>
+            <if test="lastApvlTime != null ">and last_apvl_time = #{lastApvlTime}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            and status in (2,3,6,7)
+        </where>
+        and apvl_type = #{apvlType}
+        order by propose_time DESC
+    </select>
+
+    <insert id="insertApvlCommon" parameterType="ApvlCommon" useGeneratedKeys="true" keyProperty="id">
+        insert into apvl_common
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="apvlNo != null">apvl_no,</if>
+            <if test="isUrgent != null">is_urgent,</if>
+            <if test="itemId != null">item_id,</if>
+            <if test="itemName != null">item_name,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="apvlType != null">apvl_type,</if>
+            <if test="proposerId != null">proposer_id,</if>
+            <if test="proposer != null">proposer,</if>
+            <if test="lastApvlTime != null">last_apvl_time,</if>
+            <if test="note != null">note,</if>
+            <if test="status != null">status,</if>
+            <if test="groupCode != null">group_code,</if>
+            propose_time,
+            create_by,
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="apvlNo != null">#{apvlNo},</if>
+            <if test="isUrgent != null">#{isUrgent},</if>
+            <if test="itemId != null">#{itemId},</if>
+            <if test="itemName != null">#{itemName},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="apvlType != null">#{apvlType},</if>
+            <if test="proposerId != null">#{proposerId},</if>
+            <if test="proposer != null">#{proposer},</if>
+            <if test="lastApvlTime != null">#{lastApvlTime},</if>
+            <if test="note != null">#{note},</if>
+            <if test="status != null">#{status},</if>
+            <if test="groupCode != null">#{groupCode},</if>
+            sysdate(),
+            #{createBy},
+            sysdate(),
+        </trim>
+    </insert>
+
+    <update id="updateApvlCommon" parameterType="ApvlCommon">
+        update apvl_common
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apvlNo != null">apvl_no = #{apvlNo},</if>
+            <if test="isUrgent != null">is_urgent = #{isUrgent},</if>
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="itemName != null">item_name = #{itemName},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="apvlType != null">apvl_type = #{apvlType},</if>
+            <if test="proposerId != null">proposer_id = #{proposerId},</if>
+            <if test="proposer != null">proposer = #{proposer},</if>
+            <if test="proposeTime != null">propose_time = #{proposeTime},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="status != null">status = #{status},</if>
+            last_apvl_time = sysdate(),
+            update_by = #{updateBy},
+            update_time = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApvlCommonById" parameterType="Long">
+        delete
+        from apvl_common
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApvlCommonByIds" parameterType="String">
+        delete from apvl_common where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectApvlFinishList" parameterType="ApvlCommonVo" resultMap="ApvlCommonResult">
+        select ac.id, ac.apvl_no,ac.is_urgent,ac.item_id,ac.item_name,ac.customer_id, ac.customer_name,ac.group_code,
+        ac.apvl_type,ac.proposer_id,ac.proposer,ac.propose_time,ac.last_apvl_time,ac.note,ac.status,ap.apvl_result,ap.approver_id,ap.apvl_time,ap.apvl_method
+        from apvl_common ac
+        JOIN apvl_process ap on ac.apvl_no = ap.apvl_no
+        <where>
+            <foreach collection="statusList" item="status" open=" and ap.apvl_result in (" close=")" separator=",">
+                #{status}
+            </foreach>
+            <if test="apvlNo != null  and apvlNo != ''">and ac.apvl_no = #{apvlNo}</if>
+            <if test="isUrgent != null  and isUrgent != ''">and ac.is_urgent = #{isUrgent}</if>
+            <if test="itemId != null ">and ac.item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''">and ac.item_name like concat('%', #{itemName}, '%')</if>
+            <if test="customerId != null ">and ac.customer_id = #{customerId}</if>
+            <if test="customerName != null  and customerName != ''">and ac.customer_name like concat('%',
+                #{customerName},
+                '%')
+            </if>
+            <if test="apvlType != null  and apvlType != ''">and ac.apvl_type = #{apvlType}</if>
+            <if test="proposerId != null ">and ac.proposer_id = #{proposerId}</if>
+            <if test="proposer != null  and proposer != ''">and ac.proposer = #{proposer}</if>
+            <if test="approverId != null ">and ap.approver_id = #{approverId}</if>
+            <if test="approver != null  and approver != ''">and ap.approver = #{approver}</if>
+            <if test="status != null ">and ac.status = #{status}</if>
+            and ap.apvl_method != 0
+            and ap.apvl_time is not null
+        </where>
+        order by ap.apvl_time DESC
+    </select>
+</mapper>

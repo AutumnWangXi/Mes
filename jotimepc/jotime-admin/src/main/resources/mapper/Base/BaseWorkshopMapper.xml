@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseWorkshopMapper">
+
+    <resultMap type="BaseWorkshop" id="BaseWorkshopResult">
+        <result property="id" column="id"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="workshopCode" column="workshop_code"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="leaderId" column="leader_id"/>
+        <result property="productivity" column="productivity"/>
+        <result property="unit" column="unit"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="roleId" column="role_id"/>
+        <result property="workshopType" column="workshop_type"/>
+        <collection property="roles" javaType="java.util.List" ofType="SysRole">
+            <result property="roleId" column="sys_role_id"/>
+            <result property="roleName" column="sys_role_name"/>
+            <result property="roleKey" column="sys_role_key"/>
+            <result property="roleSort" column="sys_role_sort"/>
+            <result property="dataScope" column="sys_data_scope"/>
+            <result property="status" column="sys_role_status"/>
+        </collection>
+    </resultMap>
+
+    <resultMap type="BaseWorkshopVo" id="BaseWorkshopVoResult">
+        <result property="id" column="id"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="workshopCode" column="workshop_code"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="leaderName" column="employee_name"/>
+        <result property="productivity" column="productivity"/>
+        <result property="unit" column="unit"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status"/>
+        <result property="note" column="note"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="roleId" column="role_id"/>
+        <result property="workshopType" column="workshop_type"/>
+    </resultMap>
+
+    <sql id="selectBaseWorkshopVo">
+        select workshop_type,
+               role_id,
+               id,
+               workshop_name,
+               workshop_code,
+               dept_id,
+               leader_id,
+               productivity,
+               unit,
+               description,
+               status,
+               note,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from base_workshop
+    </sql>
+
+    <sql id="selectBaseWorkshopVo1">
+        select w.workshop_type,
+               w.role_id,
+               w.id,
+               w.workshop_name,
+               w.workshop_code,
+               w.dept_id,
+               w.leader_id,
+               w.productivity,
+               w.unit,
+               w.description,
+               w.status,
+               w.note,
+               w.create_by,
+               w.create_time,
+               w.update_by,
+               w.update_time
+    </sql>
+
+    <select id="selectBaseWorkshopList" parameterType="BaseWorkshop" resultMap="BaseWorkshopResult">
+        <include refid="selectBaseWorkshopVo"/>
+        <where>
+            <if test="workshopName != null  and workshopName != ''">and workshop_name like concat('%', #{workshopName},
+                '%')
+            </if>
+            <if test="workshopCode != null  and workshopCode != ''">and workshop_code = #{workshopCode}</if>
+            <if test="deptId != null ">and dept_id = #{deptId}</if>
+            <if test="leaderId != null ">and leader_id = #{leaderId}</if>
+            <if test="productivity != null ">and productivity = #{productivity}</if>
+            <if test="unit != null  and unit != ''">and unit = #{unit}</if>
+            <if test="description != null  and description != ''">and description = #{description}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseWorkshopVoList" parameterType="BaseWorkshop" resultMap="BaseWorkshopVoResult">
+        select w.id, w.workshop_name,w.workshop_code, w.dept_id, w.leader_id, w.productivity,w.role_id,w.workshop_type,
+        w.unit, w.description, w.status, w.note, w.create_by, w.create_time, w.update_by,
+        w.update_time,d.dept_name,i.employee_name,r.role_name from base_workshop w
+        LEFT JOIN sys_dept d ON(w.dept_id = d.dept_id)
+        LEFT JOIN employee_info i ON(w.leader_id = i.id)
+        LEFT JOIN sys_role r ON(w.role_id = r.role_id)
+        <where>
+            <if test="workshopName != null  and workshopName != ''">and w.workshop_name like concat('%',
+                #{workshopName}, '%')
+            </if>
+            <if test="workshopCode != null  and workshopCode != ''">and w.workshop_code = #{workshopCode}</if>
+            <if test="deptId != null ">and w.dept_id = #{deptId}</if>
+            <if test="leaderId != null ">and w.leader_id = #{leaderId}</if>
+            <if test="productivity != null ">and w.productivity = #{productivity}</if>
+            <if test="unit != null  and unit != ''">and w.unit = #{unit}</if>
+            <if test="description != null  and description != ''">and w.description = #{description}</if>
+            <if test="status != null ">and w.status = #{status}</if>
+            <if test="note != null  and note != ''">and w.note = #{note}</if>
+        </where>
+        ORDER BY w.id ASC
+    </select>
+
+    <select id="selectRoleBaseWorkshopList" parameterType="BaseWorkshop" resultMap="BaseWorkshopVoResult">
+        <include refid="selectBaseWorkshopVo1"/>
+        ,i.employee_name
+        from base_workshop w
+        LEFT JOIN employee_info i ON(w.leader_id = i.id)
+        <where>
+            <if test="workshopName != null  and workshopName != ''">and w.workshop_name like concat('%',
+                #{workshopName}, '%')
+            </if>
+            <if test="workshopCode != null  and workshopCode != ''">and w.workshop_code = #{workshopCode}</if>
+            <if test="deptId != null ">and w.dept_id = #{deptId}</if>
+            <if test="leaderId != null ">and w.leader_id = #{leaderId}</if>
+            <if test="productivity != null ">and w.productivity = #{productivity}</if>
+            <if test="unit != null  and unit != ''">and w.unit = #{unit}</if>
+            <if test="description != null  and description != ''">and w.description = #{description}</if>
+            <if test="status != null ">and w.status = #{status}</if>
+            <if test="note != null  and note != ''">and w.note = #{note}</if>
+            <if test="roleId != null and roleId != ''">and
+                <foreach item="item" index="index" collection="roleId.split(',')" open="(" separator="or" close=")">
+                    FIND_IN_SET(#{item},role_id)
+                </foreach>
+            </if>
+            <if test="workshopType != null">and workshop_type =#{workshopType}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseWorkshopById" parameterType="Long" resultMap="BaseWorkshopResult">
+        <include refid="selectBaseWorkshopVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="selectBaseWorkshopByIdData" parameterType="Long" resultMap="BaseWorkshopVoResult">
+        <include refid="selectBaseWorkshopVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="selectBaseWorkshopByCode" parameterType="String" resultMap="BaseWorkshopResult">
+        <include refid="selectBaseWorkshopVo"/>
+        where workshop_code = #{workshopCode}
+    </select>
+    <select id="checkWorkShopNameUnique" parameterType="String" resultMap="BaseWorkshopResult">
+        <include refid="selectBaseWorkshopVo"/>
+        where workshop_name = #{workshopName}
+        limit 1
+    </select>
+    <select id="selectAllByDeptId" resultType="com.jotime.web.domain.base.BaseWorkshop">
+        select *
+        from base_workshop
+        where dept_id = #{deptId}
+    </select>
+
+    <insert id="insertBaseWorkshop" parameterType="BaseWorkshop">
+        insert into base_workshop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="workshopName != null and workshopName != ''">workshop_name,</if>
+            <if test="workshopCode != null and workshopCode != ''">workshop_code,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="leaderId != null">leader_id,</if>
+            <if test="productivity != null">productivity,</if>
+            <if test="unit != null">unit,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="roleId != null">workshop_type,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="workshopName != null and workshopName != ''">#{workshopName},</if>
+            <if test="workshopCode != null and workshopCode != ''">#{workshopCode},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="leaderId != null">#{leaderId},</if>
+            <if test="productivity != null">#{productivity},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="roleId != null">#{roleId},</if>
+            <if test="workshopType != null">#{workshopType},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateBaseWorkshop" parameterType="BaseWorkshop">
+        update base_workshop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="workshopName != null and workshopName != ''">workshop_name = #{workshopName},</if>
+            <if test="workshopCode != null and workshopCode != ''">workshop_code = #{workshopCode},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="leaderId != null">leader_id = #{leaderId},</if>
+            <if test="productivity != null">productivity = #{productivity},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="roleId != null">role_id =#{roleId},</if>
+            <if test="workshopType != null">workshop_type =#{workshopType},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseWorkshopById" parameterType="Long">
+        delete
+        from base_workshop
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseWorkshopByIds" parameterType="String">
+        delete from base_workshop where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

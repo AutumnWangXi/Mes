@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseBrandMapper">
+
+    <resultMap type="BaseBrand" id="BaseBrandResult">
+        <result property="id"    column="id"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="mfrsId"    column="mfrs_id"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseBrandVo">
+        select id, brand_name, mfrs_id, status, note, create_by, create_time, update_by, update_time from base_brand
+    </sql>
+
+    <select id="selectBaseBrandList" parameterType="BaseBrand" resultMap="BaseBrandResult">
+        <include refid="selectBaseBrandVo"/>
+        <where>
+            <if test="brandName != null  and brandName != ''"> and brand_name like concat('%', #{brandName}, '%')</if>
+            <if test="mfrsId != null "> and mfrs_id = #{mfrsId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseBrandById" parameterType="Long" resultMap="BaseBrandResult">
+        <include refid="selectBaseBrandVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseBrand" parameterType="BaseBrand">
+        insert into base_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="brandName != null and brandName != ''">brand_name,</if>
+            <if test="mfrsId != null">mfrs_id,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="brandName != null and brandName != ''">#{brandName},</if>
+            <if test="mfrsId != null">#{mfrsId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateBaseBrand" parameterType="BaseBrand">
+        update base_brand
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
+            <if test="mfrsId != null">mfrs_id = #{mfrsId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseBrandById" parameterType="Long">
+        delete from base_brand where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseBrandByIds" parameterType="String">
+        delete from base_brand where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectBaseBrandVoList" parameterType="BaseBrand" resultMap="BaseBrandResult">
+        select t.id, t.brand_name, t.mfrs_id, t.status, t.note, t.create_by, t.create_time, t.update_by, t.update_time, bm.mfrs_name
+        from base_brand t
+        left join base_mfrs bm on bm.id = t.mfrs_id
+        <where>
+            <if test="brandName != null  and brandName != ''"> and brand_name like concat('%', #{brandName}, '%')</if>
+            <if test="mfrsId != null "> and mfrs_id = #{mfrsId}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+        order by t.mfrs_id
+    </select>
+
+    <select id="selectBaseBrandInfoByName" parameterType="String" resultMap="BaseBrandResult">
+        <include refid="selectBaseBrandVo"/>
+        where brand_name = #{brandName} limit 2
+    </select>
+</mapper>

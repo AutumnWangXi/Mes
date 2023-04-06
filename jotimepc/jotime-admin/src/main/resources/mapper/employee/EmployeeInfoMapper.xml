@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.employee.EmployeeInfoMapper">
+
+    <resultMap type="com.jotime.web.domainVo.employee.EmployeeInfoVo" id="EmployeeInfoVoResult">
+        <result property="id"    column="id"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="workshopId"    column="workshop_id"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="positionId"    column="position_id"    />
+        <result property="mobileNumber"    column="mobile_number"    />
+        <result property="sex"    column="sex"    />
+        <result property="email"    column="email"    />
+        <result property="lengthService"    column="length_service"    />
+        <result property="age"    column="age"    />
+        <result property="marriage"    column="marriage"    />
+        <result property="nationality"    column="nationality"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="nativePlace"    column="native_place"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="homePlace"    column="home_place"    />
+        <result property="address"    column="address"    />
+        <result property="graduateSchool"    column="graduate_school"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="graduationDate"    column="graduation_date"    />
+        <result property="professional"    column="professional"    />
+        <result property="joinDate"    column="join_date"    />
+        <result property="dimissionDate"    column="dimission_date"    />
+        <result property="leaveReason"    column="leave_reason"    />
+        <result property="reasonDec"    column="reason_dec"    />
+        <result property="contractEffective"    column="contract_effective"    />
+        <result property="contractExpiration"    column="contract_expiration"    />
+        <result property="skills"    column="skills"    />
+        <result property="positionalTitles"    column="positional_titles"    />
+        <result property="education"    column="education"    />
+        <result property="letterCommitment"    column="letter_commitment"    />
+        <result property="confidentialityAgreement"    column="confidentiality_agreement"    />
+        <result property="jobStatus"    column="job_status"    />
+        <result property="attachmentUrl"    column="attachment_url"    />
+        <result property="isSignatureTemplate"    column="is_signature_template"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEmployeeInfoVo">
+        select id, employee_code, employee_name, dept_id, workshop_id, group_id, position_id, mobile_number, sex, email, length_service, age, marriage, nationality, political_status, native_place, id_card, birthday, home_place, address, graduate_school, specialty, graduation_date, professional, join_date, dimission_date, leave_reason, reason_dec, contract_effective, contract_expiration,skills, positional_titles, education, letter_commitment, confidentiality_agreement, job_status, attachment_url, is_signature_template, status, note, create_by, create_time, update_by, update_time from employee_info
+    </sql>
+
+    <sql id="selectEmployeeInfoUnVo">
+        select t.id, t.employee_code, t.employee_name, t.dept_id, t.workshop_id,  t.group_id,t.position_id, t.mobile_number, t.sex,t.email, t.length_service, t.age, t.marriage, t.nationality, t.political_status, t.native_place, t.id_card, t.birthday, t.home_place, t.address, t.graduate_school, t.specialty, t.graduation_date, t.professional, t.join_date,t.dimission_date, t.leave_reason, t.reason_dec,t.contract_effective,t.contract_expiration,t.skills,t.positional_titles,t.education,t.letter_commitment, t.confidentiality_agreement,t.job_status, t.attachment_url, t.is_signature_template, t.status, t.note, t.create_by, t.create_time, t.update_by, t.update_time
+    </sql>
+
+    <select id="selectEmployeeInfoList" parameterType="com.jotime.web.domain.employee.EmployeeInfo" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        <where>
+            <if test="employeeCode != null  and employeeCode != ''"> and employee_code = #{employeeCode}</if>
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="workshopId != null "> and workshop_id = #{workshopId}</if>
+            <if test="groupId != null "> and group_id = #{groupId}</if>
+            <if test="positionId != null "> and position_id = #{positionId}</if>
+            <if test="mobileNumber != null  and mobileNumber != ''"> and mobile_number = #{mobileNumber}</if>
+            <if test="sex != null "> and sex = #{sex}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="lengthService != null "> and length_service = #{lengthService}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="marriage != null  and marriage != ''"> and marriage = #{marriage}</if>
+            <if test="nationality != null  and nationality != ''"> and nationality = #{nationality}</if>
+            <if test="politicalStatus != null  and politicalStatus != ''"> and political_status = #{politicalStatus}</if>
+            <if test="nativePlace != null  and nativePlace != ''"> and native_place = #{nativePlace}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="homePlace != null  and homePlace != ''"> and home_place = #{homePlace}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="graduateSchool != null  and graduateSchool != ''"> and graduate_school = #{graduateSchool}</if>
+            <if test="specialty != null  and specialty != ''"> and specialty = #{specialty}</if>
+            <if test="graduationDate != null "> and graduation_date = #{graduationDate}</if>
+            <if test="professional != null  and professional != ''"> and professional = #{professional}</if>
+            <if test="joinDate != null "> and join_date = #{joinDate}</if>
+            <if test="dimissionDate != null "> and dimission_date = #{dimissionDate}</if>
+            <if test="leaveReason != null  and leaveReason != ''"> and leave_reason = #{leaveReason}</if>
+            <if test="reasonDec != null  and reasonDec != ''"> and reason_dec = #{reasonDec}</if>
+            <if test="contractEffective != null "> and contract_effective = #{contractEffective}</if>
+            <if test="contractExpiration != null "> and contract_expiration = #{contractExpiration}</if>
+            <if test="skills != null "> and skills = #{skills}</if>
+            <if test="positionalTitles != null "> and positional_titles = #{positionalTitles}</if>
+            <if test="education != null  and education != ''"> and education = #{education}</if>
+            <if test="letterCommitment != null  and letterCommitment != ''"> and letter_commitment = #{letterCommitment}</if>
+            <if test="confidentialityAgreement != null  and confidentialityAgreement != ''"> and confidentiality_agreement = #{confidentialityAgreement}</if>
+            <if test="jobStatus != null "> and job_status = #{jobStatus}</if>
+            <if test="attachmentUrl != null  and attachmentUrl != ''"> and attachment_url = #{attachmentUrl}</if>
+            <if test="isSignatureTemplate != null "> and is_signature_template = #{isSignatureTemplate}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="checkEeCodeUnique" parameterType="String" resultMap="EmployeeInfoVoResult">
+        select id,employee_code from employee_info where employee_code = #{eeCode} limit 1
+    </select>
+
+    <select id="selectEmployeeInfoById" parameterType="Long" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBaseByEmployeesCode" parameterType="String" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where employee_code = #{employeeCode}
+    </select>
+
+    <select id="selectBaseEmployeesListById" parameterType="String" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insertEmployeeInfo" parameterType="com.jotime.web.domain.employee.EmployeeInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into employee_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeCode != null and employeeCode != ''">employee_code,</if>
+            <if test="employeeName != null and employeeName != ''">employee_name,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="workshopId != null">workshop_id,</if>
+            <if test="groupId != null">group_id,</if>
+            <if test="positionId != null">position_id,</if>
+            <if test="mobileNumber != null">mobile_number,</if>
+            <if test="sex != null">sex,</if>
+            <if test="email != null">email,</if>
+            <if test="lengthService != null">length_service,</if>
+            <if test="age != null">age,</if>
+            <if test="marriage != null">marriage,</if>
+            <if test="nationality != null">nationality,</if>
+            <if test="politicalStatus != null">political_status,</if>
+            <if test="nativePlace != null">native_place,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="homePlace != null">home_place,</if>
+            <if test="address != null">address,</if>
+            <if test="graduateSchool != null">graduate_school,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="graduationDate != null">graduation_date,</if>
+            <if test="professional != null">professional,</if>
+            <if test="joinDate != null">join_date,</if>
+            <if test="dimissionDate != null">dimission_date,</if>
+            <if test="leaveReason != null">leave_reason,</if>
+            <if test="reasonDec != null">reason_dec,</if>
+            <if test="contractEffective != null">contract_effective,</if>
+            <if test="contractExpiration != null">contract_expiration,</if>
+            <if test="skills != null">skills,</if>
+            <if test="positionalTitles != null">positional_titles,</if>
+            <if test="education != null">education,</if>
+            <if test="letterCommitment != null">letter_commitment,</if>
+            <if test="confidentialityAgreement != null">confidentiality_agreement,</if>
+            <if test="jobStatus != null">job_status,</if>
+            <if test="attachmentUrl != null">attachment_url,</if>
+            <if test="isSignatureTemplate != null">is_signature_template,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeCode != null and employeeCode != ''">#{employeeCode},</if>
+            <if test="employeeName != null and employeeName != ''">#{employeeName},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="workshopId != null">#{workshopId},</if>
+            <if test="groupId != null">#{groupId},</if>
+            <if test="positionId != null">#{positionId},</if>
+            <if test="mobileNumber != null">#{mobileNumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="email != null">#{email},</if>
+            <if test="lengthService != null">#{lengthService},</if>
+            <if test="age != null">#{age},</if>
+            <if test="marriage != null">#{marriage},</if>
+            <if test="nationality != null">#{nationality},</if>
+            <if test="politicalStatus != null">#{politicalStatus},</if>
+            <if test="nativePlace != null">#{nativePlace},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="homePlace != null">#{homePlace},</if>
+            <if test="address != null">#{address},</if>
+            <if test="graduateSchool != null">#{graduateSchool},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="graduationDate != null">#{graduationDate},</if>
+            <if test="professional != null">#{professional},</if>
+            <if test="joinDate != null">#{joinDate},</if>
+            <if test="dimissionDate != null">#{dimissionDate},</if>
+            <if test="leaveReason != null">#{leaveReason},</if>
+            <if test="reasonDec != null">#{reasonDec},</if>
+            <if test="contractEffective != null">#{contractEffective},</if>
+            <if test="contractExpiration != null">#{contractExpiration},</if>
+            <if test="skills != null">#{skills},</if>
+            <if test="positionalTitles != null">#{positionalTitles},</if>
+            <if test="education != null">#{education},</if>
+            <if test="letterCommitment != null">#{letterCommitment},</if>
+            <if test="confidentialityAgreement != null">#{confidentialityAgreement},</if>
+            <if test="jobStatus != null">#{jobStatus},</if>
+            <if test="attachmentUrl != null">#{attachmentUrl},</if>
+            <if test="isSignatureTemplate != null">#{isSignatureTemplate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEmployeeInfo" parameterType="com.jotime.web.domain.employee.EmployeeInfo">
+        update employee_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeCode != null and employeeCode != ''">employee_code = #{employeeCode},</if>
+            <if test="employeeName != null and employeeName != ''">employee_name = #{employeeName},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="workshopId != null">workshop_id = #{workshopId},</if>
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="positionId != null">position_id = #{positionId},</if>
+            <if test="mobileNumber != null">mobile_number = #{mobileNumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="lengthService != null">length_service = #{lengthService},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="marriage != null">marriage = #{marriage},</if>
+            <if test="nationality != null">nationality = #{nationality},</if>
+            <if test="politicalStatus != null">political_status = #{politicalStatus},</if>
+            <if test="nativePlace != null">native_place = #{nativePlace},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="homePlace != null">home_place = #{homePlace},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="graduateSchool != null">graduate_school = #{graduateSchool},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="graduationDate != null">graduation_date = #{graduationDate},</if>
+            <if test="professional != null">professional = #{professional},</if>
+            <if test="joinDate != null">join_date = #{joinDate},</if>
+            <if test="dimissionDate != null">dimission_date = #{dimissionDate},</if>
+            <if test="leaveReason != null">leave_reason = #{leaveReason},</if>
+            <if test="reasonDec != null">reason_dec = #{reasonDec},</if>
+            <if test="contractEffective != null">contract_effective = #{contractEffective},</if>
+            <if test="contractExpiration != null">contract_expiration = #{contractExpiration},</if>
+            <if test="skills != null">skills = #{skills},</if>
+            <if test="positionalTitles != null">positional_titles = #{positionalTitles},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="letterCommitment != null">letter_commitment = #{letterCommitment},</if>
+            <if test="confidentialityAgreement != null">confidentiality_agreement = #{confidentialityAgreement},</if>
+            <if test="jobStatus != null">job_status = #{jobStatus},</if>
+            <if test="attachmentUrl != null">attachment_url = #{attachmentUrl},</if>
+            <if test="isSignatureTemplate != null">is_signature_template = #{isSignatureTemplate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmployeeInfoById" parameterType="Long">
+        delete from employee_info where id = #{id}
+    </delete>
+
+    <delete id="deleteEmployeeInfoByIds" parameterType="Long">
+<!--        delete from employee_info where id in-->
+<!--        <foreach item="id" collection="array" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+        update employee_info
+        <set>
+            <!-- 禁用-->
+            status = 1
+        </set>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectEmployeeInfoUnList" parameterType="com.jotime.web.domain.employee.EmployeeInfo" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoUnVo"/>,dep.dept_name,workshop.workshop_name,post.post_name
+        from employee_info t LEFT JOIN sys_dept dep ON dep.dept_id = t.dept_id
+        LEFT JOIN base_workshop workshop on t.workshop_id = workshop.id
+        LEFT JOIN sys_post post  on t.position_id = post.post_id
+        <where>
+            <if test="employeeCode != null "> and t.employee_code = #{employeeCode}</if>
+            <if test="employeeName != null  and employeeName != ''"> and t.employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="deptId != null "> and t.dept_id = #{deptId}</if>
+            <if test="positionId != null "> and t.position_id = #{positionId}</if>
+            <if test="mobileNumber != null  and mobileNumber != ''"> and t.mobile_number = #{mobileNumber}</if>
+            <if test="email != null  and email != ''"> and t.email = #{email}</if>
+            <if test="joinDate != null "> and t.join_date = #{joinDate}</if>
+            <if test="dimissionDate != null "> and t.dimission_date = #{dimissionDate}</if>
+            <if test="jobStatus != null "> and t.job_status = #{jobStatus}</if>
+            <if test="isSignatureTemplate != null "> and t.is_signature_template = #{isSignatureTemplate}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+        </where>
+    </select>
+    <select id="selectEmployeeInfoByDept" parameterType="com.jotime.web.domain.employee.EmployeeInfo" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where dept_id = #{deptId}
+        <if test="status != null "> and status = #{status}</if>
+        <if test="employeeCode != null "> and employee_code = #{employeeCode}</if>
+        <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+        <if test="jobStatus != null "> and job_status = #{jobStatus}</if>
+    </select>
+
+    <select id="selectEmployeeInfoByEmployeeCode" parameterType="com.jotime.web.domain.employee.EmployeeInfo" resultMap="EmployeeInfoVoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where
+        <if test="employeeCode != null ">employee_code = #{employeeCode}</if>
+    </select>
+</mapper>

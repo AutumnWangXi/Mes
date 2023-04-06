@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.sys.SysJobTitleMapper">
+    
+    <resultMap type="SysJobTitle" id="SysJobTitleResult">
+        <result property="id"    column="id"    />
+        <result property="jobTitle"    column="job_title"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="creatorName"    column="creator_name"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifiedUser"    column="modified_user"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectSysJobTitleVo">
+        select id, job_title, creator_id, creator_name, create_date, modified_user, gmt_modified from sys_job_title
+    </sql>
+
+    <select id="selectSysJobTitleList" parameterType="SysJobTitle" resultMap="SysJobTitleResult">
+        <include refid="selectSysJobTitleVo"/>
+        <where>  
+            <if test="jobTitle != null  and jobTitle != ''"> and job_title = #{jobTitle}</if>
+            <if test="creatorId != null  and creatorId != ''"> and creator_id = #{creatorId}</if>
+            <if test="creatorName != null  and creatorName != ''"> and creator_name like concat('%', #{creatorName}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifiedUser != null  and modifiedUser != ''"> and modified_user = #{modifiedUser}</if>
+            <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysJobTitleById" parameterType="Long" resultMap="SysJobTitleResult">
+        <include refid="selectSysJobTitleVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectSysJobTitleByName" parameterType="String" resultMap="SysJobTitleResult">
+        <include refid="selectSysJobTitleVo"/>
+        where job_title = #{value}
+    </select>
+        
+    <insert id="insertSysJobTitle" parameterType="SysJobTitle">
+        insert into sys_job_title
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="jobTitle != null">job_title,</if>
+            <if test="creatorId != null">creator_id,</if>
+            <if test="creatorName != null">creator_name,</if>
+<!--            <if test="createDate != null">create_date,</if>-->
+            <if test="modifiedUser != null">modified_user,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+            create_date,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="jobTitle != null">#{jobTitle},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+            <if test="creatorName != null">#{creatorName},</if>
+<!--            <if test="createDate != null">#{createDate},</if>-->
+            <if test="modifiedUser != null">#{modifiedUser},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+            CURRENT_TIMESTAMP,
+         </trim>
+    </insert>
+
+    <update id="updateSysJobTitle" parameterType="SysJobTitle">
+        update sys_job_title
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobTitle != null">job_title = #{jobTitle},</if>
+            <if test="creatorId != null">creator_id = #{creatorId},</if>
+            <if test="creatorName != null">creator_name = #{creatorName},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifiedUser != null">modified_user = #{modifiedUser},</if>
+<!--            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>-->
+            gmt_modified = CURRENT_TIMESTAMP
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysJobTitleById" parameterType="Long">
+        delete from sys_job_title where id = #{id}
+    </delete>
+
+    <delete id="deleteSysJobTitleByIds" parameterType="String">
+        delete from sys_job_title where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

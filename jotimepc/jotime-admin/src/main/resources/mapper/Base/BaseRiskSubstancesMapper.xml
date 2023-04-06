@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseRiskSubstancesMapper">
+
+    <resultMap type="BaseRiskSubstances" id="BaseRiskSubstancesResult">
+        <result property="id"    column="id"    />
+        <result property="inciNameCn"    column="inci_name_cn"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="riskSubstances"    column="risk_substances"    />
+        <result property="description"    column="description"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseRiskSubstancesVo">
+        select id, inci_name_cn, inci_name_en, risk_substances, description, create_by, create_time, update_by, update_time from base_risk_substances
+    </sql>
+
+    <select id="selectBaseRiskSubstancesList" parameterType="BaseRiskSubstances" resultMap="BaseRiskSubstancesResult">
+        <include refid="selectBaseRiskSubstancesVo"/>
+        <where>
+            <if test="inciNameCn != null  and inciNameCn != ''"> and inci_name_cn = #{inciNameCn}</if>
+            <if test="inciNameEn != null  and inciNameEn != ''"> and inci_name_en = #{inciNameEn}</if>
+            <if test="riskSubstances != null  and riskSubstances != ''"> and risk_substances = #{riskSubstances}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseRiskSubstancesById" parameterType="Long" resultMap="BaseRiskSubstancesResult">
+        <include refid="selectBaseRiskSubstancesVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectBaseRiskSubstancesByNameCn" parameterType="String" resultMap="BaseRiskSubstancesResult">
+        <include refid="selectBaseRiskSubstancesVo"/>
+        where inci_name_cn = #{inciNameCn}
+    </select>
+
+    <insert id="insertBaseRiskSubstances" parameterType="BaseRiskSubstances" useGeneratedKeys="true" keyProperty="id">
+        insert into base_risk_substances
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inciNameCn != null and inciNameCn != ''">inci_name_cn,</if>
+            <if test="inciNameEn != null">inci_name_en,</if>
+            <if test="riskSubstances != null and riskSubstances != ''">risk_substances,</if>
+            <if test="description != null">description,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inciNameCn != null and inciNameCn != ''">#{inciNameCn},</if>
+            <if test="inciNameEn != null">#{inciNameEn},</if>
+            <if test="riskSubstances != null and riskSubstances != ''">#{riskSubstances},</if>
+            <if test="description != null">#{description},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseRiskSubstances" parameterType="BaseRiskSubstances">
+        update base_risk_substances
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inciNameCn != null and inciNameCn != ''">inci_name_cn = #{inciNameCn},</if>
+            <if test="inciNameEn != null">inci_name_en = #{inciNameEn},</if>
+            <if test="riskSubstances != null and riskSubstances != ''">risk_substances = #{riskSubstances},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseRiskSubstancesById" parameterType="Long">
+        delete from base_risk_substances where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseRiskSubstancesByIds" parameterType="String">
+        delete from base_risk_substances where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

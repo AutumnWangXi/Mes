@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCosmeticMaterialMapper">
+
+    <resultMap type="BaseCosmeticMaterial" id="BaseCosmeticMaterialResult">
+        <result property="id"    column="id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="inciNameCn"    column="inci_name_cn"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="rinsingMaximumUsage"    column="rinsing_maximum_usage"    />
+        <result property="residentMaximumUsage"    column="resident_maximum_usage"    />
+        <result property="safetyScore"    column="safety_score"    />
+        <result property="acneRisk"    column="acne_risk"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <resultMap type="BaseCosmeticMaterialExlVo" id="BaseCosmeticMaterialExlVoResult">
+        <result property="id"    column="id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="inciNameCn"    column="inci_name_cn"    />
+        <result property="inciNameEn"    column="inci_name_en"    />
+        <result property="rinsingMaximumUsage"    column="rinsing_maximum_usage"    />
+        <result property="residentMaximumUsage"    column="resident_maximum_usage"    />
+        <result property="safetyScore"    column="safety_score"    />
+        <result property="acneRisk"    column="acne_risk"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseCosmeticMaterialVo">
+        select id, serial_number, inci_name_cn, inci_name_en, rinsing_maximum_usage, resident_maximum_usage,safety_score,acne_risk, status, note, create_by, create_time, update_by, update_time from base_cosmetic_material
+    </sql>
+
+    <select id="selectBaseCosmeticMaterialList" parameterType="BaseCosmeticMaterial" resultMap="BaseCosmeticMaterialResult">
+        <include refid="selectBaseCosmeticMaterialVo"/>
+        <where>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="inciNameCn != null  and inciNameCn != ''"> and inci_name_cn = #{inciNameCn}</if>
+            <if test="inciNameEn != null  and inciNameEn != ''"> and inci_name_en = #{inciNameEn}</if>
+            <if test="rinsingMaximumUsage != null "> and rinsing_maximum_usage = #{rinsingMaximumUsage}</if>
+            <if test="residentMaximumUsage != null "> and resident_maximum_usage = #{residentMaximumUsage}</if>
+            <if test="safetyScore != null "> and safety_score = #{safetyScore}</if>
+            <if test="acneRisk != null "> and acne_risk = #{acneRisk}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCosmeticMaterialExlVoList" parameterType="BaseCosmeticMaterialExlVo" resultMap="BaseCosmeticMaterialExlVoResult">
+        select id, serial_number, inci_name_cn, inci_name_en, rinsing_maximum_usage, resident_maximum_usage,safety_score,acne_risk, note, create_by, create_time, update_by, update_time from base_cosmetic_material
+        <where>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="inciNameCn != null  and inciNameCn != ''"> and inci_name_cn = #{inciNameCn}</if>
+            <if test="inciNameEn != null  and inciNameEn != ''"> and inci_name_en = #{inciNameEn}</if>
+            <if test="rinsingMaximumUsage != null "> and rinsing_maximum_usage = #{rinsingMaximumUsage}</if>
+            <if test="residentMaximumUsage != null "> and resident_maximum_usage = #{residentMaximumUsage}</if>
+            <if test="safetyScore != null "> and safety_score = #{safetyScore}</if>
+            <if test="acneRisk != null "> and acne_risk = #{acneRisk}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseCosmeticMaterialById" parameterType="Long" resultMap="BaseCosmeticMaterialResult">
+        <include refid="selectBaseCosmeticMaterialVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectBaseCosmeticMaterialBySerialNumber" parameterType="String" resultMap="BaseCosmeticMaterialResult">
+        <include refid="selectBaseCosmeticMaterialVo"/>
+        where serial_number = #{serialNumber}
+        limit 1
+    </select>
+
+    <select id="selectBaseCosmeticMaterialByCnAndEn" parameterType="String" resultMap="BaseCosmeticMaterialResult">
+        <include refid="selectBaseCosmeticMaterialVo"/>
+        <where>
+        <if test="cn != null  and cn != ''"> and inci_name_cn = #{cn}</if>
+        <if test="en != null  and en != ''"> and inci_name_en = #{en}</if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="selectBaseCosmeticMaterialByEn" parameterType="String" resultMap="BaseCosmeticMaterialResult">
+        select bcm.serial_number,bcm.inci_name_en from base_cosmetic_material bcm
+        where bcm.inci_name_cn = #{inciNameCn}
+    </select>
+
+    <insert id="insertBaseCosmeticMaterial" parameterType="BaseCosmeticMaterial" useGeneratedKeys="true" keyProperty="id">
+        insert into base_cosmetic_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="inciNameCn != null and inciNameCn != ''">inci_name_cn,</if>
+            <if test="inciNameEn != null and inciNameEn != ''">inci_name_en,</if>
+            <if test="rinsingMaximumUsage != null">rinsing_maximum_usage,</if>
+            <if test="residentMaximumUsage != null">resident_maximum_usage,</if>
+            <if test="safetyScore != null">safety_score,</if>
+            <if test="acneRisk != null">acne_risk,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null and serialNumber != ''">LPAD(#{serialNumber},5,0),</if>
+            <if test="inciNameCn != null and inciNameCn != ''">#{inciNameCn},</if>
+            <if test="inciNameEn != null and inciNameEn != ''">#{inciNameEn},</if>
+            <if test="rinsingMaximumUsage != null">#{rinsingMaximumUsage},</if>
+            <if test="residentMaximumUsage != null">#{residentMaximumUsage},</if>
+            <if test="safetyScore != null">#{safetyScore},</if>
+            <if test="acneRisk != null">#{acneRisk},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCosmeticMaterial" parameterType="BaseCosmeticMaterial">
+        update base_cosmetic_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNumber != null and serialNumber != ''">serial_number = LPAD(#{serialNumber},5,0),</if>
+            <if test="inciNameCn != null and inciNameCn != ''">inci_name_cn = #{inciNameCn},</if>
+            <if test="inciNameEn != null and inciNameEn != ''">inci_name_en = #{inciNameEn},</if>
+            <if test="rinsingMaximumUsage != null">rinsing_maximum_usage = #{rinsingMaximumUsage},</if>
+            <if test="residentMaximumUsage != null">resident_maximum_usage = #{residentMaximumUsage},</if>
+            <if test="safetyScore != null">safety_score = #{safetyScore},</if>
+            <if test="acneRisk != null">acne_risk = #{acneRisk},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCosmeticMaterialById" parameterType="Long">
+        delete from base_cosmetic_material where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCosmeticMaterialByIds" parameterType="String">
+        delete from base_cosmetic_material where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

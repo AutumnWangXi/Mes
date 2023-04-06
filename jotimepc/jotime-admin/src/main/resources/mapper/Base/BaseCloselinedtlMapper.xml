@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseCloselinedtlMapper">
+    
+    <resultMap type="com.jotime.web.domain.base.BaseCloselinedtl" id="BaseCloselinedtlResult">
+        <result property="id"    column="id"    />
+        <result property="closelineId"    column="closeline_id"    />
+        <result property="judgmentMode"    column="judgment_mode"    />
+        <result property="inspectType"    column="inspect_type"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="upFloatingValue"    column="up_floating_value"    />
+        <result property="downFloatingValue"    column="down_floating_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="inspectContent"    column="inspect_content"    />
+        <result property="inspectItems"    column="inspect_items"    />
+    </resultMap>
+
+    <sql id="selectBaseCloselinedtlVo">
+        select id, closeline_id, judgment_mode, inspect_type, standard_value, up_floating_value, down_floating_value, sort, inspect_content,inspect_items, create_by, create_time, update_by, update_time from base_closelinedtl
+    </sql>
+
+    <select id="selectBaseCloselinedtlList" parameterType="BaseCloselinedtl" resultMap="BaseCloselinedtlResult">
+        <include refid="selectBaseCloselinedtlVo"/>
+        <where>  
+            <if test="closelineId != null "> and closeline_id = #{closelineId}</if>
+            <if test="judgmentMode != null "> and judgment_mode = #{judgmentMode}</if>
+            <if test="inspectType != null "> and inspect_type = #{inspectType}</if>
+            <if test="standardValue != null "> and standard_value = #{standardValue}</if>
+            <if test="upFloatingValue != null "> and up_floating_value = #{upFloatingValue}</if>
+            <if test="downFloatingValue != null "> and down_floating_value = #{downFloatingValue}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="inspectContent != null  and inspectContent != ''"> and inspect_content = #{inspectContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseCloselinedtlById" parameterType="Long" resultMap="BaseCloselinedtlResult">
+        <include refid="selectBaseCloselinedtlVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBaseCloselinedtl" parameterType="BaseCloselinedtl" useGeneratedKeys="true" keyProperty="id">
+        insert into base_closelinedtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="closelineId != null">closeline_id,</if>
+            <if test="judgmentMode != null">judgment_mode,</if>
+            <if test="inspectType != null">inspect_type,</if>
+            <if test="standardValue != null">standard_value,</if>
+            <if test="upFloatingValue != null">up_floating_value,</if>
+            <if test="downFloatingValue != null">down_floating_value,</if>
+            <if test="sort != null">sort,</if>
+            <if test="inspectItems != null">inspect_items,</if>
+            <if test="inspectContent != null">inspect_content,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="closelineId != null">#{closelineId},</if>
+            <if test="judgmentMode != null">#{judgmentMode},</if>
+            <if test="inspectType != null">#{inspectType},</if>
+            <if test="standardValue != null">#{standardValue},</if>
+            <if test="upFloatingValue != null">#{upFloatingValue},</if>
+            <if test="downFloatingValue != null">#{downFloatingValue},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="inspectItems != null">#{inspectItems},</if>
+            <if test="inspectContent != null">#{inspectContent},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCloselinedtl" parameterType="BaseCloselinedtl">
+        update base_closelinedtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="closelineId != null">closeline_id = #{closelineId},</if>
+            <if test="judgmentMode != null">judgment_mode = #{judgmentMode},</if>
+            <if test="inspectType != null">inspect_type = #{inspectType},</if>
+            <if test="standardValue != null">standard_value = #{standardValue},</if>
+            <if test="upFloatingValue != null">up_floating_value = #{upFloatingValue},</if>
+            <if test="downFloatingValue != null">down_floating_value = #{downFloatingValue},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="inspectItems != null">inspect_items = #{inspectItems},</if>
+            <if test="inspectContent != null">inspect_content = #{inspectContent},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseCloselinedtlById" parameterType="Long">
+        delete from base_closelinedtl where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseCloselinedtlByIds" parameterType="String">
+        delete from base_closelinedtl where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteBaseCloselinedtlByLineId" parameterType="Long">
+        delete from base_closelinedtl where closeline_id = #{closeline_id}
+    </delete>
+</mapper>

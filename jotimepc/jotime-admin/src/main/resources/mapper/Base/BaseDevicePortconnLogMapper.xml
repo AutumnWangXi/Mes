@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseDevicePortconnLogMapper">
+
+    <resultMap type="BaseDevicePortconnLog" id="BaseDevicePortconnLogResult">
+        <result property="id"    column="id"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="deviceMac"    column="device_mac"    />
+        <result property="portNo"    column="port_no"    />
+        <result property="portName"    column="port_name"    />
+        <result property="connType"    column="conn_type"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="baudRate"    column="baud_rate"    />
+        <result property="dataBit"    column="data_bit"    />
+        <result property="parityBit"    column="parity_bit"    />
+        <result property="stopBit"    column="stop_bit"    />
+        <result property="fluidControl"    column="fluid_control"    />
+        <result property="sendType"    column="send_type"    />
+        <result property="receiveType"    column="receive_type"    />
+        <result property="latestConnDeviceCode"    column="latest_conn_device_code"    />
+        <result property="latestConnDeviceMac"    column="latest_conn_device_mac"    />
+        <result property="latestConnPortNo"    column="latest_conn_port_no"    />
+        <result property="latestConnPortName"    column="latest_conn_port_name"    />
+        <result property="connTime"    column="conn_time"    />
+        <result property="disconnTime"    column="disconn_time"    />
+        <result property="connStatus"    column="conn_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseDevicePortconnLogVo">
+        select id, device_code, device_mac, port_no, port_name, conn_type, ip_address, baud_rate, data_bit, parity_bit, stop_bit, fluid_control, send_type, receive_type, latest_conn_device_code, latest_conn_device_mac, latest_conn_port_no, latest_conn_port_name, conn_time, disconn_time, conn_status, create_by, create_time, update_by, update_time from base_device_portconn_log
+    </sql>
+
+    <select id="selectBaseDevicePortconnLogList" parameterType="BaseDevicePortconnLog" resultMap="BaseDevicePortconnLogResult">
+        <include refid="selectBaseDevicePortconnLogVo"/>
+        <where>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="portNo != null  and portNo != ''"> and port_no = #{portNo}</if>
+            <if test="portName != null  and portName != ''"> and port_name like concat('%', #{portName}, '%')</if>
+            <if test="connType != null  and connType != ''"> and conn_type = #{connType}</if>
+            <if test="ipAddress != null  and ipAddress != ''"> and ip_address = #{ipAddress}</if>
+            <if test="baudRate != null  and baudRate != ''"> and baud_rate = #{baudRate}</if>
+            <if test="dataBit != null  and dataBit != ''"> and data_bit = #{dataBit}</if>
+            <if test="parityBit != null  and parityBit != ''"> and parity_bit = #{parityBit}</if>
+            <if test="stopBit != null  and stopBit != ''"> and stop_bit = #{stopBit}</if>
+            <if test="fluidControl != null  and fluidControl != ''"> and fluid_control = #{fluidControl}</if>
+            <if test="sendType != null  and sendType != ''"> and send_type = #{sendType}</if>
+            <if test="receiveType != null  and receiveType != ''"> and receive_type = #{receiveType}</if>
+            <if test="latestConnDeviceCode != null  and latestConnDeviceCode != ''"> and latest_conn_device_code = #{latestConnDeviceCode}</if>
+            <if test="latestConnDeviceMac != null  and latestConnDeviceMac != ''"> and latest_conn_device_mac = #{latestConnDeviceMac}</if>
+            <if test="latestConnPortNo != null  and latestConnPortNo != ''"> and latest_conn_port_no = #{latestConnPortNo}</if>
+            <if test="latestConnPortName != null  and latestConnPortName != ''"> and latest_conn_port_name like concat('%', #{latestConnPortName}, '%')</if>
+            <if test="connTime != null "> and conn_time = #{connTime}</if>
+            <if test="disconnTime != null "> and disconn_time = #{disconnTime}</if>
+            <if test="connStatus != null  and connStatus != ''"> and conn_status = #{connStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseDevicePortconnLogById" parameterType="Long" resultMap="BaseDevicePortconnLogResult">
+        <include refid="selectBaseDevicePortconnLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseDevicePortconnLog" parameterType="BaseDevicePortconnLog" useGeneratedKeys="true" keyProperty="id">
+        insert into base_device_portconn_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code,</if>
+            <if test="deviceMac != null">device_mac,</if>
+            <if test="portNo != null and portNo != ''">port_no,</if>
+            <if test="portName != null and portName != ''">port_name,</if>
+            <if test="connType != null">conn_type,</if>
+            <if test="ipAddress != null">ip_address,</if>
+            <if test="baudRate != null">baud_rate,</if>
+            <if test="dataBit != null">data_bit,</if>
+            <if test="parityBit != null">parity_bit,</if>
+            <if test="stopBit != null">stop_bit,</if>
+            <if test="fluidControl != null">fluid_control,</if>
+            <if test="sendType != null">send_type,</if>
+            <if test="receiveType != null">receive_type,</if>
+            <if test="latestConnDeviceCode != null">latest_conn_device_code,</if>
+            <if test="latestConnDeviceMac != null">latest_conn_device_mac,</if>
+            <if test="latestConnPortNo != null">latest_conn_port_no,</if>
+            <if test="latestConnPortName != null">latest_conn_port_name,</if>
+            <if test="connTime != null">conn_time,</if>
+            <if test="disconnTime != null">disconn_time,</if>
+            <if test="connStatus != null">conn_status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">#{deviceCode},</if>
+            <if test="deviceMac != null">#{deviceMac},</if>
+            <if test="portNo != null and portNo != ''">#{portNo},</if>
+            <if test="portName != null and portName != ''">#{portName},</if>
+            <if test="connType != null">#{connType},</if>
+            <if test="ipAddress != null">#{ipAddress},</if>
+            <if test="baudRate != null">#{baudRate},</if>
+            <if test="dataBit != null">#{dataBit},</if>
+            <if test="parityBit != null">#{parityBit},</if>
+            <if test="stopBit != null">#{stopBit},</if>
+            <if test="fluidControl != null">#{fluidControl},</if>
+            <if test="sendType != null">#{sendType},</if>
+            <if test="receiveType != null">#{receiveType},</if>
+            <if test="latestConnDeviceCode != null">#{latestConnDeviceCode},</if>
+            <if test="latestConnDeviceMac != null">#{latestConnDeviceMac},</if>
+            <if test="latestConnPortNo != null">#{latestConnPortNo},</if>
+            <if test="latestConnPortName != null">#{latestConnPortName},</if>
+            <if test="connTime != null">#{connTime},</if>
+            <if test="disconnTime != null">#{disconnTime},</if>
+            <if test="connStatus != null">#{connStatus},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseDevicePortconnLog" parameterType="BaseDevicePortconnLog">
+        update base_device_portconn_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceCode != null and deviceCode != ''">device_code = #{deviceCode},</if>
+            <if test="deviceMac != null">device_mac = #{deviceMac},</if>
+            <if test="portNo != null and portNo != ''">port_no = #{portNo},</if>
+            <if test="portName != null and portName != ''">port_name = #{portName},</if>
+            <if test="connType != null">conn_type = #{connType},</if>
+            <if test="ipAddress != null">ip_address = #{ipAddress},</if>
+            <if test="baudRate != null">baud_rate = #{baudRate},</if>
+            <if test="dataBit != null">data_bit = #{dataBit},</if>
+            <if test="parityBit != null">parity_bit = #{parityBit},</if>
+            <if test="stopBit != null">stop_bit = #{stopBit},</if>
+            <if test="fluidControl != null">fluid_control = #{fluidControl},</if>
+            <if test="sendType != null">send_type = #{sendType},</if>
+            <if test="receiveType != null">receive_type = #{receiveType},</if>
+            <if test="latestConnDeviceCode != null">latest_conn_device_code = #{latestConnDeviceCode},</if>
+            <if test="latestConnDeviceMac != null">latest_conn_device_mac = #{latestConnDeviceMac},</if>
+            <if test="latestConnPortNo != null">latest_conn_port_no = #{latestConnPortNo},</if>
+            <if test="latestConnPortName != null">latest_conn_port_name = #{latestConnPortName},</if>
+            <if test="connTime != null">conn_time = #{connTime},</if>
+            <if test="disconnTime != null">disconn_time = #{disconnTime},</if>
+            <if test="connStatus != null">conn_status = #{connStatus},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseDevicePortconnLogById" parameterType="Long">
+        delete from base_device_portconn_log where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseDevicePortconnLogByIds" parameterType="String">
+        delete from base_device_portconn_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

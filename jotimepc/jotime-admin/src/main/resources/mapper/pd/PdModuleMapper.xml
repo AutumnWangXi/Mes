@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.pd.PdModuleMapper">
+    
+    <resultMap type="PdModule" id="PdModuleResult">
+        <result property="id"    column="id"    />
+        <result property="moduleNo"    column="module_no"    />
+        <result property="moduleName"    column="module_name"    />
+        <result property="moduleDescribe"    column="module_describe"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPdModuleVo">
+        select id, module_no, module_name, module_describe, status, create_by, create_time, update_by, update_time from pd_module
+    </sql>
+
+    <select id="selectPdModuleList" parameterType="PdModule" resultMap="PdModuleResult">
+        <include refid="selectPdModuleVo"/>
+        <where>  
+            <if test="moduleNo != null  and moduleNo != ''"> and module_no = #{moduleNo}</if>
+            <if test="moduleName != null  and moduleName != ''"> and module_name like concat('%', #{moduleName}, '%')</if>
+            <if test="moduleDescribe != null  and moduleDescribe != ''"> and module_describe = #{moduleDescribe}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectPdModuleById" parameterType="Long" resultMap="PdModuleResult">
+        <include refid="selectPdModuleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPdModule" parameterType="PdModule" useGeneratedKeys="true" keyProperty="id">
+        insert into pd_module
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">module_no,</if>
+            <if test="moduleName != null and moduleName != ''">module_name,</if>
+            <if test="moduleDescribe != null">module_describe,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">#{moduleNo},</if>
+            <if test="moduleName != null and moduleName != ''">#{moduleName},</if>
+            <if test="moduleDescribe != null">#{moduleDescribe},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePdModule" parameterType="PdModule">
+        update pd_module
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moduleNo != null and moduleNo != ''">module_no = #{moduleNo},</if>
+            <if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
+            <if test="moduleDescribe != null">module_describe = #{moduleDescribe},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdModuleById" parameterType="Long">
+        delete from pd_module where id = #{id}
+    </delete>
+
+    <delete id="deletePdModuleByIds" parameterType="String">
+        delete from pd_module where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jotime.web.mapper.base.BaseWarehouseAreaMapper">
+
+    <resultMap type="BaseWarehouseArea" id="BaseWarehouseAreaResult">
+        <result property="id"    column="id"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="areaLocationQty"    column="area_location_qty"    />
+        <result property="whId"    column="wh_id"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="BaseWarehouseAreaVo" id="BaseWarehouseAreaVoResult">
+        <result property="id"    column="id"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="areaLocationQty"    column="area_location_qty"    />
+        <result property="whId"    column="wh_id"    />
+        <result property="whName"    column="wh_name"    />
+        <result property="status"    column="status"    />
+        <result property="note"    column="note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBaseWarehouseAreaVo">
+        select id, area_code, area_name, area_type, area_location_qty, wh_id, status, note, create_by, create_time, update_by, update_time from base_warehouse_area
+    </sql>
+
+    <select id="selectBaseWarehouseAreaList" parameterType="BaseWarehouseArea" resultMap="BaseWarehouseAreaResult">
+        <include refid="selectBaseWarehouseAreaVo"/>
+        <where>
+            <if test="areaCode != null "> and area_code = #{areaCode}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="areaType != null  and areaType != ''"> and area_type = #{areaType}</if>
+            <if test="areaLocationQty != null "> and area_location_qty = #{areaLocationQty}</if>
+            <if test="whId != null "> and wh_id = #{whId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseWarehouseAreaVoList" parameterType="BaseWarehouseArea" resultMap="BaseWarehouseAreaVoResult">
+        select bwa.id, bwa.area_code, bwa.area_name, bwa.area_type, bwa.area_location_qty, bwa.wh_id, bwa.status, bwa.note,
+        bw.wh_name from base_warehouse_area  bwa
+        LEFT JOIN base_warehouse bw ON(bwa.wh_id=bw.id)
+        <where>
+            <if test="areaCode != null "> and bwa.area_code = #{areaCode}</if>
+            <if test="areaName != null  and areaName != ''"> and bwa.area_name like concat('%', #{areaName}, '%')</if>
+            <if test="areaType != null  and areaType != ''"> and bwa.area_type = #{areaType}</if>
+            <if test="areaLocationQty != null "> and bwa.area_location_qty = #{areaLocationQty}</if>
+            <if test="whId != null "> and bwa.wh_id = #{whId}</if>
+            <if test="status != null  and status != ''"> and bwa.status = #{status}</if>
+            <if test="note != null  and note != ''"> and bwa.note = #{note}</if>
+        </where>
+        ORDER BY bwa.id ASC
+    </select>
+
+    <select id="selectBaseWarehouseAreaById" parameterType="Long" resultMap="BaseWarehouseAreaResult">
+        <include refid="selectBaseWarehouseAreaVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseWarehouseArea" parameterType="BaseWarehouseArea" useGeneratedKeys="true" keyProperty="id">
+        insert into base_warehouse_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaCode != null">area_code,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="areaType != null">area_type,</if>
+            <if test="areaLocationQty != null">area_location_qty,</if>
+            <if test="whId != null">wh_id,</if>
+            <if test="status != null">status,</if>
+            <if test="note != null">note,</if>
+            create_by,
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="areaType != null">#{areaType},</if>
+            <if test="areaLocationQty != null">#{areaLocationQty},</if>
+            <if test="whId != null">#{whId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="note != null">#{note},</if>
+            #{createBy},
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateBaseWarehouseArea" parameterType="BaseWarehouseArea">
+        update base_warehouse_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="areaType != null">area_type = #{areaType},</if>
+            <if test="areaLocationQty != null">area_location_qty = #{areaLocationQty},</if>
+            <if test="whId != null">wh_id = #{whId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="note != null">note = #{note},</if>
+            update_by = #{updateBy},
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseWarehouseAreaById" parameterType="Long">
+        delete from base_warehouse_area where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseWarehouseAreaByIds" parameterType="String">
+        delete from base_warehouse_area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
